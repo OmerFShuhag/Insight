@@ -29,14 +29,20 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: AuthService().authStateChanges,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
               return Homepage();
             } else {
               return Login();
             }
           } else {
-            return CircularProgressIndicator();
+            return const Center(child: Text("Unknown state"));
           }
         },
       ),

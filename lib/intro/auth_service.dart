@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +22,7 @@ class AuthService {
 
       showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Verification Email Sent'),
@@ -77,7 +80,9 @@ class AuthService {
 
       if (!userCredential.user!.emailVerified) {
         await userCredential.user?.sendEmailVerification();
+
         _showToast('Please verify your email.');
+        await _auth.signOut();
       } else {
         Navigator.pushReplacementNamed(context, '/homepage');
       }
@@ -88,6 +93,42 @@ class AuthService {
       Navigator.pop(context);
       print(e.toString());
       _showToast('An unexpected error occurred. Please try again.');
+    }
+  }
+
+  Future<void> resetPassword({
+    required String email,
+    required BuildContext context,
+  }) async {
+    if (email.isEmpty) {
+      _showToast('Please enter your email address.');
+      return;
+    }
+
+    _showLoadingDialog(context);
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      Navigator.pop(context);
+
+      _showToast('Password reset Email Sent. Check Inbox');
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      _handleAuthException(e);
+    } catch (e) {
+      Navigator.pop(context);
+      print(e.toString());
+      _showToast('An unexpected error occurred. Please try again.');
+    }
+  }
+
+  Future<void> signout() async {
+    try {
+      print('Attempting to sign out...');
+      await _auth.signOut();
+      print('Sign out successful.');
+    } catch (e) {
+      print('Error signing out: $e');
     }
   }
 
@@ -106,7 +147,11 @@ class AuthService {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -128,15 +173,5 @@ class AuthService {
     }
 
     _showToast(msg);
-  }
-
-  Future<void> signout() async {
-    try {
-      print('Attempting to sign out...');
-      await _auth.signOut();
-      print('Sign out successful.');
-    } catch (e) {
-      print('Error signing out: $e');
-    }
   }
 }
