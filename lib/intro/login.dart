@@ -168,8 +168,8 @@ class _LoginState extends State<Login> {
 
   // Widget for footer text
   Widget _buildFooterText() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         Text('Already have an account? Login'),
         SizedBox(height: 10),
         Text('Or'),
