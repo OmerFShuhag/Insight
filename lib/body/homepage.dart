@@ -97,7 +97,8 @@ class _HomepageState extends State<Homepage> {
             title: Text('Sign Out'),
             onTap: () {
               Navigator.of(context).pop(); // Close the menu
-              AuthService().signout(); // Perform sign out action
+              AuthService().signout();
+              Navigator.pushReplacementNamed(context, '/login');
             },
           ),
         ),

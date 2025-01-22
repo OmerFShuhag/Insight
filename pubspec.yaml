@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -39,11 +40,14 @@ dependencies:
   firebase_auth: ^5.4.0
   fluttertoast: ^8.2.10
   curved_navigation_bar: ^1.0.6
+  cloud_firestore: ^5.6.1
+  provider: ^6.1.2
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.14.3
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -91,3 +95,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/project-management.png"
+  min_sdk_version: 21

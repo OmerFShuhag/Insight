@@ -6,6 +6,13 @@ import 'package:insight/intro/SignUpPage.dart';
 import 'package:insight/intro/auth_service.dart';
 import 'package:insight/intro/login.dart';
 import 'package:insight/intro/forget_password_page.dart';
+import 'package:provider/provider.dart';
+import 'package:insight/body/databseViewModel.dart';
+import 'package:insight/body/Project_class.dart' as projectClass;
+import 'package:insight/body/Home/AllProjects.dart';
+import 'package:insight/body/Home/AddProject.dart';
+import 'package:insight/body/Home/Catagories.dart';
+import 'package:insight/body/Home/MyProjects.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +22,10 @@ void main() async {
     print('Firebase initialization failed: $e');
   }
 
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ProjectViewModel(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

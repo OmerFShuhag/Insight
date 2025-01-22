@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:insight/body/Home/AddProject.dart';
+import 'package:insight/body/Home/AllProjects.dart';
+import 'package:insight/body/Home/MyProjects.dart';
+import 'package:insight/body/Home/Catagories.dart';
+import 'package:insight/body/Home/AddProject.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -52,7 +57,12 @@ class _DashboardState extends State<Dashboard> {
                         icon: Icons.view_list,
                         onTap: () {
                           print("All Projects");
-                          // Handle tap
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProjectsPage(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -64,6 +74,14 @@ class _DashboardState extends State<Dashboard> {
                         icon: Icons.assignment_turned_in,
                         onTap: () {
                           print("My Projects");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyProjects(
+                                userId: '',
+                              ),
+                            ),
+                          );
                           // Handle tap
                         },
                       ),
@@ -84,6 +102,12 @@ class _DashboardState extends State<Dashboard> {
                         onTap: () {
                           // Handle tap
                           print("Category");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoriesPage(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -95,6 +119,12 @@ class _DashboardState extends State<Dashboard> {
                         icon: Icons.add,
                         onTap: () {
                           print("Add Project");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddProjectPage(),
+                            ),
+                          );
                           // Handle tap
                         },
                       ),
