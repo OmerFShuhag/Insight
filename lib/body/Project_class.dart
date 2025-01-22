@@ -3,11 +3,10 @@ class Project {
   String projectName;
   String description;
   String category;
-  List<Map<String, String>>
-      teamMembers; // List of team members with their name and ID
+  List<Map<String, String>> teamMembers;
   String supervisorName;
   String githubLink;
-  List<String> tags; // List of selected tags like android, web, etc.
+  List<String> tags;
 
   Project({
     required this.id,
@@ -43,7 +42,6 @@ class Project {
       );
     }
 
-    // Similarly for other fields
     List<String> tags = List<String>.from(map['tags'] ?? []);
 
     return Project(

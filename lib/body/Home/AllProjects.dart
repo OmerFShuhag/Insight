@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:insight/body/databseViewModel.dart'; // Import the view model
+import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/Home/Project_Details.dart';
 
@@ -13,7 +13,6 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
   @override
   void initState() {
     super.initState();
-    // Fetch all projects when the page is first loaded
     Future.microtask(() {
       Provider.of<ProjectViewModel>(context, listen: false).fetchAllProjects();
     });
@@ -27,12 +26,10 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
       ),
       body: Consumer<ProjectViewModel>(
         builder: (context, projectViewModel, child) {
-          // Show loading indicator while fetching data
           if (projectViewModel.projects.isEmpty) {
             return Center(child: CircularProgressIndicator());
           }
 
-          // Display the list of projects once data is fetched
           return ListView.builder(
             itemCount: projectViewModel.projects.length,
             itemBuilder: (context, index) {
@@ -65,7 +62,6 @@ class _ProjectCardState extends State<ProjectCard> {
       elevation: 4,
       child: InkWell(
         onTap: () {
-          // Toggle the expansion of the card
           setState(() {
             _isExpanded = !_isExpanded;
           });
@@ -81,7 +77,6 @@ class _ProjectCardState extends State<ProjectCard> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(widget.project.description),
               ),
-              // Tags display
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Wrap(
@@ -92,7 +87,6 @@ class _ProjectCardState extends State<ProjectCard> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Navigate to the full project details page
                   Navigator.push(
                     context,
                     MaterialPageRoute(

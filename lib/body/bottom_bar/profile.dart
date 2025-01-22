@@ -18,7 +18,6 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _loadProfileData() async {
-    // Simulate a delay to mimic fetching data from a database
     await Future.delayed(Duration(seconds: 2));
     if (mounted) {
       setState(() {

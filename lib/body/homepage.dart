@@ -96,7 +96,7 @@ class _HomepageState extends State<Homepage> {
             leading: Icon(Icons.logout),
             title: Text('Sign Out'),
             onTap: () {
-              Navigator.of(context).pop(); // Close the menu
+              Navigator.of(context).pop();
               AuthService().signout();
               Navigator.pushReplacementNamed(context, '/login');
             },

@@ -4,6 +4,7 @@ import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/Home/MyProjects.dart';
 import 'package:insight/body/Home/Catagories.dart';
 import 'package:insight/body/Home/AddProject.dart';
+import 'package:insight/body/bottom_bar/demo.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AllProjectsPage(),
+                              builder: (context) => ProjectsPage(),
                             ),
                           );
                         },
@@ -82,7 +83,6 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           );
-                          // Handle tap
                         },
                       ),
                     ),
@@ -125,7 +125,6 @@ class _DashboardState extends State<Dashboard> {
                               builder: (context) => AddProjectPage(),
                             ),
                           );
-                          // Handle tap
                         },
                       ),
                     ),

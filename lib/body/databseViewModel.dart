@@ -45,7 +45,7 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Fetch favorite projects (assuming there's a "favorites" field in user profile)
+  // Fetch favorite projects
   Future<void> fetchFavoriteProjects(String userId) async {
     try {
       DocumentSnapshot userDoc =
