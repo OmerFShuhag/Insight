@@ -44,9 +44,9 @@ class _HomepageState extends State<Homepage> {
         automaticallyImplyLeading: false,
         title: Text(
           _pages[_selectedIndex]['title'],
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
-            color: const Color.fromARGB(255, 243, 243, 243),
+            color: Color.fromARGB(255, 243, 243, 243),
             fontFamily: 'Poppins',
           ),
         ),
@@ -88,13 +88,13 @@ class _HomepageState extends State<Homepage> {
   void _openSettingsMenu(BuildContext context) {
     showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(100, 50, 0, 0),
+      position: const RelativeRect.fromLTRB(100, 50, 0, 0),
       items: [
         PopupMenuItem<String>(
           value: 'SignOut',
           child: ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Sign Out'),
+            leading: const Icon(Icons.logout),
+            title: const Text('Sign Out'),
             onTap: () {
               Navigator.of(context).pop();
               AuthService().signout();

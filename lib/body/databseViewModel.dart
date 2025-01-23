@@ -5,11 +5,11 @@ import 'package:insight/body/Project_class.dart';
 class ProjectViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Store project data
+  // project data store kormu ekhn
   List<Project> _projects = [];
   List<Project> get projects => _projects;
 
-  // Fetch all projects from the database
+  // Fetch kormu soob projects database thaki
   Future<void> fetchAllProjects() async {
     try {
       print("Fetching projects...");
@@ -28,7 +28,7 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Fetch projects created by the user
+
   Future<void> fetchUserCreatedProjects(String userId) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -45,7 +45,7 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Fetch favorite projects
+  // favorite projects fetch kormu
   Future<void> fetchFavoriteProjects(String userId) async {
     try {
       DocumentSnapshot userDoc =
@@ -67,10 +67,9 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  /// Mark a project as a favorite for the user
+  /// project mark kormu fav hisabe
   Future<void> addFavoriteProject(String userId, String projectId) async {
     try {
-      // Add projectId to the user's favorites array
       await _firestore.collection('users').doc(userId).update({
         'favorites': FieldValue.arrayUnion([projectId]),
       });
@@ -80,7 +79,7 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  /// Remove a project from the user's favorites
+  /// Remove kormu project fav list thaki
   Future<void> removeFavoriteProject(String userId, String projectId) async {
     try {
       // Remove projectId from the user's favorites array
@@ -93,12 +92,11 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Add a new project to the database
+  // add new project database thaki
   Future<void> addProject(Project project, String userId) async {
     try {
       DocumentReference docRef =
           await _firestore.collection('projects').add(project.toMap());
-      // Update the user profile with the new project ID
       await _firestore.collection('users').doc(userId).update({
         'projects': FieldValue.arrayUnion([docRef.id]),
       });
@@ -108,24 +106,23 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Edit project information
+  // project infor add kormu
   Future<void> editProject(Project project) async {
     try {
       await _firestore
           .collection('projects')
           .doc(project.id)
           .update(project.toMap());
-      fetchUserCreatedProjects(project.id); // Refresh the data after editing
+      fetchUserCreatedProjects(project.id);
     } catch (e) {
       print('Error editing project: $e');
     }
   }
 
-  // Delete a user's project
+  // Dlt kormu project user thaki
   Future<void> deleteProject(String projectId, String userId) async {
     try {
       await _firestore.collection('projects').doc(projectId).delete();
-      // Remove the project ID from the user's list of projects
       await _firestore.collection('users').doc(userId).update({
         'projects': FieldValue.arrayRemove([projectId]),
       });
