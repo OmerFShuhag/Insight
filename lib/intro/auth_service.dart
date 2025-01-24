@@ -1,11 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   User? get currentUser => _auth.currentUser;
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -108,6 +110,15 @@ class AuthService {
     _showLoadingDialog(context);
 
     try {
+      List<String> signInMethods =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+
+      if (signInMethods.isEmpty) {
+        Navigator.pop(context);
+        _showToast('No account found with this email.');
+        return;
+      }
+
       await _auth.sendPasswordResetEmail(email: email);
       Navigator.pop(context);
 
