@@ -110,44 +110,19 @@ class AuthService {
     _showLoadingDialog(context);
 
     try {
+      await _auth.sendPasswordResetEmail(email: email);
+      Navigator.pop(context);
 
-      final list = await _auth.fetchSignInMethodsForEmail(email);
-
-
-      if (list.isNotEmpty) {
-        await _auth.sendPasswordResetEmail(email: email);
-        Navigator.pop(context);
-
-
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Password Reset Email Sent'),
-            content: const Text('Please check your inbox for further instructions.'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      } else {
-
-        Navigator.pop(context);
-        _showToast('No account found with this email.');
-      }
+      _showToast('Password reset Email Sent. Check Inbox');
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
+      _handleAuthException(e);
     } catch (e) {
       Navigator.pop(context);
+      print(e.toString());
+      _showToast('An unexpected error occurred. Please try again.');
     }
   }
-
-
-
-
-
 
   Future<void> signout() async {
     try {
