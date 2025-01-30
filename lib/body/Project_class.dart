@@ -19,7 +19,6 @@ class Project {
     required this.tags,
   });
 
-  //project object convert kormu firestore o save korar lagi
   Map<String, dynamic> toMap() {
     return {
       'projectName': projectName,
@@ -32,7 +31,6 @@ class Project {
     };
   }
 
-  // object Firestore document snapshot or lagi
   factory Project.fromMap(String id, Map<String, dynamic> map) {
     List<Map<String, String>> teamMembers = [];
     if (map['teamMembers'] != null) {

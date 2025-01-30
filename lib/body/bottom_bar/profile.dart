@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/intro/login.dart';
+import 'package:insight/intro/profile_setup.dart';
+import 'package:insight/user_class.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -6,44 +11,72 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String _name = "Loading...";
-  String _email = "Loading...";
-  String _phone = "Loading...";
-  String _ID = "Loading...";
-
   @override
   void initState() {
     super.initState();
-    _loadProfileData();
-  }
-
-  Future<void> _loadProfileData() async {
-    await Future.delayed(Duration(seconds: 2));
-    if (mounted) {
-      setState(() {
-        _name = "John Doe";
-        _email = "john.doe@example.com";
-        _phone = "+1234567890";
-        _ID = "1234567890";
-      });
-    }
+    // Handle authentication state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildProfileField('Name', _name),
-          SizedBox(height: 10),
-          _buildProfileField('Email', _email),
-          SizedBox(height: 10),
-          _buildProfileField('Phone', _phone),
-          SizedBox(height: 10),
-          _buildProfileField('ID', _ID),
-        ],
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: userId != null
+            ? FirebaseFirestore.instance
+                .collection('users')
+                .doc(userId)
+                .snapshots()
+            : null,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error loading profile'));
+          }
+
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return Center(child: Text('Profile not found'));
+          }
+
+          final user =
+              User_class.fromMap(snapshot.data!.data() as Map<String, dynamic>);
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProfileField('Name', user.name),
+              SizedBox(height: 10),
+              _buildProfileField('ID', user.id),
+              SizedBox(height: 10),
+              _buildProfileField('Semester', user.semester),
+              SizedBox(height: 10),
+              _buildProfileField('Year', user.year.toString()),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileSetup()),
+                  );
+                },
+                child: Text('Edit Profile'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -76,7 +109,7 @@ class _ProfileState extends State<Profile> {
           ),
           SizedBox(height: 8),
           Text(
-            value,
+            value.isEmpty ? "Not set" : value,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,

@@ -42,4 +42,15 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateID(String value) {
+    if (value.isEmpty) {
+      return 'ID is Required';
+    }
+    final idRegex = RegExp(r'^[0-9]{8}$');
+    if (!idRegex.hasMatch(value)) {
+      return 'Enter a Valid ID';
+    }
+    return null;
+  }
 }

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/bottom_bar/profile.dart';
 import 'package:insight/intro/auth_service.dart';
@@ -6,6 +9,7 @@ import 'package:insight/body/bottom_bar/profile.dart';
 import 'package:insight/body/bottom_bar/favorite.dart';
 import 'package:insight/body/bottom_bar/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/intro/profile_setup.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -30,6 +34,22 @@ class _HomepageState extends State<Homepage> {
       'title': 'Profile',
     },
   ];
+
+  void initState() {
+    super.initState();
+    _checkUserProfile();
+  }
+
+  Future<void> _checkUserProfile() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (!userDoc.exists) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ProfileSetup()));
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
