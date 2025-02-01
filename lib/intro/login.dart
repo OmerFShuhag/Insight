@@ -16,7 +16,6 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    _checkLogIn();
   }
 
   @override
@@ -24,15 +23,6 @@ class _LoginState extends State<Login> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
-
-  // Check if the user is already logged in
-  void _checkLogIn() {
-    AuthService().authStateChanges.listen((user) {
-      if (user != null && user.emailVerified) {
-        Navigator.pushReplacementNamed(context, '/homepage');
-      }
-    });
   }
 
   @override
@@ -57,7 +47,6 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 10),
                 _buildFooterText(),
                 const SizedBox(height: 10),
-                _buildGoogleLoginButton(),
               ],
             ),
           ),
@@ -172,19 +161,10 @@ class _LoginState extends State<Login> {
       children: [
         Text('Already have an account? Login'),
         SizedBox(height: 10),
-        Text('Or'),
       ],
     );
   }
 
   // Widget for Google login button
-  Widget _buildGoogleLoginButton() {
-    return ElevatedButton.icon(
-      onPressed: () {
-        // Handle Google sign-in
-      },
-      icon: const Icon(Icons.g_translate),
-      label: const Text('Continue With Google'),
-    );
-  }
+
 }
