@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:insight/validators.dart';
 import 'auth_service.dart';
 
@@ -13,9 +12,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+  bool _passwordVisible = false; // Tracks visibility of the password field
+  bool _confirmPasswordVisible = false; // Tracks visibility of the confirm password field
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +26,26 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildBody() {
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.cover,
-          ),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Center(
-                child: Padding(
-                    padding: const EdgeInsets.all(16.0), child: _buildForm()),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: _buildForm(),
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildForm() {
@@ -82,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildSignUpCard() {
     return Card(
-      color: Color(0xFF0ABAB5),
+      color: const Color(0xFF0ABAB5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -137,14 +140,24 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: passwordController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Password',
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _passwordVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () {
+            setState(() {
+              _passwordVisible = !_passwordVisible; // Toggle password visibility
+            });
+          },
+        ),
       ),
       validator: (value) {
         return Validators.validatePassword(value ?? '');
       },
-      obscureText: true,
+      obscureText: !_passwordVisible, // Hide/show password based on _passwordVisible
     );
   }
 
@@ -152,9 +165,19 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: confirmPasswordController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Confirm Password',
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _confirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () {
+            setState(() {
+              _confirmPasswordVisible = !_confirmPasswordVisible; // Toggle confirm password visibility
+            });
+          },
+        ),
       ),
       validator: (value) {
         return Validators.validateConfirmPassword(
@@ -162,18 +185,20 @@ class _SignUpPageState extends State<SignUpPage> {
           passwordController.text,
         );
       },
-      obscureText: true,
+      obscureText: !_confirmPasswordVisible, // Hide/show confirm password based on _confirmPasswordVisible
     );
   }
 
   Widget _buildSignUpButton() {
     return ElevatedButton(
       onPressed: () async {
-        await AuthService().signup(
-          email: emailController.text,
-          password: passwordController.text,
-          context: context,
-        );
+        if (_formkey.currentState!.validate()) {
+          await AuthService().signup(
+            email: emailController.text,
+            password: passwordController.text,
+            context: context,
+          );
+        }
       },
       child: const Text('SIGN UP'),
     );
