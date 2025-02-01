@@ -15,6 +15,10 @@ import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/Home/AddProject.dart';
 import 'package:insight/body/Home/Catagories.dart';
 import 'package:insight/body/Home/MyProjects.dart';
+import 'intro/onboarding_screen.dart';
+import 'intro_screens/intro_page_1.dart';
+import 'intro_screens/intro_page_2.dart';
+import 'intro_screens/intro_page_3.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,12 +91,14 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      initialRoute: '/login',
+      initialRoute: '/onboarding',
       routes: {
+        '/onboarding': (context) => OnBoardingScreen(),
         '/login': (context) => Login(),
         '/signup': (context) => SignUpPage(),
         '/forgetPassword': (context) => ForgetPassword(),
         '/homepage': (context) => Homepage(),
+        '/profileSetup': (context) => ProfileSetup(),
       },
     );
   }
