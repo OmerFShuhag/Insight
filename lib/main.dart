@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,7 @@ import 'package:insight/intro/SignUpPage.dart';
 import 'package:insight/intro/auth_service.dart';
 import 'package:insight/intro/login.dart';
 import 'package:insight/intro/forget_password_page.dart';
+import 'package:insight/intro/profile_setup.dart';
 import 'package:provider/provider.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart' as projectClass;
@@ -29,6 +31,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  Future<bool> _isProfileSet(String uid) async {
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return userDoc.exists;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,25 +45,47 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StreamBuilder<User?>(
-        stream: AuthService().authStateChanges,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return Homepage();
+      home: Scaffold(
+        body: StreamBuilder<User?>(
+          stream: AuthService().authStateChanges,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              final user = snapshot.data;
+              if (user != null) {
+                if (!user.emailVerified) {
+                  return Login();
+                } else {
+                  return FutureBuilder<bool>(
+                    future: _isProfileSet(user.uid),
+                    builder: (context, profileSnapshot) {
+                      if (profileSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (profileSnapshot.hasError) {
+                        return Center(
+                            child: Text("Error: ${profileSnapshot.error}"));
+                      } else {
+                        return profileSnapshot.data!
+                            ? Homepage()
+                            : ProfileSetup();
+                      }
+                    },
+                  );
+                }
+              } else {
+                return Login();
+              }
             } else {
-              return Login();
+              return const Center(child: Text("Unknown state"));
             }
-          } else {
-            return const Center(child: Text("Unknown state"));
-          }
-        },
+          },
+        ),
       ),
       initialRoute: '/login',
       routes: {

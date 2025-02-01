@@ -21,6 +21,7 @@ class AuthService {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       await userCredential.user?.sendEmailVerification();
+      await FirebaseAuth.instance.signOut();
 
       showDialog(
         context: context,
@@ -32,6 +33,7 @@ class AuthService {
             actions: [
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
                   Navigator.pushReplacementNamed(context, '/login');
                 },
                 child: const Text('OK'),
@@ -81,9 +83,18 @@ class AuthService {
       Navigator.pop(context);
 
       if (!userCredential.user!.emailVerified) {
+        // Show a snackbar to verify email
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please verify your email to log in.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+
+        // Send verification email (optional)
         await userCredential.user?.sendEmailVerification();
 
-        _showToast('Please verify your email.');
+        // Force logout
         await _auth.signOut();
       } else {
         Navigator.pushReplacementNamed(context, '/homepage');

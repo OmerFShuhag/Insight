@@ -28,16 +28,14 @@ class _ProfileSetupState extends State<ProfileSetup> {
   }
 
   Future<void> _loadProfileData() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    if (userId == null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-      );
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Navigator.pushReplacementNamed(context, '/login');
       return;
     }
+    final userId = user.uid;
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
     if (userDoc.exists) {
       setState(() {
@@ -46,7 +44,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
         _idController.text = _user!.id;
         _selectedSemester = _user!.semester;
         _selectedYear = _user!.year;
-        isProfileInfoSet = true;
       });
     } else {
       _user = User_class(
@@ -57,13 +54,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
         createdProjects: [],
         favoriteProjects: [],
       );
-      isProfileInfoSet = false;
     }
   }
 
   Future<void> _saveProfileData() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final userEmail = FirebaseAuth.instance.currentUser?.email;
     _user = User_class(
       id: _idController.text,
       name: _nameController.text,
@@ -77,7 +72,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
         .doc(userId)
         .set(_user!.toMap());
 
-    isProfileInfoSet = true;
+    Navigator.pushReplacementNamed(context, '/homepage');
   }
 
   @override
@@ -176,7 +171,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     await _saveProfileData();
-                    Navigator.pop(context);
                   }
                 },
                 child:

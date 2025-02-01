@@ -6,6 +6,7 @@ class Project {
   List<Map<String, String>> teamMembers;
   String supervisorName;
   String githubLink;
+  String DocLink;
   List<String> tags;
 
   Project({
@@ -16,6 +17,7 @@ class Project {
     required this.teamMembers,
     required this.supervisorName,
     required this.githubLink,
+    required this.DocLink,
     required this.tags,
   });
 
@@ -27,6 +29,7 @@ class Project {
       'teamMembers': teamMembers,
       'supervisorName': supervisorName,
       'githubLink': githubLink,
+      'DocLink': DocLink,
       'tags': tags,
     };
   }
@@ -49,6 +52,7 @@ class Project {
       teamMembers: teamMembers,
       supervisorName: map['supervisorName'] ?? '',
       githubLink: map['githubLink'] ?? '',
+      DocLink: map['DocLink'] ?? '',
       tags: tags,
     );
   }

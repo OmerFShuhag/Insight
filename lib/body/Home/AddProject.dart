@@ -17,6 +17,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
   final TextEditingController _supervisorNameController =
       TextEditingController();
   final TextEditingController _githubLinkController = TextEditingController();
+  final TextEditingController _docLinkController = TextEditingController();
 
   String _selectedCategory = 'E-commerce';
   final List<String> _categories = [
@@ -74,6 +75,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
         teamMembers: _teamMembers,
         supervisorName: _supervisorNameController.text,
         githubLink: _githubLinkController.text,
+        DocLink: '',
         tags: _selectedTags,
       );
 
@@ -148,6 +150,12 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 controller: _githubLinkController,
                 label: 'GitHub Link',
                 validatorMessage: 'Please enter GitHub link',
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _docLinkController,
+                label: 'Documentation Link',
+                validatorMessage: 'Please enter documentation link',
               ),
               const SizedBox(height: 10),
               _buildTagsSection(),

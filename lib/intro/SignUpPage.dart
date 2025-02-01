@@ -41,31 +41,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.all(16.0), child: _buildForm()),
               ),
             ),
-            _buildGoogleLoginButton(),
           ],
         ));
-  }
-
-  Widget _buildGoogleLoginButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-      child: ElevatedButton.icon(
-        //icon: Icons.google,
-        onPressed: () {
-          print('Login WIth Gmail Account');
-        },
-        icon: const Icon(Icons.login, color: Colors.white),
-        label: const Text(
-          'Login with Gmail',
-        ),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildForm() {

@@ -5,11 +5,9 @@ import 'package:insight/body/Project_class.dart';
 class ProjectViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // project data store kormu ekhn
   List<Project> _projects = [];
   List<Project> get projects => _projects;
 
-  // Fetch kormu soob projects database thaki
   Future<void> fetchAllProjects() async {
     try {
       print("Fetching projects...");
@@ -28,7 +26,6 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-
   Future<void> fetchUserCreatedProjects(String userId) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -45,7 +42,6 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // favorite projects fetch kormu
   Future<void> fetchFavoriteProjects(String userId) async {
     try {
       DocumentSnapshot userDoc =
@@ -67,7 +63,6 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  /// project mark kormu fav hisabe
   Future<void> addFavoriteProject(String userId, String projectId) async {
     try {
       await _firestore.collection('users').doc(userId).update({
@@ -79,10 +74,8 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  /// Remove kormu project fav list thaki
   Future<void> removeFavoriteProject(String userId, String projectId) async {
     try {
-      // Remove projectId from the user's favorites array
       await _firestore.collection('users').doc(userId).update({
         'favorites': FieldValue.arrayRemove([projectId]),
       });
@@ -92,7 +85,6 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // add new project database thaki
   Future<void> addProject(Project project, String userId) async {
     try {
       DocumentReference docRef =
@@ -100,13 +92,17 @@ class ProjectViewModel extends ChangeNotifier {
       await _firestore.collection('users').doc(userId).update({
         'projects': FieldValue.arrayUnion([docRef.id]),
       });
+      //after adding projects to the project collection i need to save the project id to that user who created it so write the code for that
+      await _firestore.collection('users').doc(userId).update({
+        'projects': FieldValue.arrayUnion([docRef.id]),
+      });
+
       fetchUserCreatedProjects(userId);
     } catch (e) {
       print('Error adding project: $e');
     }
   }
 
-  // project infor add kormu
   Future<void> editProject(Project project) async {
     try {
       await _firestore
