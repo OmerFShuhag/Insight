@@ -1,16 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/body/Project_class.dart'; // Import your Project class
+import 'package:insight/body/Project_class.dart';
+import 'package:insight/body/databseViewModel.dart'; // Import your Project class
 
 class ProjectDetailsPage extends StatelessWidget {
   final Project project;
 
-  const ProjectDetailsPage({required this.project});
+  ProjectDetailsPage({required this.project});
+
+  final userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(project.projectName),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite_border),
+            onPressed: () {
+              final projectViewModel = ProjectViewModel();
+              projectViewModel.addFavoriteProject(project.id, userId);
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

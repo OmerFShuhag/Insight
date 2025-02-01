@@ -66,7 +66,7 @@ class ProjectViewModel extends ChangeNotifier {
   Future<void> addFavoriteProject(String userId, String projectId) async {
     try {
       await _firestore.collection('users').doc(userId).update({
-        'favorites': FieldValue.arrayUnion([projectId]),
+        'favoriteProjects': FieldValue.arrayUnion([projectId]),
       });
       notifyListeners();
     } catch (e) {
