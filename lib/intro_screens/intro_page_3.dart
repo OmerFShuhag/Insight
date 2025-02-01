@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class IntroPage1 extends StatefulWidget {
+class IntroPage3 extends StatefulWidget {
   @override
-  _IntroPage1State createState() => _IntroPage1State();
+  _IntroPage3State createState() => _IntroPage3State();
 }
 
-class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateMixin {
+class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -43,7 +43,7 @@ class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateM
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.greenAccent, Colors.teal],
+            colors: [Colors.purpleAccent, Colors.blue],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -53,38 +53,37 @@ class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateM
             position: _slideAnimation,
             child: FadeTransition(
               opacity: _fadeAnimation,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.lightbulb_outline,
-                      size: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.search,
+                    size: 120,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Find All Previous Work",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Welcome to INSIGHT",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      "A smart way to get ideas about your projects efficiently. ",
+                  ),
+                  SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text(
+                      "Easily assecc all privous work,save time, with INSIGHT!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white70,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
