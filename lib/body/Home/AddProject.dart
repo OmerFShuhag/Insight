@@ -4,6 +4,7 @@ import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart' as projectClass;
 import 'package:insight/body/homepage.dart';
+import 'package:insight/validators.dart';
 
 class AddProjectPage extends StatefulWidget {
   @override
@@ -47,25 +48,44 @@ class _AddProjectPageState extends State<AddProjectPage> {
     'Flutter',
     'CSS',
     'Node',
-    'React'
+    'React',
+    'Python',
+    'Java',
+    'JavaScript',
   ];
+
+  bool _isFormValid = false;
+  bool _teamMembersTouched = false;
 
   void _addTeamMember(String name, String id) {
     if (_teamMembers.length < _maxTeamMembers) {
       setState(() {
         _teamMembers.add({'name': name, 'id': id});
+        _teamMembersTouched = true;
       });
+      _checkFormValidity();
     }
   }
 
   void _removeTeamMember(int index) {
     setState(() {
       _teamMembers.removeAt(index);
+      _teamMembersTouched = true;
+    });
+    _checkFormValidity();
+  }
+
+  void _checkFormValidity() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    final teamValid = _teamMembers.isNotEmpty;
+    setState(() {
+      _isFormValid = isValid && teamValid;
     });
   }
 
   Future<void> _saveProject() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
       final String projectId = '';
       final project = projectClass.Project(
         id: projectId,
@@ -75,7 +95,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
         teamMembers: _teamMembers,
         supervisorName: _supervisorNameController.text,
         githubLink: _githubLinkController.text,
-        DocLink: '',
+        DocLink: _docLinkController.text,
         tags: _selectedTags,
       );
 
@@ -91,6 +111,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
           _teamMembers.clear();
           _selectedTags.clear();
           _selectedCategory = _categories.first;
+          _teamMembersTouched = false;
+          _isFormValid = false;
         });
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Homepage()),
@@ -127,14 +149,16 @@ class _AddProjectPageState extends State<AddProjectPage> {
               _buildTextField(
                 controller: _projectNameController,
                 label: 'Project Name',
-                validatorMessage: 'Please enter project name',
+                validator: (value) =>
+                    Validators.validateField(value, 'Project Name'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _descriptionController,
                 label: 'Description',
                 maxLines: 3,
-                validatorMessage: 'Please enter description',
+                validator: (value) =>
+                    Validators.validateField(value, 'Description'),
               ),
               const SizedBox(height: 10),
               _buildDropdownField(),
@@ -143,26 +167,29 @@ class _AddProjectPageState extends State<AddProjectPage> {
               _buildTextField(
                 controller: _supervisorNameController,
                 label: 'Supervisor Name',
-                validatorMessage: 'Please enter supervisor name',
+                validator: (value) =>
+                    Validators.validateField(value, 'Supervisor Name'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _githubLinkController,
                 label: 'GitHub Link',
-                validatorMessage: 'Please enter GitHub link',
+                validator: (value) =>
+                    Validators.validateField(value, 'GitHub Link'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _docLinkController,
                 label: 'Documentation Link',
-                validatorMessage: 'Please enter documentation link',
+                validator: (value) =>
+                    Validators.validateField(value, 'Document Link'),
               ),
               const SizedBox(height: 10),
               _buildTagsSection(),
               const SizedBox(height: 20.0),
               Center(
                 child: ElevatedButton(
-                  onPressed: _saveProject,
+                  onPressed: _isFormValid ? _saveProject : null,
                   child: const Text('Save Project'),
                 ),
               ),
@@ -176,16 +203,17 @@ class _AddProjectPageState extends State<AddProjectPage> {
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
-    String? validatorMessage,
+    FormFieldValidator<String>? validator,
     int maxLines = 1,
   }) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration:
           InputDecoration(labelText: label, border: const OutlineInputBorder()),
       maxLines: maxLines,
-      validator: (value) =>
-          value != null && value.isEmpty ? validatorMessage : null,
+      validator: validator,
+      onChanged: (_) => _checkFormValidity(),
     );
   }
 
@@ -259,6 +287,11 @@ class _AddProjectPageState extends State<AddProjectPage> {
             'No team members added yet.',
             style: TextStyle(color: Colors.grey),
           ),
+        if (_teamMembersTouched && _teamMembers.isEmpty)
+          const Text(
+            'Please add at least one team member.',
+            style: TextStyle(color: Colors.red),
+          ),
         if (_teamMembers.length < _maxTeamMembers)
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
@@ -299,13 +332,15 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 _buildTextField(
                   controller: nameController,
                   label: 'Name',
-                  validatorMessage: 'Name is required',
+                  validator: (value) =>
+                      Validators.validateField(value, 'Team Member Name'),
                 ),
                 const SizedBox(height: 8.0),
                 _buildTextField(
                   controller: idController,
                   label: 'ID',
-                  validatorMessage: 'ID is required',
+                  validator: (value) =>
+                      Validators.validateField(value, 'Team Member ID'),
                 ),
               ],
             ),
@@ -377,6 +412,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
                       _selectedTags.remove(tag);
                     }
                   });
+                  _checkFormValidity();
                 },
                 selectedColor: Colors.blueAccent.withOpacity(0.2),
                 checkmarkColor: Colors.blueAccent,
