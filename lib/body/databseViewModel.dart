@@ -85,17 +85,27 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> addProject(Project project, String userId) async {
+  Future<void> addProject(
+      Project project, String userId, BuildContext context) async {
+    // Check if the project name already exists
+    QuerySnapshot existingProjects = await _firestore
+        .collection('projects')
+        .where('projectName', isEqualTo: project.projectName)
+        .get();
+
+    if (existingProjects.docs.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Project already exists!')),
+      );
+      return;
+    }
     try {
       DocumentReference docRef =
           await _firestore.collection('projects').add(project.toMap());
-      await _firestore.collection('users').doc(userId).update({
-        'projects': FieldValue.arrayUnion([docRef.id]),
-      });
-      //after adding projects to the project collection i need to save the project id to that user who created it so write the code for that
-      await _firestore.collection('users').doc(userId).update({
-        'projects': FieldValue.arrayUnion([docRef.id]),
-      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Project added successfully!')),
+      );
 
       fetchUserCreatedProjects(userId);
     } catch (e) {

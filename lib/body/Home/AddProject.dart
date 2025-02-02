@@ -86,8 +86,9 @@ class _AddProjectPageState extends State<AddProjectPage> {
 
   Future<void> _saveProject() async {
     if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
-      final String projectId = '';
+      const String projectId = '';
       final project = projectClass.Project(
+        UserId: FirebaseAuth.instance.currentUser!.uid,
         id: projectId,
         projectName: _projectNameController.text,
         description: _descriptionController.text,
@@ -102,10 +103,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
       final String userId = FirebaseAuth.instance.currentUser!.uid;
 
       try {
-        await ProjectViewModel().addProject(project, userId);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Project added successfully!')),
-        );
+        await ProjectViewModel().addProject(project, userId, context);
+
         _formKey.currentState!.reset();
         setState(() {
           _teamMembers.clear();

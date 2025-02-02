@@ -1,4 +1,5 @@
 class Project {
+  String UserId;
   String id;
   String projectName;
   String description;
@@ -10,6 +11,7 @@ class Project {
   List<String> tags;
 
   Project({
+    required this.UserId,
     required this.id,
     required this.projectName,
     required this.description,
@@ -23,6 +25,7 @@ class Project {
 
   Map<String, dynamic> toMap() {
     return {
+      'UserId': UserId,
       'projectName': projectName,
       'description': description,
       'category': category,
@@ -45,6 +48,7 @@ class Project {
     List<String> tags = List<String>.from(map['tags'] ?? []);
 
     return Project(
+      UserId: map['UserId'] ?? '',
       id: id,
       projectName: map['projectName'] ?? '',
       description: map['description'] ?? '',
