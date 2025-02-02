@@ -100,8 +100,7 @@ class ProjectViewModel extends ChangeNotifier {
       return;
     }
     try {
-      DocumentReference docRef =
-          await _firestore.collection('projects').add(project.toMap());
+      await _firestore.collection('projects').add(project.toMap());
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Project added successfully!')),

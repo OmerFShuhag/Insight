@@ -51,8 +51,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
         name: '',
         semester: 'Spring',
         year: 2010,
-        createdProjects: [],
-        favoriteProjects: [],
       );
     }
   }
@@ -64,8 +62,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
       name: _nameController.text,
       semester: _selectedSemester,
       year: _selectedYear,
-      createdProjects: _user?.createdProjects ?? [],
-      favoriteProjects: _user?.favoriteProjects ?? [],
     );
     await FirebaseFirestore.instance
         .collection('users')
