@@ -44,42 +44,86 @@ class ProjectViewModel extends ChangeNotifier {
 
   Future<void> fetchFavoriteProjects(String userId) async {
     try {
-      DocumentSnapshot userDoc =
-          await _firestore.collection('users').doc(userId).get();
-      List<dynamic> favoriteProjectIds = userDoc['favorites'] ?? [];
-      if (favoriteProjectIds.isEmpty) return;
-
       QuerySnapshot snapshot = await _firestore
-          .collection('projects')
-          .where(FieldPath.documentId, whereIn: favoriteProjectIds)
+          .collection('users')
+          .doc(userId)
+          .collection('favorite_Projects')
           .get();
-      _projects = snapshot.docs
-          .map((doc) =>
-              Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-          .toList();
-      notifyListeners();
+
+      List<String> favoriteProjectsId =
+          snapshot.docs.map((doc) => doc.id).toList();
+
+      if (favoriteProjectsId.isNotEmpty) {
+        QuerySnapshot projectsSnapshot = await _firestore
+            .collection('projects')
+            .where(FieldPath.documentId, whereIn: favoriteProjectsId)
+            .get();
+
+        _projects = projectsSnapshot.docs
+            .map((doc) =>
+                Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+            .toList();
+        notifyListeners();
+        return;
+      }
     } catch (e) {
       print('Error fetching favorite projects: $e');
     }
   }
 
-  Future<void> addFavoriteProject(String userId, String projectId) async {
+  Future<void> addFavoriteProject(
+      String userId, String projectId, BuildContext context) async {
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'favoriteProjects': FieldValue.arrayUnion([projectId]),
-      });
-      notifyListeners();
+      DocumentSnapshot favDoc = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favorite_Projects')
+          .doc(projectId)
+          .get();
+
+      if (favDoc.exists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Project is already in favorites!')),
+        );
+        return;
+      }
+
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favorite_Projects')
+          .doc(projectId)
+          .set({'addedAt': Timestamp.now()});
     } catch (e) {
       print('Error adding favorite project: $e');
     }
   }
 
-  Future<void> removeFavoriteProject(String userId, String projectId) async {
+  Future<bool> isFavoriteProject(String userId, String projectId) async {
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'favorites': FieldValue.arrayRemove([projectId]),
-      });
-      notifyListeners();
+      DocumentSnapshot favoriteDoc = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favoriteProjects')
+          .doc(projectId)
+          .get();
+
+      return favoriteDoc.exists;
+    } catch (e) {
+      print('Error checking favorite project: \$e');
+      return false;
+    }
+  }
+
+  Future<void> removeFavoriteProject(
+      String userId, String projectId, BuildContext context) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favorite_Projects')
+          .doc(projectId)
+          .delete();
     } catch (e) {
       print('Error removing favorite project: $e');
     }

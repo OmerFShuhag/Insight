@@ -23,7 +23,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
   String _selectedCategory = 'E-Commerce';
   final List<String> _categories = [
     'E-Commerce',
-    'Education',
+    'Education/E-learning',
     'Lifestyle',
     'Entertainment',
     'Ticket-Booking',
@@ -34,8 +34,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
     'Medical',
     'News',
     'Social Media',
-    'Self Care',
-    'Other'
+    'Self-Care',
+    'Others'
   ];
 
   List<Map<String, String>> _teamMembers = [];

@@ -46,7 +46,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               Icons.code,
               widget.project.githubLink,
               _showGitHubLink,
-                  () {
+              () {
                 setState(() {
                   _showGitHubLink = !_showGitHubLink;
                 });
@@ -59,7 +59,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               Icons.description,
               widget.project.DocLink,
               _showDocLink,
-                  () {
+              () {
                 setState(() {
                   _showDocLink = !_showDocLink;
                 });
@@ -83,11 +83,14 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             _buildSectionTitle('Tags'),
             Wrap(
               spacing: 8,
-              children: widget.project.tags.map((tag) => Chip(
-                label: Text(tag),
-                backgroundColor: const Color(0xFF0ABAB5).withOpacity(0.2),
-                labelStyle: TextStyle(color: const Color(0xFF0ABAB5)),
-              )).toList(),
+              children: widget.project.tags
+                  .map((tag) => Chip(
+                        label: Text(tag),
+                        backgroundColor:
+                            const Color(0xFF0ABAB5).withOpacity(0.2),
+                        labelStyle: TextStyle(color: const Color(0xFF0ABAB5)),
+                      ))
+                  .toList(),
             ),
           ],
         ),
@@ -109,7 +112,8 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           children: [
             _buildInfoRow(Icons.category, 'Category', widget.project.category),
             SizedBox(height: 12),
-            _buildInfoRow(Icons.supervisor_account, 'Supervisor', widget.project.supervisorName),
+            _buildInfoRow(Icons.supervisor_account, 'Supervisor',
+                widget.project.supervisorName),
           ],
         ),
       ),
@@ -136,13 +140,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
 
   // Widget for Link Section
   Widget _buildLinkSection(
-      BuildContext context,
-      String title,
-      IconData icon,
-      String link,
-      bool showLink,
-      VoidCallback onTap,
-      ) {
+    BuildContext context,
+    String title,
+    IconData icon,
+    String link,
+    bool showLink,
+    VoidCallback onTap,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
