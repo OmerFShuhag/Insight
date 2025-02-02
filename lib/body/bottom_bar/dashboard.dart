@@ -3,7 +3,7 @@ import 'package:insight/body/Home/AddProject.dart';
 import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/Home/MyProjects.dart';
 import 'package:insight/body/Home/Catagories.dart';
-import 'package:insight/body/Home/AddProject.dart';
+// import 'package:insight/body/Home/AddProject.dart';
 
 class Dashboard extends StatefulWidget {
   @override

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:insight/body/Project_list.dart';
 import 'package:provider/provider.dart';
 import 'package:insight/body/databseViewModel.dart';
-import 'package:insight/body/Project_class.dart';
-import 'package:insight/body/Home/Project_Details.dart';
+// import 'package:insight/body/Project_class.dart';
+// import 'package:insight/body/Home/Project_Details.dart';
 
 class AllProjectsPage extends StatefulWidget {
   @override

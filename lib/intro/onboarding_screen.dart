@@ -3,8 +3,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:insight/intro_screens/intro_page_1.dart';
 import 'package:insight/intro_screens/intro_page_2.dart';
 import 'package:insight/intro_screens/intro_page_3.dart';
-import 'package:insight/main.dart';
-import 'package:insight/intro/profile_setup.dart';
+// import 'package:insight/main.dart';
+// import 'package:insight/intro/profile_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -51,20 +51,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 SmoothPageIndicator(controller: _controller, count: 3),
                 onLastPage
                     ? GestureDetector(
-                  onTap: () {
-                    _checkAuthState(context); // Use _checkAuthState here
-                  },
-                  child: Text('Done'),
-                )
+                        onTap: () {
+                          _checkAuthState(context); // Use _checkAuthState here
+                        },
+                        child: Text('Done'),
+                      )
                     : GestureDetector(
-                  onTap: () {
-                    _controller.nextPage(
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  child: Text('Next'),
-                ),
+                        onTap: () {
+                          _controller.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        child: Text('Next'),
+                      ),
               ],
             ),
           ),
@@ -88,7 +88,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   Future<bool> _isProfileSet(String uid) async {
-    final userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return userDoc.exists;
   }
 }

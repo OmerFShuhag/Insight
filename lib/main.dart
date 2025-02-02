@@ -10,15 +10,15 @@ import 'package:insight/intro/forget_password_page.dart';
 import 'package:insight/intro/profile_setup.dart';
 import 'package:provider/provider.dart';
 import 'package:insight/body/databseViewModel.dart';
-import 'package:insight/body/Project_class.dart' as projectClass;
-import 'package:insight/body/Home/AllProjects.dart';
-import 'package:insight/body/Home/AddProject.dart';
-import 'package:insight/body/Home/Catagories.dart';
-import 'package:insight/body/Home/MyProjects.dart';
+// import 'package:insight/body/Project_class.dart' as projectClass;
+// import 'package:insight/body/Home/AllProjects.dart';
+// import 'package:insight/body/Home/AddProject.dart';
+// import 'package:insight/body/Home/Catagories.dart';
+// import 'package:insight/body/Home/MyProjects.dart';
 import 'intro/onboarding_screen.dart';
-import 'intro_screens/intro_page_1.dart';
-import 'intro_screens/intro_page_2.dart';
-import 'intro_screens/intro_page_3.dart';
+// import 'intro_screens/intro_page_1.dart';
+// import 'intro_screens/intro_page_2.dart';
+// import 'intro_screens/intro_page_3.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

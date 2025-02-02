@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/body/bottom_bar/profile.dart';
-import 'package:insight/body/homepage.dart';
-import 'package:insight/intro/login.dart';
+// import 'package:insight/body/bottom_bar/profile.dart';
+// import 'package:insight/body/homepage.dart';
+// import 'package:insight/intro/login.dart';
 import 'package:insight/validators.dart';
 import 'package:insight/globals.dart';
 import 'package:insight/user_class.dart';
