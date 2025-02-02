@@ -34,9 +34,9 @@ class _ProfileState extends State<Profile> {
       child: StreamBuilder<DocumentSnapshot>(
         stream: userId != null
             ? FirebaseFirestore.instance
-                .collection('users')
-                .doc(userId)
-                .snapshots()
+            .collection('users')
+            .doc(userId)
+            .snapshots()
             : null,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -52,12 +52,11 @@ class _ProfileState extends State<Profile> {
           }
 
           final user =
-              User_class.fromMap(snapshot.data!.data() as Map<String, dynamic>);
+          User_class.fromMap(snapshot.data!.data() as Map<String, dynamic>);
 
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildProfileField('Name', user.name),
+              _buildProfileField('Your Name', user.name),
               SizedBox(height: 10),
               _buildProfileField('ID', user.id),
               SizedBox(height: 10),
@@ -65,14 +64,36 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 10),
               _buildProfileField('Year', user.year.toString()),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileSetup()),
-                  );
-                },
-                child: Text('Edit Profile'),
+              Center(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Color(0xFF0ABAB5)), // Button color
+                    foregroundColor:
+                    MaterialStateProperty.all(Colors.white), // Text color
+                    textStyle: MaterialStateProperty.all(
+                      TextStyle(
+                        fontWeight: FontWeight.bold, // Bold text
+                      ),
+                    ),
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 32.0), // Padding
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8), // Rounded corners
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileSetup()),
+                    );
+                  },
+                  child: Text('Edit Profile'),
+                ),
               ),
             ],
           );
@@ -83,31 +104,31 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildProfileField(String label, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+      height: 70, // Fixed height for uniform card size
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFF8F9FA), // Light background color
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
-            blurRadius: 6,
-            offset: Offset(0, 3),
+            blurRadius: 8,
+            offset: Offset(0, 3), // Shadow position
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[700],
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[800],
             ),
           ),
-          SizedBox(height: 8),
           Text(
             value.isEmpty ? "Not set" : value,
             style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'CategoryProjectPage.dart';
 
 class CategoriesPage extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
@@ -13,7 +14,7 @@ class CategoriesPage extends StatelessWidget {
     {'icon': 'assets/icons/travel.png', 'name': 'Travel', 'color': Colors.blueGrey[50]},
     {'icon': 'assets/icons/medical-team.png', 'name': 'Medical', 'color': Colors.red[50]},
     {'icon': 'assets/icons/online-news.png', 'name': 'News', 'color': Colors.yellow[50]},
-    {'icon': 'assets/icons/bullhorn.png', 'name': 'Social Media', 'color':Colors.orange[50] },
+    {'icon': 'assets/icons/bullhorn.png', 'name': 'Social Media', 'color': Colors.orange[50]},
     {'icon': 'assets/icons/shampoo.png', 'name': 'Self-Care', 'color': Colors.purple[65]},
     {'icon': 'assets/icons/application.png', 'name': 'Others', 'color': Colors.grey[100]},
   ];
@@ -37,13 +38,25 @@ class CategoriesPage extends StatelessWidget {
           ),
           itemCount: categories.length,
           itemBuilder: (context, index) {
-            return CategoryCard(
-              iconPath: categories[index]['icon'],
-              name: categories[index]['name'],
-              backgroundColor: categories[index]['color'],
+            return GestureDetector(
+              onTap: () => _navigateToCategoryProjects(context, categories[index]['name']),
+              child: CategoryCard(
+                iconPath: categories[index]['icon'],
+                name: categories[index]['name'],
+                backgroundColor: categories[index]['color'],
+              ),
             );
           },
         ),
+      ),
+    );
+  }
+
+  void _navigateToCategoryProjects(BuildContext context, String category) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryProjectsPage(category: category),
       ),
     );
   }

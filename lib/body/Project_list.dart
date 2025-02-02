@@ -36,6 +36,7 @@ class _ProjectCardState extends State<ProjectCard> {
     return Card(
       margin: EdgeInsets.all(10),
       elevation: 4,
+      color: Colors.blue[50], // Change the card color here
       child: InkWell(
         onTap: () {
           setState(() {

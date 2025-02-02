@@ -20,13 +20,13 @@ class _AddProjectPageState extends State<AddProjectPage> {
   final TextEditingController _githubLinkController = TextEditingController();
   final TextEditingController _docLinkController = TextEditingController();
 
-  String _selectedCategory = 'E-commerce';
+  String _selectedCategory = 'E-Commerce';
   final List<String> _categories = [
-    'E-commerce',
+    'E-Commerce',
     'Education',
     'Lifestyle',
     'Entertainment',
-    'Ticket-booking',
+    'Ticket-Booking',
     'Game',
     'Health & Fitness',
     'Productivity',
@@ -174,15 +174,15 @@ class _AddProjectPageState extends State<AddProjectPage> {
               _buildTextField(
                 controller: _githubLinkController,
                 label: 'GitHub Link',
-                validator: (value) =>
-                    Validators.validateField(value, 'GitHub Link'),
+                // validator: (value) =>
+                //     Validators.validateField(value, 'GitHub Link'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: _docLinkController,
                 label: 'Documentation Link',
-                validator: (value) =>
-                    Validators.validateField(value, 'Document Link'),
+                // validator: (value) =>
+                //     Validators.validateField(value, 'Document Link'),
               ),
               const SizedBox(height: 10),
               _buildTagsSection(),

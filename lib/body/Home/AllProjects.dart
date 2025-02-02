@@ -30,6 +30,14 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
           if (projectViewModel.projects.isEmpty) {
             return Center(child: CircularProgressIndicator());
           }
+          if (projectViewModel.projects.isEmpty) {
+            return const Center(
+              child: Text(
+                'No projects available.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            );
+          }
 
           return ProjectListView(projects: projectViewModel.projects);
         },
