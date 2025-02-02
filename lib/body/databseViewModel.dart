@@ -8,6 +8,9 @@ class ProjectViewModel extends ChangeNotifier {
   List<Project> _projects = [];
   List<Project> get projects => _projects;
 
+  List<Project> _favoriteProjects = [];
+  List<Project> get favoriteProjects => _favoriteProjects;
+
   Future<void> fetchAllProjects() async {
     try {
       print("Fetching projects...");
@@ -59,7 +62,7 @@ class ProjectViewModel extends ChangeNotifier {
             .where(FieldPath.documentId, whereIn: favoriteProjectsId)
             .get();
 
-        _projects = projectsSnapshot.docs
+        _favoriteProjects = projectsSnapshot.docs
             .map((doc) =>
                 Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
             .toList();
@@ -82,9 +85,11 @@ class ProjectViewModel extends ChangeNotifier {
           .get();
 
       if (favDoc.exists) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Project is already in favorites!')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Project is already in favorites!')),
+          );
+        }
         return;
       }
 
@@ -104,7 +109,7 @@ class ProjectViewModel extends ChangeNotifier {
       DocumentSnapshot favoriteDoc = await _firestore
           .collection('users')
           .doc(userId)
-          .collection('favoriteProjects')
+          .collection('favorite_Projects')
           .doc(projectId)
           .get();
 
@@ -138,9 +143,11 @@ class ProjectViewModel extends ChangeNotifier {
         .get();
 
     if (existingProjects.docs.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Project already exists!')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Project already exists!')),
+        );
+      }
       return;
     }
     try {
@@ -168,7 +175,6 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Dlt kormu project user thaki
   Future<void> deleteProject(String projectId, String userId) async {
     try {
       await _firestore.collection('projects').doc(projectId).delete();
