@@ -70,16 +70,14 @@ class _DashboardState extends State<Dashboard> {
                       child: CustomCard(
                         title: 'My Projects',
                         description:
-                            'Manage and track the progress of your own projects.',
+                        'Manage and track the progress of your own projects.',
                         icon: Icons.assignment_turned_in,
                         onTap: () {
                           print("My Projects");
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyProjects(
-                                userId: '',
-                              ),
+                              builder: (context) => MyProjects(), // Removed userId
                             ),
                           );
                         },
