@@ -75,6 +75,43 @@ class ProjectCard extends StatefulWidget {
 class _ProjectCardState extends State<ProjectCard> {
   bool _isExpanded = false;
 
+  void _deleteProject(BuildContext context) async {
+    // Show a confirmation dialog before deleting the project
+    bool? confirmDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: Text('This will permanently delete the project.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Cancel the deletion
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirm the deletion
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmDelete == true) {
+      // If the user confirms, delete the project
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await Provider.of<ProjectViewModel>(context, listen: false)
+          .deleteProject(widget.project.id, userId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Project deleted successfully!')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -92,6 +129,10 @@ class _ProjectCardState extends State<ProjectCard> {
             ListTile(
               title: Text(widget.project.projectName),
               subtitle: Text(widget.project.category),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => _deleteProject(context),
+              ),
             ),
             if (_isExpanded) ...[
               Padding(
