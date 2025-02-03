@@ -35,11 +35,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  Future<bool> _isProfileSet(String uid) async {
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    return userDoc.exists;
-  }
+  // Future<bool> _isProfileSet(String uid) async {
+  //   final userDoc =
+  //       await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  //   return userDoc.exists;
+  // }
 
   @override
   Widget build(BuildContext context) {

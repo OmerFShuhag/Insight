@@ -29,11 +29,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
   Future<void> _loadProfileData() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      Navigator.pushReplacementNamed(context, '/login');
-      return;
-    }
-    final userId = user.uid;
+    // if (user == null) {
+    //   Navigator.pushReplacementNamed(context, '/login');
+    //   return;
+    // }
+    final userId = user?.uid;
     final userDoc =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
@@ -84,6 +84,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _nameController,
                 decoration: InputDecoration(
                     labelText: 'Name', border: OutlineInputBorder()),
@@ -92,6 +93,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                 },
               ),
               TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _idController,
                 decoration: InputDecoration(labelText: 'ID'),
                 validator: (value) {

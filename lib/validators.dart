@@ -49,7 +49,7 @@ class Validators {
     }
     final idRegex = RegExp(r'^[0-9]{8}$');
     if (!idRegex.hasMatch(value)) {
-      return 'Enter a Valid ID';
+      return 'Enter a Valid  8 digit ID';
     }
     return null;
   }

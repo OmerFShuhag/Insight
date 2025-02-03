@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/bottom_bar/profile.dart';
@@ -9,7 +9,7 @@ import 'package:insight/intro/auth_service.dart';
 import 'package:insight/body/bottom_bar/favorite.dart';
 import 'package:insight/body/bottom_bar/dashboard.dart';
 // import 'package:flutter/material.dart';
-import 'package:insight/intro/profile_setup.dart';
+// import 'package:insight/intro/profile_setup.dart';
 
 class Homepage extends StatefulWidget {
   @override

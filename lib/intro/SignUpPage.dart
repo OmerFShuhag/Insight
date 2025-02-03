@@ -108,19 +108,19 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildNameField() {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: nameController,
-      decoration: const InputDecoration(
-        labelText: 'Name',
-        border: OutlineInputBorder(),
-      ),
-      validator: (value) {
-        return Validators.validateName(value ?? '');
-      },
-    );
-  }
+  // Widget _buildNameField() {
+  //   return TextFormField(
+  //     autovalidateMode: AutovalidateMode.onUserInteraction,
+  //     controller: nameController,
+  //     decoration: const InputDecoration(
+  //       labelText: 'Name',
+  //       border: OutlineInputBorder(),
+  //     ),
+  //     validator: (value) {
+  //       return Validators.validateName(value ?? '');
+  //     },
+  //   );
+  // }
 
   Widget _buildEmailField() {
     return TextFormField(

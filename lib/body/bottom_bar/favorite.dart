@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/Project_list.dart';
 import 'package:insight/body/databseViewModel.dart';
@@ -10,7 +10,7 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-  bool _isLoading = true;
+  //bool _isLoading = true;
 
   @override
   void initState() {
