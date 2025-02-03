@@ -35,11 +35,12 @@ class ProjectViewModel extends ChangeNotifier {
     try {
       QuerySnapshot snapshot = await _firestore
           .collection('projects')
-          .where('createdBy', isEqualTo: userId)
+          .where('UserId', isEqualTo: userId)
           .get();
+
       _projects = snapshot.docs
           .map((doc) =>
-              Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
       notifyListeners();
     } catch (e) {
