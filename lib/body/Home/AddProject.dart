@@ -10,13 +10,12 @@ class AddProjectPage extends StatefulWidget {
   @override
   _AddProjectPageState createState() => _AddProjectPageState();
 }
-
 class _AddProjectPageState extends State<AddProjectPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _supervisorNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _githubLinkController = TextEditingController();
   final TextEditingController _docLinkController = TextEditingController();
 
@@ -84,6 +83,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
     });
   }
 
+  // Save Project Function
   Future<void> _saveProject() async {
     if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
       const String projectId = '';
@@ -105,6 +105,10 @@ class _AddProjectPageState extends State<AddProjectPage> {
       try {
         await ProjectViewModel().addProject(project, userId, context);
 
+        // Fetch updated projects here
+        await ProjectViewModel().fetchUserCreatedProjects(userId);
+
+        // Reset form and go back
         _formKey.currentState!.reset();
         setState(() {
           _teamMembers.clear();
@@ -209,7 +213,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration:
-          InputDecoration(labelText: label, border: const OutlineInputBorder()),
+      InputDecoration(labelText: label, border: const OutlineInputBorder()),
       maxLines: maxLines,
       validator: validator,
       onChanged: (_) => _checkFormValidity(),
