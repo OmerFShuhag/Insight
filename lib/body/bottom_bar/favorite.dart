@@ -5,33 +5,32 @@ import 'package:insight/body/databseViewModel.dart';
 import 'package:provider/provider.dart';
 
 class Favorite extends StatefulWidget {
-  final String userId;
-
-  const Favorite({super.key, required this.userId});
   @override
   _FavoriteState createState() => _FavoriteState();
 }
 
 class _FavoriteState extends State<Favorite> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      var userId;
-      Provider.of<ProjectViewModel>(context, listen: false)
-          .fetchFavoriteProjects(userId.toString());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
     });
+  }
+
+  void _loadInitialData() {
+    Provider.of<ProjectViewModel>(context, listen: false)
+        .fetchFavoriteProjects();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10.0),
       child: Consumer<ProjectViewModel>(
         builder: (context, projectViewModel, child) {
-          if (projectViewModel.favoriteProjects.isEmpty) {
-            return Center(child: CircularProgressIndicator());
-          }
           if (projectViewModel.favoriteProjects.isEmpty) {
             return const Center(
               child: Text(

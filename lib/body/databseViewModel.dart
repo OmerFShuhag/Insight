@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/Project_class.dart';
 
 class ProjectViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String get userId => FirebaseAuth.instance.currentUser!.uid;
 
   List<Project> _projects = [];
   List<Project> get projects => _projects;
@@ -45,16 +47,21 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchFavoriteProjects(String userId) async {
+  Future<void> fetchFavoriteProjects() async {
     try {
+      print("Favorite Fetching projects...");
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc(userId)
           .collection('favorite_Projects')
           .get();
 
+      print("Favorite Projects fetched successfully");
       List<String> favoriteProjectsId =
           snapshot.docs.map((doc) => doc.id).toList();
+
+      // Clear previous favorites
+      _favoriteProjects.clear();
 
       if (favoriteProjectsId.isNotEmpty) {
         QuerySnapshot projectsSnapshot = await _firestore
@@ -66,9 +73,10 @@ class ProjectViewModel extends ChangeNotifier {
             .map((doc) =>
                 Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
             .toList();
-        notifyListeners();
-        return;
       }
+
+      print("Favorite Projects loaded: ${_favoriteProjects.length}");
+      notifyListeners(); // Always notify even if list is empty
     } catch (e) {
       print('Error fetching favorite projects: $e');
     }
@@ -99,6 +107,8 @@ class ProjectViewModel extends ChangeNotifier {
           .collection('favorite_Projects')
           .doc(projectId)
           .set({'addedAt': Timestamp.now()});
+
+      await fetchFavoriteProjects();
     } catch (e) {
       print('Error adding favorite project: $e');
     }
@@ -129,8 +139,21 @@ class ProjectViewModel extends ChangeNotifier {
           .collection('favorite_Projects')
           .doc(projectId)
           .delete();
+
+      await fetchFavoriteProjects();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Removed from favorites')),
+        );
+      }
     } catch (e) {
+      // ignore: avoid_print
       print('Error removing favorite project: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to remove favorite')),
+        );
+      }
     }
   }
 

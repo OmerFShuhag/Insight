@@ -338,8 +338,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 _buildTextField(
                   controller: idController,
                   label: 'ID',
-                  validator: (value) =>
-                      Validators.validateField(value, 'Team Member ID'),
+                  // validator: (value) =>
+                  //     Validators.validateField(value, 'Team Member ID'),
                 ),
               ],
             ),

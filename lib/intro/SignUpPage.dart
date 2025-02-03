@@ -12,10 +12,12 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _passwordVisible = false; // Tracks visibility of the password field
-  bool _confirmPasswordVisible = false; // Tracks visibility of the confirm password field
+  bool _confirmPasswordVisible =
+      false; // Tracks visibility of the confirm password field
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +95,6 @@ class _SignUpPageState extends State<SignUpPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildNameField(),
-            const SizedBox(height: 10),
             _buildEmailField(),
             const SizedBox(height: 10),
             _buildPasswordField(),
@@ -149,7 +149,8 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           onPressed: () {
             setState(() {
-              _passwordVisible = !_passwordVisible; // Toggle password visibility
+              _passwordVisible =
+                  !_passwordVisible; // Toggle password visibility
             });
           },
         ),
@@ -157,7 +158,8 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (value) {
         return Validators.validatePassword(value ?? '');
       },
-      obscureText: !_passwordVisible, // Hide/show password based on _passwordVisible
+      obscureText:
+          !_passwordVisible, // Hide/show password based on _passwordVisible
     );
   }
 
@@ -174,7 +176,8 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           onPressed: () {
             setState(() {
-              _confirmPasswordVisible = !_confirmPasswordVisible; // Toggle confirm password visibility
+              _confirmPasswordVisible =
+                  !_confirmPasswordVisible; // Toggle confirm password visibility
             });
           },
         ),
@@ -185,7 +188,8 @@ class _SignUpPageState extends State<SignUpPage> {
           passwordController.text,
         );
       },
-      obscureText: !_confirmPasswordVisible, // Hide/show confirm password based on _confirmPasswordVisible
+      obscureText:
+          !_confirmPasswordVisible, // Hide/show confirm password based on _confirmPasswordVisible
     );
   }
 

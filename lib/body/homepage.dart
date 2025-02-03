@@ -26,7 +26,7 @@ class _HomepageState extends State<Homepage> {
       'title': 'Home',
     },
     {
-      'page': Favorite(userId: FirebaseAuth.instance.currentUser!.uid),
+      'page': Favorite(),
       'title': 'Favorite Projects',
     },
     {
