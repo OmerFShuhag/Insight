@@ -65,19 +65,23 @@ class MyApp extends StatelessWidget {
                 if (!user.emailVerified) {
                   return Login();
                 } else {
-                  return FutureBuilder<bool>(
-                    future: _isProfileSet(user.uid),
+                  return FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.uid)
+                        .get(),
                     builder: (context, profileSnapshot) {
                       if (profileSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (profileSnapshot.hasError) {
                         return Center(
-                            child: Text("Error: ${profileSnapshot.error}"));
+                            child: Text('Error: ${profileSnapshot.error}'));
+                      } else if (profileSnapshot.hasData &&
+                          profileSnapshot.data != null) {
+                        return Homepage();
                       } else {
-                        return profileSnapshot.data!
-                            ? Homepage()
-                            : ProfileSetup();
+                        return ProfileSetup();
                       }
                     },
                   );

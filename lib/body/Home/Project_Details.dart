@@ -28,8 +28,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   Future<void> _checkFavorite() async {
     final projectViewModel =
         Provider.of<ProjectViewModel>(context, listen: false);
-    bool favStat = await projectViewModel.isFavoriteProject(
-        widget.project.UserId, widget.project.id);
+    bool favStat = await projectViewModel.isFavoriteProject(widget.project.id);
     setState(() {
       isFavorite = favStat;
     });
@@ -149,10 +148,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                     Provider.of<ProjectViewModel>(context, listen: false);
                 if (isFavorite) {
                   await projectViewModel.removeFavoriteProject(
-                      widget.project.UserId, widget.project.id, context);
+                      widget.project.id, context);
                 } else {
                   await projectViewModel.addFavoriteProject(
-                      widget.project.UserId, widget.project.id, context);
+                      widget.project.id, context);
                 }
                 _checkFavorite();
               },

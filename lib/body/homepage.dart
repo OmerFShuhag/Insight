@@ -35,21 +35,22 @@ class _HomepageState extends State<Homepage> {
     },
   ];
 
-  void initState() {
-    super.initState();
-    _checkUserProfile();
-  }
+  // void initState() {
+  //   super.initState();
+  //   _checkUserProfile();
+  // }
 
-  Future<void> _checkUserProfile() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  // Future<void> _checkUserProfile() async {
+  //   final userId = FirebaseAuth.instance.currentUser!.uid;
+  //   final userDoc =
+  //       await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
-    if (!userDoc.exists) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ProfileSetup()));
-    }
-  }
+  //   if (!userDoc.exists) {
+  //     print('Profile not set up, from homepage');
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (context) => ProfileSetup()));
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     setState(() {

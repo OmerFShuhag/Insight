@@ -1,9 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:insight/body/homepage.dart';
+import 'package:insight/intro/profile_setup.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -97,7 +100,25 @@ class AuthService {
         // Force logout
         await _auth.signOut();
       } else {
-        Navigator.pushReplacementNamed(context, '/homepage');
+        await userCredential.user?.reload();
+        final userId = userCredential.user!.uid;
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .get();
+        if (userDoc.exists) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => Homepage()),
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileSetup()),
+            (route) => false,
+          );
+        }
       }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);

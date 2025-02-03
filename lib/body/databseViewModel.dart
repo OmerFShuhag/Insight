@@ -83,7 +83,7 @@ class ProjectViewModel extends ChangeNotifier {
   }
 
   Future<void> addFavoriteProject(
-      String userId, String projectId, BuildContext context) async {
+      String projectId, BuildContext context) async {
     try {
       DocumentSnapshot favDoc = await _firestore
           .collection('users')
@@ -114,7 +114,7 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> isFavoriteProject(String userId, String projectId) async {
+  Future<bool> isFavoriteProject(String projectId) async {
     try {
       DocumentSnapshot favoriteDoc = await _firestore
           .collection('users')
@@ -131,7 +131,7 @@ class ProjectViewModel extends ChangeNotifier {
   }
 
   Future<void> removeFavoriteProject(
-      String userId, String projectId, BuildContext context) async {
+      String projectId, BuildContext context) async {
     try {
       await _firestore
           .collection('users')
