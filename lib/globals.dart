@@ -1,3 +1,3 @@
-library insight.globals;
+ library insight.globals;
 
 bool isProfileInfoSet = false;

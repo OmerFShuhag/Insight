@@ -12,7 +12,12 @@ class CategoryProjectsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Projects for $category'),
+        title: Text('$category Projects',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            )),
         backgroundColor: const Color(0xFF0ABAB5),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -25,8 +30,27 @@ class CategoryProjectsPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
+
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No projects found'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/no_projects.png',
+                    height: 150.0,
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    'No projects found',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
 
           final projects = snapshot.data!.docs.map((doc) {

@@ -15,7 +15,7 @@ class CategoriesPage extends StatelessWidget {
     {'icon': 'assets/icons/medical-team.png', 'name': 'Medical', 'color': Colors.red[50]},
     {'icon': 'assets/icons/online-news.png', 'name': 'News', 'color': Colors.yellow[50]},
     {'icon': 'assets/icons/bullhorn.png', 'name': 'Social Media', 'color': Colors.orange[50]},
-    {'icon': 'assets/icons/shampoo.png', 'name': 'Self-Care', 'color': Colors.purple[65]},
+    {'icon': 'assets/icons/shampoo.png', 'name': 'Self-Care', 'color': Colors.purple[50]},
     {'icon': 'assets/icons/application.png', 'name': 'Others', 'color': Colors.grey[100]},
   ];
 
@@ -23,7 +23,12 @@ class CategoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: const Text('Categories',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            )),
         backgroundColor: const Color(0xFF0ABAB5),
         centerTitle: true,
       ),
