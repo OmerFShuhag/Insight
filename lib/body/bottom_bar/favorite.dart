@@ -1,4 +1,3 @@
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/Project_list.dart';
 import 'package:insight/body/databseViewModel.dart';
@@ -10,13 +9,19 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-  //bool _isLoading = true;
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
+    });
+    _searchController.addListener(() {
+      setState(() {
+        _searchQuery = _searchController.text;
+      });
     });
   }
 
@@ -26,22 +31,54 @@ class _FavoriteState extends State<Favorite> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Consumer<ProjectViewModel>(
-        builder: (context, projectViewModel, child) {
-          if (projectViewModel.favoriteProjects.isEmpty) {
-            return const Center(
-              child: Text(
-                'No favorite projects available.',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: 'Search Favorites',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            );
-          }
+            ),
+          ),
+          Expanded(
+            child: Consumer<ProjectViewModel>(
+              builder: (context, projectViewModel, child) {
+                final filteredFavorites =
+                    projectViewModel.favoriteProjects.where((project) {
+                  return project.projectName
+                      .toLowerCase()
+                      .contains(_searchQuery.toLowerCase());
+                }).toList();
 
-          return ProjectListView(projects: projectViewModel.favoriteProjects);
-        },
+                if (filteredFavorites.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No favorite projects found.',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  );
+                }
+
+                return ProjectListView(projects: filteredFavorites);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

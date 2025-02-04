@@ -72,6 +72,34 @@ class _ProfileSetupState extends State<ProfileSetup> {
     Navigator.pushReplacementNamed(context, '/homepage');
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile Setup'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              _buildNameField(),
+              const SizedBox(height: 10),
+              _buildIDField(),
+              const SizedBox(height: 10),
+              _buildBatchDropdown(),
+              const SizedBox(height: 10),
+              _buildSemesterYearRow(),
+              const SizedBox(height: 20),
+              _buildSaveButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildNameField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -163,34 +191,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
         }
       },
       child: Text(isProfileInfoSet ? 'Update Profile' : 'Save Profile'),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Setup'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              _buildNameField(),
-              const SizedBox(height: 10),
-              _buildIDField(),
-              const SizedBox(height: 10),
-              _buildBatchDropdown(),
-              const SizedBox(height: 10),
-              _buildSemesterYearRow(),
-              const SizedBox(height: 20),
-              _buildSaveButton(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
