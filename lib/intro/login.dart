@@ -13,10 +13,7 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -115,16 +112,26 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Widget for the password input field
+  // Widget for the password input field with visibility toggle
   Widget _buildPasswordField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: passwordController,
-      decoration: const InputDecoration(
+      obscureText: !_isPasswordVisible,
+      decoration: InputDecoration(
         labelText: 'Password',
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () {
+            setState(() {
+              _isPasswordVisible = !_isPasswordVisible;
+            });
+          },
+        ),
       ),
-      obscureText: true,
       validator: (value) {
         return Validators.validatePassword(value ?? '');
       },
@@ -145,11 +152,13 @@ class _LoginState extends State<Login> {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        await AuthService().login(
-          email: emailController.text,
-          password: passwordController.text,
-          context: context,
-        );
+        if (_formKey.currentState!.validate()) {
+          await AuthService().login(
+            email: emailController.text,
+            password: passwordController.text,
+            context: context,
+          );
+        }
       },
       child: const Text('Log In'),
     );
@@ -164,7 +173,4 @@ class _LoginState extends State<Login> {
       ],
     );
   }
-
-  // Widget for Google login button
-
 }
