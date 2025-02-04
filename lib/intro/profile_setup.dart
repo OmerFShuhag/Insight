@@ -75,8 +75,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Profile Setup'),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 10, 186, 180),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -101,30 +104,83 @@ class _ProfileSetupState extends State<ProfileSetup> {
   }
 
   Widget _buildNameField() {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: _nameController,
-      decoration: const InputDecoration(
-          labelText: 'Name', border: OutlineInputBorder()),
-      validator: (value) => Validators.validateName(value ?? ''),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        controller: _nameController,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+          labelText: 'Name',
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.teal,
+          ),
+          prefixIcon: const Icon(Icons.person, color: Colors.teal),
+          filled: true,
+          fillColor: Colors.teal.shade50,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: const BorderSide(color: Colors.teal, width: 2)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal, width: 2),
+          ),
+        ),
+        validator: (value) => Validators.validateName(value ?? ''),
+      ),
     );
   }
 
   Widget _buildIDField() {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: _idController,
-      decoration:
-          const InputDecoration(labelText: 'ID', border: OutlineInputBorder()),
-      validator: (value) => Validators.validateID(value ?? ''),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        controller: _idController,
+        decoration: InputDecoration(
+            labelText: 'Student ID',
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.teal,
+            ),
+            prefixIcon: const Icon(Icons.badge, color: Colors.teal),
+            filled: true,
+            fillColor: Colors.teal.shade50,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.teal, width: 2)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide(color: Colors.teal, width: 2),
+            )),
+        validator: (value) => Validators.validateID(value ?? ''),
+      ),
     );
   }
 
   Widget _buildBatchDropdown() {
     return DropdownButtonFormField(
       value: _selectedBatch,
-      decoration: const InputDecoration(
-          labelText: 'Batch', border: OutlineInputBorder()),
+      decoration: InputDecoration(
+          labelText: 'Batch',
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.teal,
+          ),
+          prefixIcon: const Icon(Icons.batch_prediction, color: Colors.teal),
+          filled: true,
+          fillColor: Colors.teal.shade50,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: const BorderSide(color: Colors.teal, width: 2)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(color: Colors.teal, width: 2),
+          )),
       items: List.generate(24, (index) => 40 + index)
           .map((batch) => DropdownMenuItem(value: batch, child: Text('$batch')))
           .toList(),
@@ -190,7 +246,15 @@ class _ProfileSetupState extends State<ProfileSetup> {
           await _saveProfileData();
         }
       },
-      child: Text(isProfileInfoSet ? 'Update Profile' : 'Save Profile'),
+      style: TextButton.styleFrom(
+          backgroundColor: Color.fromARGB(255, 10, 186, 180),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      child: Text(
+        isProfileInfoSet ? 'Update Profile' : 'Save Profile',
+        //selectionColor: Color.fromARGB(255, 10, 186, 180);,
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }

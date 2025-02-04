@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_to_list_in_spreads, deprecated_member_use, prefer_const_constructors_in_immutables, library_private_types_in_public_api, file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insight/body/Project_class.dart';
@@ -8,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ProjectDetailsPage extends StatefulWidget {
   final Project project;
 
-  ProjectDetailsPage({required this.project});
+  ProjectDetailsPage({super.key, required this.project});
 
   @override
   _ProjectDetailsPageState createState() => _ProjectDetailsPageState();
@@ -46,7 +48,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           children: [
             // Project Overview Card
             _buildOverviewCard(context),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Links Section
             _buildLinkSection(
@@ -61,7 +63,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildLinkSection(
               context,
               'See Doc File',
@@ -74,19 +76,19 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Description Section
             _buildSectionTitle('Description'),
             _buildSectionContent(widget.project.description),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Team Members Section
             _buildSectionTitle('Team Members'),
             ...widget.project.teamMembers.map((member) {
               return _buildTeamMemberCard(member['name']!, member['id']!);
             }).toList(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Tags Section
             _buildSectionTitle('Tags'),
@@ -97,7 +99,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                         label: Text(tag),
                         backgroundColor:
                             const Color(0xFF0ABAB5).withOpacity(0.2),
-                        labelStyle: TextStyle(color: const Color(0xFF0ABAB5)),
+                        labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
                       ))
                   .toList(),
             ),
@@ -111,12 +113,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     return AppBar(
       title: Text(
         widget.project.projectName,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
       backgroundColor: const Color(0xFF0ABAB5), // AppBar color
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
       actions: [
         IconButton(
           icon: Icon(isFavorite ? Icons.delete : Icons.favorite_border),
@@ -131,15 +134,22 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title:
-              Text(isFavorite ? 'Remove from Favorites?' : 'Add to Favorites?'),
+          backgroundColor:
+              isFavorite ? Colors.red.shade50 : Colors.green.shade50,
+          title: Text(
+            isFavorite ? 'Remove from Favorites?' : 'Add to Favorites?',
+            style: TextStyle(
+                color: isFavorite ? Colors.redAccent : Colors.green,
+                fontWeight: FontWeight.bold),
+          ),
           content: Text(isFavorite
               ? 'Are you sure you want to remove this project from favorites?'
               : 'Are you sure you want to add this project to favorites?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.black)),
             ),
             TextButton(
               onPressed: () async {
@@ -155,6 +165,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 }
                 _checkFavorite();
               },
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: isFavorite ? Colors.red : Colors.teal),
               child: Text(isFavorite ? 'Remove' : 'Add'),
             ),
           ],
@@ -176,7 +189,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildInfoRow(Icons.category, 'Category', widget.project.category),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             _buildInfoRow(Icons.supervisor_account, 'Supervisor',
                 widget.project.supervisorName),
           ],
@@ -190,14 +203,14 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     return Row(
       children: [
         Icon(icon, size: 20, color: const Color(0xFF0ABAB5)),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(
           '$label: ',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Text(
           value,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ],
     );
@@ -227,12 +240,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               child: Row(
                 children: [
                   Icon(icon, size: 24, color: const Color(0xFF0ABAB5)),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Text(
                     title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Icon(
                     showLink ? Icons.expand_less : Icons.expand_more,
                     color: const Color(0xFF0ABAB5),
@@ -254,12 +268,12 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               onLongPress: () {
                 Clipboard.setData(ClipboardData(text: link));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Link copied to clipboard')),
+                  const SnackBar(content: Text('Link copied to clipboard')),
                 );
               },
               child: Text(
                 link,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
@@ -275,10 +289,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: const Color(0xFF0ABAB5),
+        color: Color(0xFF0ABAB5),
       ),
     );
   }
@@ -294,7 +308,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Text(
           content,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -304,7 +318,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   Widget _buildTeamMemberCard(String name, String id) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -312,16 +326,16 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
-            Icon(Icons.person, size: 20, color: const Color(0xFF0ABAB5)),
-            SizedBox(width: 8),
+            const Icon(Icons.person, size: 20, color: Color(0xFF0ABAB5)),
+            const SizedBox(width: 8),
             Text(
               'Name: $name',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               'ID: $id',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
         ),
