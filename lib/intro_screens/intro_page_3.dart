@@ -10,6 +10,8 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
+  bool isDoneVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +27,12 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
     _slideAnimation = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
+
+    Future.delayed(Duration(seconds: 6), () {
+      setState(() {
+        isDoneVisible = true;  // Make "Done" button visible after 6 seconds
+      });
+    });
 
     Future.delayed(Duration(milliseconds: 500), () {
       _controller.forward();
@@ -75,11 +83,29 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      "Easily assecc all privous work,save time, with INSIGHT!",
+                      "Easily access all previous work, save time, with INSIGHT!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white70,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  // Only show "Done" button if isDoneVisible is true
+                  Visibility(
+                    visible: isDoneVisible,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Your action for Done button
+                      },
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
