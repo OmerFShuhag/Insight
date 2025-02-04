@@ -3,12 +3,14 @@ class User_class {
   String id;
   String semester;
   int year;
+  int batch;
 
   User_class({
     required this.id,
     required this.name,
     required this.semester,
     required this.year,
+    required this.batch,
   });
 
   factory User_class.fromMap(Map<String, dynamic> data) {
@@ -17,6 +19,7 @@ class User_class {
       name: data['name'] ?? '',
       semester: data['semester'] ?? 'Spring',
       year: data['year'] ?? 2010,
+      batch: data['batch'] ?? 40,
     );
   }
 
@@ -26,6 +29,7 @@ class User_class {
       'name': name,
       'semester': semester,
       'year': year,
+      'batch': batch,
     };
   }
 }
