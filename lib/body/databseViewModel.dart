@@ -21,7 +21,7 @@ class ProjectViewModel extends ChangeNotifier {
 
       _projects = snapshot.docs
           .map((doc) =>
-              Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
 
       print("Projects loaded: ${_projects.length}");
@@ -59,7 +59,7 @@ class ProjectViewModel extends ChangeNotifier {
 
       print("Favorite Projects fetched successfully");
       List<String> favoriteProjectsId =
-          snapshot.docs.map((doc) => doc.id).toList();
+      snapshot.docs.map((doc) => doc.id).toList();
 
       // Clear previous favorites
       _favoriteProjects.clear();
@@ -72,7 +72,7 @@ class ProjectViewModel extends ChangeNotifier {
 
         _favoriteProjects = projectsSnapshot.docs
             .map((doc) =>
-                Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+            Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
             .toList();
       }
 
@@ -187,17 +187,17 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> editProject(Project project) async {
-    try {
-      await _firestore
-          .collection('projects')
-          .doc(project.id)
-          .update(project.toMap());
-      fetchUserCreatedProjects(project.id);
-    } catch (e) {
-      print('Error editing project: $e');
-    }
-  }
+  // Future<void> editProject(Project project) async {
+  //   try {
+  //     await _firestore
+  //         .collection('projects')
+  //         .doc(project.id)
+  //         .update(project.toMap());
+  //     fetchUserCreatedProjects(project.id);
+  //   } catch (e) {
+  //     print('Error editing project: $e');
+  //   }
+  // }
 
   Future<void> deleteProject(String projectId, String userId) async {
     try {

@@ -5,6 +5,7 @@ import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart' as projectClass;
 import 'package:insight/body/homepage.dart';
 import 'package:insight/validators.dart';
+import 'package:provider/provider.dart';
 
 class AddProjectPage extends StatefulWidget {
   @override

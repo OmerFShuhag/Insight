@@ -44,6 +44,10 @@ dependencies:
   provider: ^6.1.2
   smooth_page_indicator: ^1.2.0+3
   url_launcher: ^6.0.20
+  flutter_expandable_fab: ^2.3.0
+  google_generative_ai: ^0.4.6
+  flutter_markdown: ^0.6.10
+  http: ^1.2.2
 
 
 dev_dependencies:
@@ -86,6 +90,8 @@ flutter:
     - assets/icons/movie.png
     - assets/icons/online-news.png
     - assets/images/no_projects.png
+    - assets/icons/spread.gif
+    - assets/icons/chatbot.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

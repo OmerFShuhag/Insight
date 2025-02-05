@@ -39,7 +39,6 @@ class _ProjectCardState extends State<ProjectCard> {
     _cardColor = _generateRandomColor();
   }
 
-  // Generate a random color from a predefined list
   Color _generateRandomColor() {
     final random = Random();
     List<Color> colors = [
