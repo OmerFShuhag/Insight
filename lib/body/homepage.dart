@@ -73,15 +73,15 @@ class _HomepageState extends State<Homepage> {
         ),
         centerTitle: true,
         backgroundColor: _selectedColor,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              _openSettingsMenu(context);
-            },
-            color: Colors.white,
-          ),
-        ],
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.settings),
+        //     onPressed: () {
+        //       _openSettingsMenu(context);
+        //     },
+        //     color: Colors.white,
+        //   ),
+        // ],
         elevation: 5,
       ),
       body: _pages[_selectedIndex]['page'],
@@ -106,24 +106,24 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  void _openSettingsMenu(BuildContext context) {
-    showMenu(
-      context: context,
-      position: const RelativeRect.fromLTRB(100, 50, 0, 0),
-      items: [
-        PopupMenuItem<String>(
-          value: 'SignOut',
-          child: ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Sign Out'),
-            onTap: () {
-              Navigator.of(context).pop();
-              AuthService().signout();
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ),
-      ],
-    );
-  }
+  // void _openSettingsMenu(BuildContext context) {
+  //   showMenu(
+  //     context: context,
+  //     position: const RelativeRect.fromLTRB(100, 50, 0, 0),
+  //     items: [
+  //       PopupMenuItem<String>(
+  //         value: 'SignOut',
+  //         child: ListTile(
+  //           leading: const Icon(Icons.logout),
+  //           title: const Text('Sign Out'),
+  //           onTap: () {
+  //             Navigator.of(context).pop();
+  //             AuthService().signout();
+  //             Navigator.pushReplacementNamed(context, '/login');
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

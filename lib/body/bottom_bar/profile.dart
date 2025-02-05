@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insight/intro/auth_service.dart';
 import 'package:insight/intro/login.dart';
 import 'package:insight/intro/profile_setup.dart';
 import 'package:insight/user_class.dart';
@@ -100,6 +101,34 @@ class _ProfileState extends State<Profile> {
                     );
                   },
                   child: const Text('Edit Profile'),
+                ),
+              ),
+              const Spacer(), // Pushes content to the top and bottom
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: TextButton.icon(
+                  icon: Icon(Icons.logout,
+                      color: const Color.fromARGB(255, 0, 0, 0)),
+                  label: Text('Sign Out',
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      )),
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 228, 37, 65),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(color: Colors.red[100]!, width: 1),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    AuthService().signout();
+                    Navigator.pushReplacementNamed(context, '/login');
+                  },
                 ),
               ),
             ],

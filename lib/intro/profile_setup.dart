@@ -1,9 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/validators.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:insight/globals.dart';
 import 'package:insight/user_class.dart';
 
@@ -91,10 +92,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
               const SizedBox(height: 10),
               _buildIDField(),
               const SizedBox(height: 10),
-              _buildBatchDropdown(),
+              _buildBatch(),
               const SizedBox(height: 10),
               _buildSemesterYearRow(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               _buildSaveButton(),
             ],
           ),
@@ -162,29 +163,29 @@ class _ProfileSetupState extends State<ProfileSetup> {
     );
   }
 
-  Widget _buildBatchDropdown() {
-    return DropdownButtonFormField(
-      value: _selectedBatch,
-      decoration: InputDecoration(
-          labelText: 'Batch',
-          labelStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
+  Widget _buildBatch() {
+    return Column(
+      children: [
+        Text(
+          'Batch',
+          style: TextStyle(
             color: Colors.teal,
+            fontWeight: FontWeight.bold,
+            //backgroundColor: Colors.teal.shade50,
           ),
-          prefixIcon: const Icon(Icons.batch_prediction, color: Colors.teal),
-          filled: true,
-          fillColor: Colors.teal.shade50,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(color: Colors.teal, width: 2)),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(color: Colors.teal, width: 2),
-          )),
-      items: List.generate(24, (index) => 40 + index)
-          .map((batch) => DropdownMenuItem(value: batch, child: Text('$batch')))
-          .toList(),
-      onChanged: (value) => setState(() => _selectedBatch = value as int),
+        ),
+        NumberPicker(
+          value: _selectedBatch,
+          minValue: 40,
+          maxValue: 63,
+          itemHeight: 40,
+          axis: Axis.horizontal,
+          selectedTextStyle: TextStyle(
+              color: Colors.teal, fontSize: 20, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(color: Colors.grey),
+          onChanged: (value) => setState(() => _selectedBatch = value),
+        ),
+      ],
     );
   }
 
@@ -194,10 +195,49 @@ class _ProfileSetupState extends State<ProfileSetup> {
         Expanded(
           child: DropdownButtonFormField<String>(
             value: _selectedSemester,
-            decoration: const InputDecoration(labelText: 'Semester'),
+            decoration: InputDecoration(
+              labelText: 'Semester',
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+              prefixIcon: const Icon(Icons.school, color: Colors.teal),
+              filled: true,
+              fillColor: Colors.teal.shade50,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.teal, width: 2),
+              ),
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            ),
+            style: TextStyle(
+              color: Colors.teal.shade800,
+              fontSize: 16,
+            ),
+            selectedItemBuilder: (context) => ['Spring', 'Summer', 'Fall']
+                .map((semester) => Center(
+                      child: Text(
+                        semester,
+                        style: TextStyle(
+                            color: Colors.teal.shade800, fontSize: 16),
+                      ),
+                    ))
+                .toList(),
             items: ['Spring', 'Summer', 'Fall']
-                .map((semester) =>
-                    DropdownMenuItem(value: semester, child: Text(semester)))
+                .map((semester) => DropdownMenuItem(
+                      value: semester,
+                      child: Text(semester,
+                          style: TextStyle(
+                            color: Colors.teal.shade800,
+                            fontSize: 16,
+                          )),
+                    ))
                 .toList(),
             onChanged: (value) => setState(() => _selectedSemester = value!),
           ),
@@ -206,16 +246,58 @@ class _ProfileSetupState extends State<ProfileSetup> {
         Expanded(
           child: DropdownButtonFormField<int>(
             value: _selectedYear,
-            decoration: const InputDecoration(labelText: 'Year'),
+            decoration: InputDecoration(
+              labelText: 'Year',
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+              prefixIcon: const Icon(Icons.calendar_today, color: Colors.teal),
+              filled: true,
+              fillColor: Colors.teal.shade50,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.teal, width: 2),
+              ),
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            ),
+            style: TextStyle(
+              color: Colors.teal.shade800,
+              fontSize: 16,
+            ),
+            selectedItemBuilder: (context) =>
+                List.generate(21, (index) => 2010 + index)
+                    .map((year) => Center(
+                          child: Text(year.toString(),
+                              style: TextStyle(
+                                  color: Colors.teal.shade800, fontSize: 16)),
+                        ))
+                    .toList(),
             items: List.generate(21, (index) => 2010 + index)
-                .map((year) =>
-                    DropdownMenuItem(value: year, child: Text(year.toString())))
+                .map((year) => DropdownMenuItem(
+                      value: year,
+                      child: Text(year.toString(),
+                          style: TextStyle(
+                            color: Colors.teal.shade800,
+                            fontSize: 16,
+                          )),
+                    ))
                 .toList(),
             onChanged: (value) => setState(() => _selectedYear = value!),
           ),
         ),
         IconButton(
-          icon: Icon(Icons.help_outline, color: Colors.grey.withOpacity(0.6)),
+          icon: Icon(
+            Icons.help_outline,
+            color: Colors.teal.withOpacity(0.8),
+            size: 28,
+          ),
           onPressed: _showSemesterInfoDialog,
         ),
       ],
@@ -249,11 +331,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
       style: TextButton.styleFrom(
           backgroundColor: Color.fromARGB(255, 10, 186, 180),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
       child: Text(
         isProfileInfoSet ? 'Update Profile' : 'Save Profile',
         //selectionColor: Color.fromARGB(255, 10, 186, 180);,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white, fontSize: 17),
       ),
     );
   }

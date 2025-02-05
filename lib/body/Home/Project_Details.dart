@@ -50,6 +50,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             _buildOverviewCard(context),
             const SizedBox(height: 20),
 
+            // Description Section
+            _buildSectionTitle('Description'),
+            _buildSectionContent(widget.project.description),
+            const SizedBox(height: 20),
+
             // Links Section
             _buildLinkSection(
               context,
@@ -76,11 +81,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 });
               },
             ),
-            const SizedBox(height: 20),
-
-            // Description Section
-            _buildSectionTitle('Description'),
-            _buildSectionContent(widget.project.description),
             const SizedBox(height: 20),
 
             // Team Members Section
