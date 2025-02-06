@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/Home/Project_Details.dart';
+import 'Home/myHomePage.dart'; // Import your chatbot widget
 
 class ProjectListView extends StatelessWidget {
   final List<Project> projects;
@@ -10,11 +11,32 @@ class ProjectListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: projects.length,
-      itemBuilder: (context, index) {
-        final project = projects[index];
-        return ProjectCard(project: project);
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: projects.length,
+        itemBuilder: (context, index) {
+          final project = projects[index];
+          return ProjectCard(project: project);
+        },
+      ),
+
+    );
+  }
+
+  void _openChatbot(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.75,
+            child: MyHomePage(), // Embedding your chatbot here
+          ),
+        );
       },
     );
   }
@@ -98,13 +120,13 @@ class _ProjectCardState extends State<ProjectCard> {
                 style: const TextStyle(
                   fontSize: 14,
                   color: Color(0xFF515959),
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             if (_isExpanded)
               Container(
-                margin: const EdgeInsets.only(top:10, bottom: 17.0),
+                margin: const EdgeInsets.only(top: 10, bottom: 17.0),
                 child: Column(
                   children: [
                     Padding(
@@ -114,7 +136,7 @@ class _ProjectCardState extends State<ProjectCard> {
                         style: const TextStyle(
                           color: Color(0xFF353D3D),
                           fontWeight: FontWeight.bold,
-                          fontSize: 14
+                          fontSize: 14,
                         ),
                       ),
                     ),

@@ -93,6 +93,8 @@ flutter:
     - assets/images/no_projects.png
     - assets/icons/spread.gif
     - assets/icons/chatbot.png
+    - assets/images/send.png
+    - assets/images/chatbot.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

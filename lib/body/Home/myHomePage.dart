@@ -144,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
+                      onTap: _sendMessage,
                       child: _loading
                           ? const CircularProgressIndicator()
                           : Image.asset(
@@ -151,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 24,
                         height: 24,
                       ),
-                      onTap: _sendMessage,
                     ),
                   ),
                 ],

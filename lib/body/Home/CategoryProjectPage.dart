@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/Project_list.dart';
+import 'myHomePage.dart';
 
 class CategoryProjectsPage extends StatelessWidget {
   final String category;
@@ -29,7 +30,6 @@ class CategoryProjectsPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(
@@ -60,6 +60,31 @@ class CategoryProjectsPage extends StatelessWidget {
           return ProjectListView(projects: projects);
         },
       ),
+      floatingActionButton: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('projects')
+            .where('category', isEqualTo: category)
+            .snapshots(),
+        builder: (context, snapshot) {
+
+          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+            return FloatingActionButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
+              },
+              child: const Icon(Icons.chat),
+              backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

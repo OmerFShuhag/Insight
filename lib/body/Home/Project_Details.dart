@@ -1,11 +1,10 @@
-// ignore_for_file: unnecessary_to_list_in_spreads, deprecated_member_use, prefer_const_constructors_in_immutables, library_private_types_in_public_api, file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'myHomePage.dart'; // Import your chatbot page
 
 class ProjectDetailsPage extends StatefulWidget {
   final Project project;
@@ -29,7 +28,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
 
   Future<void> _checkFavorite() async {
     final projectViewModel =
-        Provider.of<ProjectViewModel>(context, listen: false);
+    Provider.of<ProjectViewModel>(context, listen: false);
     bool favStat = await projectViewModel.isFavoriteProject(widget.project.id);
     setState(() {
       isFavorite = favStat;
@@ -39,72 +38,83 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEEFCFC), // Set background color
+      backgroundColor: const Color(0xFFEEFCFC),
       appBar: _buildappbar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Project Overview Card
-            _buildOverviewCard(context),
-            const SizedBox(height: 20),
-
-            // Description Section
-            _buildSectionTitle('Description'),
-            _buildSectionContent(widget.project.description),
-            const SizedBox(height: 20),
-
-            // Links Section
-            _buildLinkSection(
-              context,
-              'GitHub Repository',
-              Icons.code,
-              widget.project.githubLink,
-              _showGitHubLink,
-              () {
-                setState(() {
-                  _showGitHubLink = !_showGitHubLink;
-                });
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildOverviewCard(context),
+                const SizedBox(height: 20),
+                _buildSectionTitle('Description'),
+                _buildSectionContent(widget.project.description),
+                const SizedBox(height: 20),
+                _buildLinkSection(
+                  context,
+                  'GitHub Repository',
+                  Icons.code,
+                  widget.project.githubLink,
+                  _showGitHubLink,
+                      () {
+                    setState(() {
+                      _showGitHubLink = !_showGitHubLink;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                _buildLinkSection(
+                  context,
+                  'See Doc File',
+                  Icons.description,
+                  widget.project.DocLink,
+                  _showDocLink,
+                      () {
+                    setState(() {
+                      _showDocLink = !_showDocLink;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildSectionTitle('Team Members'),
+                ...widget.project.teamMembers.map((member) {
+                  return _buildTeamMemberCard(member['name']!, member['id']!);
+                }).toList(),
+                const SizedBox(height: 20),
+                _buildSectionTitle('Tags'),
+                Wrap(
+                  spacing: 8,
+                  children: widget.project.tags
+                      .map((tag) => Chip(
+                    label: Text(tag),
+                    backgroundColor:
+                    const Color(0xFF0ABAB5).withOpacity(0.2),
+                    labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
+                  ))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+          // Chatbot Icon at the bottom right
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                // Navigate to the chatbot page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
               },
+              child: Icon(Icons.chat), // Chat icon
+              backgroundColor: Color.fromARGB(255, 10, 186, 180),
             ),
-            const SizedBox(height: 16),
-            _buildLinkSection(
-              context,
-              'See Doc File',
-              Icons.description,
-              widget.project.DocLink,
-              _showDocLink,
-              () {
-                setState(() {
-                  _showDocLink = !_showDocLink;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-
-            // Team Members Section
-            _buildSectionTitle('Team Members'),
-            ...widget.project.teamMembers.map((member) {
-              return _buildTeamMemberCard(member['name']!, member['id']!);
-            }).toList(),
-            const SizedBox(height: 20),
-
-            // Tags Section
-            _buildSectionTitle('Tags'),
-            Wrap(
-              spacing: 8,
-              children: widget.project.tags
-                  .map((tag) => Chip(
-                        label: Text(tag),
-                        backgroundColor:
-                            const Color(0xFF0ABAB5).withOpacity(0.2),
-                        labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -114,10 +124,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       title: Text(
         widget.project.projectName,
         style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
-      backgroundColor: const Color(0xFF0ABAB5), // AppBar color
+      backgroundColor: const Color(0xFF0ABAB5),
       elevation: 0,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: [
@@ -135,7 +145,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       builder: (context) {
         return AlertDialog(
           backgroundColor:
-              isFavorite ? Colors.red.shade50 : Colors.green.shade50,
+          isFavorite ? Colors.red.shade50 : Colors.green.shade50,
           title: Text(
             isFavorite ? 'Remove from Favorites?' : 'Add to Favorites?',
             style: TextStyle(
@@ -149,13 +159,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child:
-                  const Text('Cancel', style: TextStyle(color: Colors.black)),
+              const Text('Cancel', style: TextStyle(color: Colors.black)),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.pop(context);
                 final projectViewModel =
-                    Provider.of<ProjectViewModel>(context, listen: false);
+                Provider.of<ProjectViewModel>(context, listen: false);
                 if (isFavorite) {
                   await projectViewModel.removeFavoriteProject(
                       widget.project.id, context);
@@ -176,7 +186,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Project Overview Card
   Widget _buildOverviewCard(BuildContext context) {
     return Card(
       elevation: 4,
@@ -198,7 +207,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Info Row with Icon
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
@@ -216,15 +224,14 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Link Section
   Widget _buildLinkSection(
-    BuildContext context,
-    String title,
-    IconData icon,
-    String link,
-    bool showLink,
-    VoidCallback onTap,
-  ) {
+      BuildContext context,
+      String title,
+      IconData icon,
+      String link,
+      bool showLink,
+      VoidCallback onTap,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -285,7 +292,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Section Title
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -297,7 +303,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Section Content
   Widget _buildSectionContent(String content) {
     return Card(
       elevation: 4,
@@ -314,7 +319,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Team Member Card
   Widget _buildTeamMemberCard(String name, String id) {
     return Card(
       elevation: 4,
