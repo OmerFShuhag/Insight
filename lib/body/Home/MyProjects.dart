@@ -27,7 +27,6 @@ class MyProjects extends StatelessWidget {
             );
           },
         ),
-
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 30.0),
           child: FloatingActionButton(
@@ -43,7 +42,6 @@ class MyProjects extends StatelessWidget {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
       ),
     );
   }
@@ -66,6 +64,7 @@ class _ProjectCardState extends State<ProjectCard> {
   void initState() {
     super.initState();
     _cardColor = _generateRandomColor();
+    MyProjectViewModel().fetchUserCreatedProjects();
   }
 
   Color _generateRandomColor() {
@@ -151,8 +150,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFF515959),
-                    fontWeight: FontWeight.bold
-                ),
+                    fontWeight: FontWeight.bold),
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.delete, color: Colors.white),
@@ -171,8 +169,7 @@ class _ProjectCardState extends State<ProjectCard> {
                         style: const TextStyle(
                             color: Color(0xFF353D3D),
                             fontWeight: FontWeight.bold,
-                            fontSize: 14
-                        ),
+                            fontSize: 14),
                       ),
                     ),
                     Padding(

@@ -1,5 +1,10 @@
 // lib/body/MyProjectDetail.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:insight/body/databaseViewModel2.dart';
+import 'package:insight/body/databseViewModel.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:provider/provider.dart';
 import 'MyProjectClass.dart';
 import 'EditProjectPage.dart';
@@ -16,91 +21,106 @@ class MyProjectDetail extends StatefulWidget {
 }
 
 class _MyProjectDetailState extends State<MyProjectDetail> {
-  late MyProjectClass _project;
-  late TextEditingController _descriptionController;
-  late TextEditingController _githubLinkController;
-  late TextEditingController _docLinkController;
-  late TextEditingController _teamMembersController;
+  bool _showGitHubLink = false;
+  bool _showDocLink = false;
+  bool isFavorite = false;
   bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    _project = widget.project;
-    _descriptionController = TextEditingController(text: _project.description);
-    _githubLinkController = TextEditingController(text: _project.githubLink);
-    _docLinkController = TextEditingController(text: _project.DocLink);
-    _teamMembersController =
-        TextEditingController(text: _project.teamMembers.join(', '));
+    MyProjectViewModel().fetchUserCreatedProjects();
+    _checkFavorite();
   }
 
-  @override
-  void dispose() {
-    _descriptionController.dispose();
-    _githubLinkController.dispose();
-    _docLinkController.dispose();
-    _teamMembersController.dispose();
-    super.dispose();
-  }
-
-  void _updateProjectDetails(MyProjectClass updatedProject) {
+  Future<void> _checkFavorite() async {
+    final projectViewModel =
+        Provider.of<ProjectViewModel>(context, listen: false);
+    bool favStat = await projectViewModel.isFavoriteProject(widget.project.id);
     setState(() {
-      _project = updatedProject;
-      _descriptionController.text = updatedProject.description;
-      _githubLinkController.text = updatedProject.githubLink;
-      _docLinkController.text = updatedProject.DocLink;
-      _teamMembersController.text = updatedProject.teamMembers.join(', ');
+      isFavorite = favStat;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_project.projectName),
-        backgroundColor: const Color(0xFF0ABAB5),
-      ),
-      body: Padding(
+      backgroundColor: const Color(0xFFEEFCFC), // Set background color
+      appBar: _buildAppBar(context),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-              maxLines: 3,
-            ),
-            TextField(
-              controller: _githubLinkController,
-              decoration: InputDecoration(labelText: 'GitHub Link'),
-            ),
-            TextField(
-              controller: _docLinkController,
-              decoration: InputDecoration(labelText: 'DocLink'),
-            ),
-            TextField(
-              controller: _teamMembersController,
-              decoration:
-                  InputDecoration(labelText: 'Team Members (comma separated)'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedProject = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProjectPage(project: _project),
-                  ),
-                );
-                if (updatedProject != null) {
-                  _updateProjectDetails(updatedProject);
-                }
+            // Description Section
+            _buildSectionTitle('Description'),
+            _buildSectionContent(widget.project.description),
+            const SizedBox(height: 20),
+
+            // GitHub Link Section
+            _buildLinkSection(
+              context,
+              'GitHub Repository',
+              Icons.code,
+              widget.project.githubLink,
+              _showGitHubLink,
+              () {
+                setState(() {
+                  _showGitHubLink = !_showGitHubLink;
+                });
               },
-              child: Text('Edit Project'),
-            )
+            ),
+            const SizedBox(height: 16),
+
+            // Documentation Link Section
+            _buildLinkSection(
+              context,
+              'See Doc File',
+              Icons.description,
+              widget.project.DocLink,
+              _showDocLink,
+              () {
+                setState(() {
+                  _showDocLink = !_showDocLink;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+
+            // Supervisor Section
+            _buildSectionTitle('Supervisor'),
+            _buildsuperVisorCard(widget.project.supervisorName),
+            const SizedBox(height: 20),
+
+            // Team Members Section
+            _buildSectionTitle('Team Members'),
+            ...widget.project.teamMembers.map((member) {
+              return _buildTeamMemberCard(member['name']!, member['id']!);
+            }).toList(),
+            const SizedBox(height: 20),
+
+            // Category Section
+            _buildSectionTitle('Category'),
+            _buildInfoRow(Icons.category, 'Category', widget.project.category),
+            const SizedBox(height: 20),
+
+            // Tags Section
+            _buildSectionTitle('Tags'),
+            Wrap(
+              spacing: 8,
+              children: widget.project.tags
+                  .map((tag) => Chip(
+                        label: Text(tag),
+                        backgroundColor:
+                            const Color(0xFF0ABAB5).withOpacity(0.2),
+                        labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
+                      ))
+                  .toList(),
+            ),
           ],
         ),
       ),
+
       floatingActionButton: Stack(
         children: [
           Positioned(
@@ -112,16 +132,14 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                 if (_isExpanded) ...[
                   FloatingActionButton(
                     onPressed: () async {
-                      final updatedProject = await Navigator.push(
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              EditProjectPage(project: _project),
+                          builder: (context) => EditProjectPage(
+                            project: widget.project,
+                          ),
                         ),
                       );
-                      if (updatedProject != null) {
-                        _updateProjectDetails(updatedProject);
-                      }
                     },
                     backgroundColor: const Color(0xFF0ABAB5),
                     foregroundColor: Colors.white,
@@ -163,6 +181,242 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        widget.project.projectName,
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      centerTitle: true,
+      backgroundColor: const Color(0xFF0ABAB5), // AppBar color
+      elevation: 0,
+      iconTheme: const IconThemeData(color: Colors.white),
+      actions: [
+        IconButton(
+          icon: Icon(isFavorite ? Icons.delete : Icons.favorite_border),
+          onPressed: () => _showConfirmationDialog(context),
+        ),
+      ],
+    );
+  }
+
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor:
+              isFavorite ? Colors.red.shade50 : Colors.green.shade50,
+          title: Text(
+            isFavorite ? 'Remove from Favorites?' : 'Add to Favorites?',
+            style: TextStyle(
+                color: isFavorite ? Colors.redAccent : Colors.green,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Text(isFavorite
+              ? 'Are you sure you want to remove this project from favorites?'
+              : 'Are you sure you want to add this project to favorites?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.black)),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                final projectViewModel =
+                    Provider.of<ProjectViewModel>(context, listen: false);
+                if (isFavorite) {
+                  await projectViewModel.removeFavoriteProject(
+                      widget.project.id, context);
+                } else {
+                  await projectViewModel.addFavoriteProject(
+                      widget.project.id, context);
+                }
+                _checkFavorite();
+              },
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: isFavorite ? Colors.red : Colors.teal),
+              child: Text(isFavorite ? 'Remove' : 'Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Widget for Info Row with Icon
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: const Color(0xFF0ABAB5)),
+        const SizedBox(width: 8),
+        Text(
+          '$label: ',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+
+  // Widget for Link Section
+  Widget _buildLinkSection(
+    BuildContext context,
+    String title,
+    IconData icon,
+    String link,
+    bool showLink,
+    VoidCallback onTap,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Icon(icon, size: 24, color: const Color(0xFF0ABAB5)),
+                  const SizedBox(width: 12),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  Icon(
+                    showLink ? Icons.expand_less : Icons.expand_more,
+                    color: const Color(0xFF0ABAB5),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (showLink)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+            child: InkWell(
+              onTap: () async {
+                if (await canLaunch(link)) {
+                  await launch(link);
+                }
+              },
+              onLongPress: () {
+                Clipboard.setData(ClipboardData(text: link));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Link copied to clipboard')),
+                );
+              },
+              child: Text(
+                link,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  // Widget for Section Title
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF0ABAB5),
+      ),
+    );
+  }
+
+  // Widget for Section Content
+  Widget _buildSectionContent(String content) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          content,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  // Widget for Team Member Card
+  Widget _buildTeamMemberCard(String name, String id) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            const Icon(Icons.supervised_user_circle,
+                size: 20, color: Color(0xFF0ABAB5)),
+            const SizedBox(width: 8),
+            Text(
+              '$name',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const Spacer(),
+            Text(
+              '$id',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildsuperVisorCard(String name) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            const Icon(Icons.person, size: 20, color: Color(0xFF0ABAB5)),
+            const SizedBox(width: 8),
+            Text(
+              '$name',
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }

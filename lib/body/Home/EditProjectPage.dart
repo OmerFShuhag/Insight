@@ -1,5 +1,12 @@
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:insight/body/Home/MyProjectDetail.dart';
+import 'package:insight/body/Home/MyProjects.dart';
+import 'package:insight/body/databaseViewModel2.dart';
+import 'package:insight/validators.dart';
 import 'MyProjectClass.dart';
 
 class EditProjectPage extends StatefulWidget {
@@ -12,226 +19,475 @@ class EditProjectPage extends StatefulWidget {
 }
 
 class _EditProjectPageState extends State<EditProjectPage> {
-  late TextEditingController _descriptionController;
-  late TextEditingController _githubLinkController;
-  late TextEditingController _docLinkController;
-  late TextEditingController _teamMemberNameController;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _projectNameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _supervisorNameController =
+      TextEditingController();
+  final TextEditingController _githubLinkController = TextEditingController();
+  final TextEditingController _docLinkController = TextEditingController();
+
+  String _selectedCategory = 'E-Commerce';
+  final List<String> _categories = [
+    'E-Commerce',
+    'Education/E-learning',
+    'Lifestyle',
+    'Entertainment',
+    'Ticket-Booking',
+    'Game',
+    'Health & Fitness',
+    'Productivity',
+    'Travel',
+    'Medical',
+    'News',
+    'Social Media',
+    'Self-Care',
+    'Others'
+  ];
+
   List<Map<String, String>> _teamMembers = [];
+  final int _maxTeamMembers = 3;
+  List<String> _selectedTags = [];
+  final List<String> _availableTags = [
+    'Android',
+    'Web',
+    'C++',
+    'Flutter',
+    'CSS',
+    'Node',
+    'React',
+    'Python',
+    'Java',
+    'JavaScript',
+  ];
+
+  bool _isFormValid = false;
+  bool _teamMembersTouched = false;
 
   @override
   void initState() {
     super.initState();
-    _descriptionController = TextEditingController(text: widget.project.description);
-    _githubLinkController = TextEditingController(text: widget.project.githubLink);
-    _docLinkController = TextEditingController(text: widget.project.DocLink);
-    _teamMemberNameController = TextEditingController();
-    _teamMembers = List.from(widget.project.teamMembers);
+    _projectNameController.text = widget.project.projectName;
+    _descriptionController.text = widget.project.description;
+    _selectedCategory = widget.project.category;
+    _teamMembers = widget.project.teamMembers;
+    _supervisorNameController.text = widget.project.supervisorName;
+    _githubLinkController.text = widget.project.githubLink;
+    _docLinkController.text = widget.project.DocLink;
+    _selectedTags = widget.project.tags;
   }
 
-  @override
-  void dispose() {
-    _descriptionController.dispose();
-    _githubLinkController.dispose();
-    _docLinkController.dispose();
-    _teamMemberNameController.dispose();
-    super.dispose();
-  }
-
-  void _addTeamMember() {
-    if (_teamMemberNameController.text.isNotEmpty) {
+  void _addTeamMember(String name, String id) {
+    if (_teamMembers.length < _maxTeamMembers) {
       setState(() {
-        _teamMembers.add({'name': _teamMemberNameController.text});
-        _teamMemberNameController.clear();
+        _teamMembers.add({'name': name, 'id': id});
+        _teamMembersTouched = true;
       });
+      _checkFormValidity();
     }
   }
 
   void _removeTeamMember(int index) {
     setState(() {
       _teamMembers.removeAt(index);
+      _teamMembersTouched = true;
+    });
+    _checkFormValidity();
+  }
+
+  void _checkFormValidity() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    final teamValid = _teamMembers.isNotEmpty;
+    setState(() {
+      _isFormValid = isValid && teamValid;
     });
   }
 
-  void _saveChanges() async {
-    final updatedProject = MyProjectClass(
-      UserId: widget.project.UserId,
-      id: widget.project.id,
-      projectName: widget.project.projectName,
-      description: _descriptionController.text,
-      category: widget.project.category,
-      teamMembers: _teamMembers,
-      supervisorName: widget.project.supervisorName,
-      githubLink: _githubLinkController.text,
-      DocLink: _docLinkController.text,
-      tags: widget.project.tags,
-    );
+  // Save Project Function
+  Future<void> _saveProject() async {
+    if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
+      final Uproject = MyProjectClass(
+        UserId: FirebaseAuth.instance.currentUser!.uid,
+        id: widget.project.id,
+        projectName: _projectNameController.text,
+        description: _descriptionController.text,
+        category: _selectedCategory,
+        teamMembers: _teamMembers,
+        supervisorName: _supervisorNameController.text,
+        githubLink: _githubLinkController.text,
+        DocLink: _docLinkController.text,
+        tags: _selectedTags,
+      );
 
-    await FirebaseFirestore.instance
-        .collection('projects')
-        .doc(widget.project.id)
-        .update(updatedProject.toMap());
+      try {
+        await FirebaseFirestore.instance
+            .collection('projects')
+            .doc(widget.project.id)
+            .update(Uproject.toMap());
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Project updated successfully!')),
-    );
+        // Fetch updated projects here
+        await MyProjectViewModel().fetchUserCreatedProjects();
 
-    Navigator.pop(context, updatedProject); // Pass the updated project back
+        // Reset form and go back
+        _formKey.currentState!.reset();
+        setState(() {
+          _teamMembers.clear();
+          _selectedTags.clear();
+          _selectedCategory = _categories.first;
+          _teamMembersTouched = false;
+          _isFormValid = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Project updated successfully!')),
+        );
+        //Navigator.pop(context, Uproject);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MyProjects()));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error adding project: $e')),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Project')),
-      body: Padding(
+      appBar: AppBar(
+        title: const Text(
+          'Edit Project',
+          style: TextStyle(
+            fontSize: 24,
+            color: const Color.fromARGB(255, 243, 243, 243),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-            ),
-            TextField(
-              controller: _githubLinkController,
-              decoration: InputDecoration(labelText: 'GitHub Link'),
-            ),
-            TextField(
-              controller: _docLinkController,
-              decoration: InputDecoration(labelText: 'Doc Link'),
-            ),
-            const SizedBox(height: 20),
-            Text('Team Members:', style: TextStyle(fontWeight: FontWeight.bold)),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _teamMembers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_teamMembers[index]['name']!),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => _removeTeamMember(index),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTextField(
+                controller: _projectNameController,
+                label: 'Project Name',
+                validator: (value) =>
+                    Validators.validateField(value, 'Project Name'),
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _descriptionController,
+                label: 'Description',
+                maxLines: 3,
+                validator: (value) =>
+                    Validators.validateField(value, 'Description'),
+              ),
+              const SizedBox(height: 10),
+              _buildDropdownField(),
+              const SizedBox(height: 16.0),
+              _buildTeamMembersSection(),
+              const SizedBox(height: 20.0),
+              _buildTextField(
+                controller: _supervisorNameController,
+                label: 'Supervisor Name',
+                validator: (value) =>
+                    Validators.validateField(value, 'Supervisor Name'),
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _githubLinkController,
+                label: 'GitHub Link',
+                // validator: (value) =>
+                //     Validators.validateField(value, 'GitHub Link'),
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _docLinkController,
+                label: 'Documentation Link',
+                // validator: (value) =>
+                //     Validators.validateField(value, 'Document Link'),
+              ),
+              const SizedBox(height: 10),
+              _buildTagsSection(),
+              const SizedBox(height: 20.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _isFormValid ? _saveProject : null,
+                  style: TextButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 10, 186, 180),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  child: const Text(
+                    'Update Project',
+                    style: const TextStyle(color: Colors.white, fontSize: 17),
                   ),
-                );
-              },
-            ),
-            TextField(
-              controller: _teamMemberNameController,
-              decoration: InputDecoration(
-                labelText: 'Add Team Member',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: _addTeamMember,
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveChanges,
-              child: Text('Save Changes'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    FormFieldValidator<String>? validator,
+    int maxLines = 1,
+  }) {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      controller: controller,
+      style: TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+      ),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.teal,
+        ),
+        filled: true,
+        fillColor: Colors.teal.shade50,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.teal, width: 2)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(color: Colors.teal, width: 2),
+        ),
+      ),
+      maxLines: maxLines,
+      validator: validator,
+      onChanged: (_) => _checkFormValidity(),
+    );
+  }
+
+  Widget _buildDropdownField() {
+    return DropdownButtonFormField(
+      value: _selectedCategory,
+      decoration: const InputDecoration(labelText: 'Category'),
+      items: _categories.map((category) {
+        return DropdownMenuItem(
+          value: category,
+          child: Text(category),
+        );
+      }).toList(),
+      onChanged: (value) {
+        setState(() {
+          _selectedCategory = value as String;
+        });
+      },
+    );
+  }
+
+  Widget _buildTeamMembersSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Team Members (Max $_maxTeamMembers):',
+          style: const TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        if (_teamMembers.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border.all(color: Colors.grey[300]!),
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: _teamMembers.asMap().entries.map((entry) {
+                int index = entry.key;
+                Map<String, String> member = entry.value;
+                return ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  title: Text(
+                    'Name: ${member['name']}',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text('ID: ${member['id']}'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () => _removeTeamMember(index),
+                  ),
+                );
+              }).toList(),
+            ),
+          )
+        else
+          const Text(
+            'No team members added yet.',
+            style: TextStyle(color: Colors.grey),
+          ),
+        if (_teamMembersTouched && _teamMembers.isEmpty)
+          const Text(
+            'Please add at least one team member.',
+            style: TextStyle(color: Colors.red),
+          ),
+        if (_teamMembers.length < _maxTeamMembers)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: ElevatedButton.icon(
+              onPressed: _showAddTeamMemberDialog,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Team Member     '),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 22, 190, 154),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _showAddTeamMemberDialog() {
+    final nameController = TextEditingController();
+    final idController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Add Team Member',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextField(
+                  controller: nameController,
+                  label: 'Name',
+                  validator: (value) =>
+                      Validators.validateField(value, 'Team Member Name'),
+                ),
+                const SizedBox(height: 8.0),
+                _buildTextField(
+                  controller: idController,
+                  label: 'ID',
+                  // validator: (value) =>
+                  //     Validators.validateField(value, 'Team Member ID'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (nameController.text.isNotEmpty &&
+                    idController.text.isNotEmpty) {
+                  _addTeamMember(nameController.text, idController.text);
+                  Navigator.pop(context);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 22, 190, 154),
+              ),
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTagsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Tags:',
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        Container(
+          padding: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            border: Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0,
+            children: _availableTags.map((tag) {
+              return FilterChip(
+                label: Text(tag),
+                selected: _selectedTags.contains(tag),
+                onSelected: (isSelected) {
+                  setState(() {
+                    if (isSelected) {
+                      _selectedTags.add(tag);
+                    } else {
+                      _selectedTags.remove(tag);
+                    }
+                  });
+                  _checkFormValidity();
+                },
+                selectedColor: Colors.blueAccent.withOpacity(0.2),
+                checkmarkColor: Colors.blueAccent,
+                backgroundColor: Colors.white,
+                labelStyle: TextStyle(
+                  color: _selectedTags.contains(tag)
+                      ? Colors.blueAccent
+                      : Colors.black87,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  side: BorderSide(
+                    color: _selectedTags.contains(tag)
+                        ? Colors.blueAccent
+                        : Colors.grey,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
 }
-
-
-// import 'package:flutter/material.dart';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'MyProjectClass.dart';
-//
-// class EditProjectPage extends StatefulWidget {
-//   final MyProjectClass project;
-//
-//   const EditProjectPage({Key? key, required this.project}) : super(key: key);
-//
-//   @override
-//   _EditProjectPageState createState() => _EditProjectPageState();
-// }
-//
-// class _EditProjectPageState extends State<EditProjectPage> {
-//   late TextEditingController _descriptionController;
-//   late TextEditingController _githubLinkController;
-//   late TextEditingController _docLinkController;
-//   late TextEditingController _teamMembersController;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _descriptionController = TextEditingController(text: widget.project.description);
-//     _githubLinkController = TextEditingController(text: widget.project.githubLink);
-//     _docLinkController = TextEditingController(text: widget.project.DocLink);
-//     _teamMembersController = TextEditingController(text: widget.project.teamMembers.map((e) => e['name']).join(', '));
-//   }
-//
-//   @override
-//   void dispose() {
-//     _descriptionController.dispose();
-//     _githubLinkController.dispose();
-//     _docLinkController.dispose();
-//     _teamMembersController.dispose();
-//     super.dispose();
-//   }
-//
-//   void _saveChanges() async {
-//     final updatedProject = MyProjectClass(
-//       UserId: widget.project.UserId,
-//       id: widget.project.id,
-//       projectName: widget.project.projectName,
-//       description: _descriptionController.text,
-//       category: widget.project.category,
-//       teamMembers: _teamMembersController.text.split(', ').map((e) => {'name': e}).toList(),
-//       supervisorName: widget.project.supervisorName,
-//       githubLink: _githubLinkController.text,
-//       DocLink: _docLinkController.text,
-//       tags: widget.project.tags,
-//     );
-//
-//     await FirebaseFirestore.instance
-//         .collection('projects')
-//         .doc(widget.project.id)
-//         .update(updatedProject.toMap());
-//
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(content: Text('Project updated successfully!')),
-//     );
-//
-//     Navigator.pop(context, updatedProject); // Pass the updated project back
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Edit Project')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: _descriptionController,
-//               decoration: InputDecoration(labelText: 'Description'),
-//             ),
-//             TextField(
-//               controller: _githubLinkController,
-//               decoration: InputDecoration(labelText: 'GitHub Link'),
-//             ),
-//             TextField(
-//               controller: _docLinkController,
-//               decoration: InputDecoration(labelText: 'Doc Link'),
-//             ),
-//             TextField(
-//               controller: _teamMembersController,
-//               decoration: InputDecoration(labelText: 'Team Members: '),
-//             ),
-//             const SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: _saveChanges,
-//               child: Text('Save Changes'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -47,12 +47,15 @@ class _AddProjectPageState extends State<AddProjectPage> {
     'Web',
     'C++',
     'Flutter',
+    'HTML',
     'CSS',
     'Node',
     'React',
     'Python',
     'Java',
     'JavaScript',
+    'Kotlin',
+    'Jetpack Compose'
   ];
 
   bool _isFormValid = false;
@@ -169,6 +172,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               _buildDropdownField(),
               const SizedBox(height: 16.0),
               _buildTeamMembersSection(),
+              const SizedBox(height: 20.0),
               _buildTextField(
                 controller: _supervisorNameController,
                 label: 'Supervisor Name',
@@ -195,7 +199,14 @@ class _AddProjectPageState extends State<AddProjectPage> {
               Center(
                 child: ElevatedButton(
                   onPressed: _isFormValid ? _saveProject : null,
-                  child: const Text('Save Project'),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 10, 186, 180),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  child: const Text(
+                    'Save Project',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
                 ),
               ),
             ],
@@ -214,8 +225,26 @@ class _AddProjectPageState extends State<AddProjectPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
-      decoration:
-          InputDecoration(labelText: label, border: const OutlineInputBorder()),
+      style: TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+      ),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.teal,
+        ),
+        filled: true,
+        fillColor: Colors.teal.shade50,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.teal, width: 2)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(color: Colors.teal, width: 2),
+        ),
+      ),
       maxLines: maxLines,
       validator: validator,
       onChanged: (_) => _checkFormValidity(),
