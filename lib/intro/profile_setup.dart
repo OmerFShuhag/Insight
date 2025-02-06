@@ -309,11 +309,31 @@ class _ProfileSetupState extends State<ProfileSetup> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Semester Information'),
-        content: const Text(
-            'Please select the semester and year of your admission.'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+                'Please select the semester and year of your admission.'),
+            const SizedBox(height: 8),
+            const Text(
+              'Remember this is not the current semester you are studying. '
+              'This is the semester you were admitted.',
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'You can find it in the lus.ac.bd/result. '
+              'The semester is written along with your ID.',
+            ),
+          ],
+        ),
         actions: <Widget>[
           TextButton(
-            child: const Text('OK'),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.teal,
+            ),
+            child: const Text('OK',
+                style: TextStyle(fontSize: 16, color: Colors.white)),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
@@ -334,7 +354,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
       child: Text(
         isProfileInfoSet ? 'Update Profile' : 'Save Profile',
-        //selectionColor: Color.fromARGB(255, 10, 186, 180);,
         style: const TextStyle(color: Colors.white, fontSize: 17),
       ),
     );
