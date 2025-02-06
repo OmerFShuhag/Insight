@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Home/MyProjectClass.dart';
-import 'Home/EditProjectPage.dart';
-
+// import 'Home/EditProjectPage.dart';
 
 class MyProjectViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,7 +19,8 @@ class MyProjectViewModel extends ChangeNotifier {
           .where('UserId', isEqualTo: userId)
           .get();
       _myProjects = snapshot.docs
-          .map((doc) => MyProjectClass.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .map((doc) => MyProjectClass.fromMap(
+              doc.id, doc.data() as Map<String, dynamic>))
           .toList();
       notifyListeners();
     } catch (e) {

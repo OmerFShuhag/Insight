@@ -1,10 +1,10 @@
 // lib/body/MyProjectDetail.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'MyProjectClass.dart';
 import 'EditProjectPage.dart';
 import 'myHomePage.dart';
-import 'package:insight/body/databaseViewModel2.dart';
+// import 'package:insight/body/databaseViewModel2.dart';
 
 class MyProjectDetail extends StatefulWidget {
   final MyProjectClass project;
@@ -30,7 +30,8 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     _descriptionController = TextEditingController(text: _project.description);
     _githubLinkController = TextEditingController(text: _project.githubLink);
     _docLinkController = TextEditingController(text: _project.DocLink);
-    _teamMembersController = TextEditingController(text: _project.teamMembers.join(', '));
+    _teamMembersController =
+        TextEditingController(text: _project.teamMembers.join(', '));
   }
 
   @override
@@ -79,7 +80,8 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             ),
             TextField(
               controller: _teamMembersController,
-              decoration: InputDecoration(labelText: 'Team Members (comma separated)'),
+              decoration:
+                  InputDecoration(labelText: 'Team Members (comma separated)'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -113,7 +115,8 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                       final updatedProject = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditProjectPage(project: _project),
+                          builder: (context) =>
+                              EditProjectPage(project: _project),
                         ),
                       );
                       if (updatedProject != null) {
@@ -131,13 +134,15 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyHomePage(), // Navigate to MyHomePage
+                          builder: (context) =>
+                              MyHomePage(), // Navigate to MyHomePage
                         ),
                       );
                     },
                     mini: true,
                     backgroundColor: const Color(0xFFBEFFFD),
-                    child: const ImageIcon(AssetImage('assets/icons/chatbot.png')),
+                    child:
+                        const ImageIcon(AssetImage('assets/icons/chatbot.png')),
                   ),
                   const SizedBox(height: 8),
                 ],
@@ -149,7 +154,10 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                   },
                   backgroundColor: const Color(0xFFBEFFFD),
                   foregroundColor: Colors.white,
-                  child: _isExpanded ? Icon(Icons.close) : Image.asset('assets/icons/spread.gif', height: 40, width: 40, fit: BoxFit.cover),
+                  child: _isExpanded
+                      ? Icon(Icons.close)
+                      : Image.asset('assets/icons/spread.gif',
+                          height: 40, width: 40, fit: BoxFit.cover),
                 ),
               ],
             ),

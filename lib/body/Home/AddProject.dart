@@ -5,18 +5,19 @@ import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart' as projectClass;
 import 'package:insight/body/homepage.dart';
 import 'package:insight/validators.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class AddProjectPage extends StatefulWidget {
   @override
   _AddProjectPageState createState() => _AddProjectPageState();
 }
+
 class _AddProjectPageState extends State<AddProjectPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _supervisorNameController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _githubLinkController = TextEditingController();
   final TextEditingController _docLinkController = TextEditingController();
 
@@ -214,7 +215,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration:
-      InputDecoration(labelText: label, border: const OutlineInputBorder()),
+          InputDecoration(labelText: label, border: const OutlineInputBorder()),
       maxLines: maxLines,
       validator: validator,
       onChanged: (_) => _checkFormValidity(),

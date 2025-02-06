@@ -4,7 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:insight/body/bottom_bar/profile.dart';
-import 'package:insight/intro/auth_service.dart';
+// import 'package:insight/intro/auth_service.dart';
 // import 'package:insight/body/bottom_bar/profile.dart';
 import 'package:insight/body/bottom_bar/favorite.dart';
 import 'package:insight/body/bottom_bar/dashboard.dart';
@@ -12,6 +12,8 @@ import 'package:insight/body/bottom_bar/dashboard.dart';
 // import 'package:insight/intro/profile_setup.dart';
 
 class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -30,7 +32,7 @@ class _HomepageState extends State<Homepage> {
       'title': 'Favorite Projects',
     },
     {
-      'page': Profile(),
+      'page': const Profile(),
       'title': 'Profile',
     },
   ];
@@ -91,7 +93,7 @@ class _HomepageState extends State<Homepage> {
 
   Widget _buildBar() {
     return CurvedNavigationBar(
-      animationDuration: Duration(milliseconds: 200),
+      animationDuration: const Duration(milliseconds: 200),
       backgroundColor: Colors.white,
       color: _selectedColor,
       buttonBackgroundColor: _selectedColor,

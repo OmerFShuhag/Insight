@@ -35,7 +35,12 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Projects'),
+        title: Text('All Projects',
+            style: TextStyle(
+              color: Colors.white,
+            )),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 10, 186, 180),
       ),
       body: Column(
         children: [
@@ -44,11 +49,18 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Search Projects',
+                //labelText: 'Search Projects',
+                hintText: 'Search Projects',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(color: Colors.teal, width: 2)),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  borderSide: BorderSide(color: Colors.teal, width: 2),
                 ),
+                filled: true,
+                fillColor: Colors.teal.shade50,
               ),
             ),
           ),
