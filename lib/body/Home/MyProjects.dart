@@ -37,7 +37,7 @@ class MyProjects extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => MyHomePage()),
               );
             },
-            child: Icon(Icons.chat),
+            child: Image.asset('assets/icons/chatbot_2.jpg'),
             backgroundColor: Color.fromARGB(255, 10, 186, 180),
           ),
         ),

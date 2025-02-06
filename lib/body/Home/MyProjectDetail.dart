@@ -159,8 +159,8 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                     },
                     mini: true,
                     backgroundColor: const Color(0xFFBEFFFD),
-                    child:
-                        const ImageIcon(AssetImage('assets/icons/chatbot.png')),
+                    child: const ImageIcon(
+                        AssetImage('assets/icons/chatbot_2.jpg')),
                   ),
                   const SizedBox(height: 8),
                 ],
