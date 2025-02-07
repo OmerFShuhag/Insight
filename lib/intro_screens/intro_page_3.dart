@@ -5,7 +5,8 @@ class IntroPage3 extends StatefulWidget {
   _IntroPage3State createState() => _IntroPage3State();
 }
 
-class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateMixin {
+class _IntroPage3State extends State<IntroPage3>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -17,24 +18,25 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: Duration(milliseconds: 100),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
+    _slideAnimation =
+        Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    Future.delayed(Duration(seconds: 6), () {
+    Future.delayed(Duration(seconds: 3), () {
       setState(() {
-        isDoneVisible = true;  // Make "Done" button visible after 6 seconds
+        isDoneVisible = true; // Make "Done" button visible after 6 seconds
       });
     });
 
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 200), () {
       _controller.forward();
     });
   }
@@ -51,11 +53,7 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF048C87),
-              Color(0xFF00BBB4),
-              Color(0xFF004E64)
-            ],
+            colors: [Color(0xFF048C87), Color(0xFF00BBB4), Color(0xFF004E64)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

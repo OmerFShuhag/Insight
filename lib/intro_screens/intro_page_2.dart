@@ -5,13 +5,14 @@ class IntroPage2 extends StatefulWidget {
   _IntroPage2State createState() => _IntroPage2State();
 }
 
-class _IntroPage2State extends State<IntroPage2> with SingleTickerProviderStateMixin {
+class _IntroPage2State extends State<IntroPage2>
+    with SingleTickerProviderStateMixin {
   double opacityLevel = 0.0;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         opacityLevel = 1.0;
       });
@@ -37,7 +38,7 @@ class _IntroPage2State extends State<IntroPage2> with SingleTickerProviderStateM
         child: Center(
           child: TweenAnimationBuilder(
             tween: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero),
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 200),
             curve: Curves.easeOut,
             builder: (context, Offset offset, child) {
               return Transform.translate(

@@ -42,7 +42,6 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 20),
                 _buildLoginCard(context),
                 const SizedBox(height: 10),
-                _buildFooterText(),
                 const SizedBox(height: 10),
               ],
             ),
@@ -52,7 +51,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Widget for top navigation buttons (Login and SignUp)
   Widget _buildTopNavigation() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -144,11 +142,13 @@ class _LoginState extends State<Login> {
       onPressed: () {
         Navigator.pushReplacementNamed(context, '/forgetPassword');
       },
-      child: const Text("Forget Password"),
+      child: const Text(
+        "Forget Password",
+        style: TextStyle(color: Colors.black),
+      ),
     );
   }
 
-  // Widget for the login button
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
@@ -160,17 +160,10 @@ class _LoginState extends State<Login> {
           );
         }
       },
-      child: const Text('Log In'),
-    );
-  }
-
-  // Widget for footer text
-  Widget _buildFooterText() {
-    return const Column(
-      children: [
-        Text('Already have an account? Login'),
-        SizedBox(height: 10),
-      ],
+      child: const Text(
+        'Log In',
+        style: TextStyle(color: Colors.teal),
+      ),
     );
   }
 }
