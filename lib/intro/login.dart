@@ -57,14 +57,23 @@ class _LoginState extends State<Login> {
       children: [
         TextButton(
           onPressed: () {},
-          child: const Text('Log In'),
+          child: const Text(
+            'Sign In',
+            style: TextStyle(color: Colors.grey),
+          ),
         ),
-        TextButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/signup');
-          },
-          child: const Text("SignUp"),
-        ),
+        Card(
+            elevation: 5.0,
+            color: Color.fromARGB(255, 22, 197, 183),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/signup');
+              },
+              child: const Text(
+                "SignUp",
+                style: TextStyle(color: Colors.white),
+              ),
+            )),
       ],
     );
   }
@@ -100,9 +109,19 @@ class _LoginState extends State<Login> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: emailController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Email',
-        border: OutlineInputBorder(),
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: const Color.fromARGB(255, 255, 255, 255)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
+        ),
       ),
       validator: (value) {
         return Validators.validateEmail(value ?? '');
@@ -118,7 +137,15 @@ class _LoginState extends State<Login> {
       obscureText: !_isPasswordVisible,
       decoration: InputDecoration(
         labelText: 'Password',
-        border: const OutlineInputBorder(),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,

@@ -15,9 +15,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final _formkey = GlobalKey<FormState>();
-  bool _passwordVisible = false; // Tracks visibility of the password field
-  bool _confirmPasswordVisible =
-      false; // Tracks visibility of the confirm password field
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +68,25 @@ class _SignUpPageState extends State<SignUpPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/login');
-          },
-          child: const Text('Log In'),
+        Card(
+          elevation: 5.0,
+          color: const Color.fromARGB(255, 22, 197, 183),
+          child: TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            child: const Text(
+              'Log In',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
         TextButton(
-          onPressed: () {
-            // Remain on the current screen
-          },
-          child: const Text('Sign Up'),
+          onPressed: () {},
+          child: const Text(
+            'Sign Up',
+            style: TextStyle(color: Colors.grey),
+          ),
         ),
       ],
     );
@@ -126,9 +133,18 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: emailController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Email',
-        border: OutlineInputBorder(),
+        labelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
+        ),
       ),
       validator: (value) {
         return Validators.validateEmail(value ?? '');
@@ -142,7 +158,15 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: passwordController,
       decoration: InputDecoration(
         labelText: 'Password',
-        border: const OutlineInputBorder(),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible ? Icons.visibility : Icons.visibility_off,
@@ -158,8 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (value) {
         return Validators.validatePassword(value ?? '');
       },
-      obscureText:
-          !_passwordVisible, // Hide/show password based on _passwordVisible
+      obscureText: !_passwordVisible,
     );
   }
 
@@ -169,7 +192,15 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: confirmPasswordController,
       decoration: InputDecoration(
         labelText: 'Confirm Password',
-        border: const OutlineInputBorder(),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _confirmPasswordVisible ? Icons.visibility : Icons.visibility_off,

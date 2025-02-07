@@ -68,7 +68,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       'Forget Password',
       style: TextStyle(
         fontSize: 24,
-        color: Color.fromARGB(255, 128, 12, 173),
+        color: Color.fromARGB(255, 255, 255, 255),
       ),
     );
   }
@@ -81,8 +81,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: 'Email',
+        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 15, 105, 96), width: 2),
         ),
       ),
       validator: (value) {
@@ -102,7 +108,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           );
         }
       },
-      child: const Text('Send Reset Link'),
+      child: const Text(
+        'Send Reset Link',
+        style: TextStyle(color: Colors.teal),
+      ),
     );
   }
 
