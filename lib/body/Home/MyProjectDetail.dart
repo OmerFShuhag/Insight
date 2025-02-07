@@ -1,15 +1,12 @@
-// lib/body/MyProjectDetail.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insight/body/databaseViewModel2.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:provider/provider.dart';
 import 'MyProjectClass.dart';
 import 'EditProjectPage.dart';
 import 'myHomePage.dart';
-// import 'package:insight/body/databaseViewModel2.dart';
 
 class MyProjectDetail extends StatefulWidget {
   final MyProjectClass project;
@@ -45,19 +42,16 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEEFCFC), // Set background color
+      backgroundColor: const Color(0xFFEEFCFC),
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             _buildSectionTitle('Description'),
             _buildSectionContent(widget.project.description),
             const SizedBox(height: 20),
-
-
             _buildLinkSection(
               context,
               'GitHub Repository',
@@ -71,8 +65,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
               },
             ),
             const SizedBox(height: 16),
-
-
             _buildLinkSection(
               context,
               'See Doc File',
@@ -86,24 +78,17 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
               },
             ),
             const SizedBox(height: 20),
-
-
             _buildSectionTitle('Supervisor'),
             _buildsuperVisorCard(widget.project.supervisorName),
             const SizedBox(height: 20),
-
-
             _buildSectionTitle('Team Members'),
             ...widget.project.teamMembers.map((member) {
               return _buildTeamMemberCard(member['name']!, member['id']!);
             }).toList(),
             const SizedBox(height: 20),
-
-
             _buildSectionTitle('Category'),
             _buildInfoRow(Icons.category, 'Category', widget.project.category),
             const SizedBox(height: 20),
-
             _buildSectionTitle('Tags'),
             Wrap(
               spacing: 8,
@@ -119,7 +104,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
           ],
         ),
       ),
-
       floatingActionButton: Stack(
         children: [
           Positioned(
@@ -151,14 +135,14 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage(), // Navigate to MyHomePage
+                          builder: (context) => MyHomePage(),
                         ),
                       );
                     },
                     mini: true,
                     backgroundColor: const Color(0xFFBEFFFD),
-                    child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
+                    child: Image.asset('assets/icons/chatbot2.png',
+                        width: 45, height: 45),
                   ),
                   const SizedBox(height: 8),
                 ],
@@ -191,7 +175,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
-      backgroundColor: const Color(0xFF0ABAB5), // AppBar color
+      backgroundColor: const Color(0xFF0ABAB5),
       elevation: 0,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: [
@@ -267,7 +251,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-
   Widget _buildLinkSection(
     BuildContext context,
     String title,
@@ -336,7 +319,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-  // Widget for Section Title
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -348,7 +330,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-  // Widget for Section Content
   Widget _buildSectionContent(String content) {
     return Card(
       elevation: 4,
@@ -365,7 +346,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-  // Widget for Team Member Card
   Widget _buildTeamMemberCard(String name, String id) {
     return Card(
       elevation: 4,

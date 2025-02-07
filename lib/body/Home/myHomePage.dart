@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'message.dart';
 import 'ai_service.dart';
@@ -90,15 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: message.isUser ? Colors.teal : Colors.grey[300],
                         borderRadius: message.isUser
                             ? const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        )
+                                topLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                              )
                             : const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ),
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                              ),
                       ),
                       child: Text(
                         message.text,
@@ -148,10 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: _loading
                           ? const CircularProgressIndicator()
                           : Image.asset(
-                        'assets/images/send.png',
-                        width: 24,
-                        height: 24,
-                      ),
+                              'assets/images/send.png',
+                              width: 24,
+                              height: 24,
+                            ),
                     ),
                   ),
                 ],

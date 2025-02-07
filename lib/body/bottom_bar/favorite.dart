@@ -47,7 +47,6 @@ class _FavoriteState extends State<Favorite> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                //labelText: 'Search Projects',
                 hintText: 'Search Projects',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(

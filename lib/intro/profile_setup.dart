@@ -76,7 +76,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Profile Setup'),
         centerTitle: true,
@@ -171,7 +170,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
           style: TextStyle(
             color: Colors.teal,
             fontWeight: FontWeight.bold,
-            //backgroundColor: Colors.teal.shade50,
           ),
         ),
         NumberPicker(

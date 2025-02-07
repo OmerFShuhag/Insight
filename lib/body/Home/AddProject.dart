@@ -1,11 +1,11 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, prefer_const_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:insight/body/Project_class.dart' as projectClass;
 import 'package:insight/body/homepage.dart';
 import 'package:insight/validators.dart';
-// import 'package:provider/provider.dart';
 
 class AddProjectPage extends StatefulWidget {
   @override
@@ -47,6 +47,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
     'Web',
     'C++',
     'Flutter',
+    'Dart',
     'HTML',
     'CSS',
     'Node',
@@ -88,7 +89,6 @@ class _AddProjectPageState extends State<AddProjectPage> {
     });
   }
 
-  // Save Project Function
   Future<void> _saveProject() async {
     if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
       const String projectId = '';
@@ -110,10 +110,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
       try {
         await ProjectViewModel().addProject(project, userId, context);
 
-        // Fetch updated projects here
         await ProjectViewModel().fetchUserCreatedProjects(userId);
 
-        // Reset form and go back
         _formKey.currentState!.reset();
         setState(() {
           _teamMembers.clear();
@@ -141,7 +139,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
           'Add Project',
           style: TextStyle(
             fontSize: 24,
-            color: const Color.fromARGB(255, 243, 243, 243),
+            color: Color.fromARGB(255, 243, 243, 243),
           ),
         ),
         centerTitle: true,
@@ -155,6 +153,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTextField(
+                hint: '',
                 controller: _projectNameController,
                 label: 'Project Name',
                 validator: (value) =>
@@ -162,6 +161,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: '',
                 controller: _descriptionController,
                 label: 'Description',
                 maxLines: 3,
@@ -174,6 +174,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               _buildTeamMembersSection(),
               const SizedBox(height: 20.0),
               _buildTextField(
+                hint: '',
                 controller: _supervisorNameController,
                 label: 'Supervisor Name',
                 validator: (value) =>
@@ -181,17 +182,19 @@ class _AddProjectPageState extends State<AddProjectPage> {
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: 'https://github.com/user/repo',
                 controller: _githubLinkController,
                 label: 'GitHub Link',
-                // validator: (value) =>
-                //     Validators.validateField(value, 'GitHub Link'),
+                validator: (value) =>
+                    Validators.validateField(value, 'GitHub Link'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: '',
                 controller: _docLinkController,
                 label: 'Documentation Link',
-                // validator: (value) =>
-                //     Validators.validateField(value, 'Document Link'),
+                validator: (value) =>
+                    Validators.validateField(value, 'Document Link'),
               ),
               const SizedBox(height: 10),
               _buildTagsSection(),
@@ -200,7 +203,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 child: ElevatedButton(
                   onPressed: _isFormValid ? _saveProject : null,
                   style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 10, 186, 180),
+                      backgroundColor: const Color.fromARGB(255, 10, 186, 180),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   child: const Text(
@@ -221,15 +224,17 @@ class _AddProjectPageState extends State<AddProjectPage> {
     required String label,
     FormFieldValidator<String>? validator,
     int maxLines = 1,
+    required String hint,
   }) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         color: Colors.black,
       ),
       decoration: InputDecoration(
+        hintText: hint,
         labelText: label,
         labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
@@ -242,7 +247,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
             borderSide: const BorderSide(color: Colors.teal, width: 2)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
-          borderSide: BorderSide(color: Colors.teal, width: 2),
+          borderSide: const BorderSide(color: Colors.teal, width: 2),
         ),
       ),
       maxLines: maxLines,
@@ -364,6 +369,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildTextField(
+                  hint: 'Name',
                   controller: nameController,
                   label: 'Name',
                   validator: (value) =>
@@ -371,10 +377,11 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 ),
                 const SizedBox(height: 8.0),
                 _buildTextField(
+                  hint: '1234567890123456',
                   controller: idController,
                   label: 'ID',
-                  // validator: (value) =>
-                  //     Validators.validateField(value, 'Team Member ID'),
+                  validator: (value) =>
+                      Validators.validateField(value, 'Team Member ID'),
                 ),
               ],
             ),

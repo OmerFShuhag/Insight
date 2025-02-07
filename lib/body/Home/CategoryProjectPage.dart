@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +9,8 @@ import 'myHomePage.dart';
 class CategoryProjectsPage extends StatelessWidget {
   final String category;
 
-  const CategoryProjectsPage({Key? key, required this.category}) : super(key: key);
+  const CategoryProjectsPage({Key? key, required this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,18 +69,17 @@ class CategoryProjectsPage extends StatelessWidget {
             .where('category', isEqualTo: category)
             .snapshots(),
         builder: (context, snapshot) {
-
           if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
             return FloatingActionButton(
               onPressed: () {
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
-              child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
+              child: Image.asset('assets/icons/chatbot2.png',
+                  width: 45, height: 45),
             );
           } else {
             return const SizedBox.shrink();

@@ -8,7 +8,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // Controllers for email and password input
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -104,12 +103,12 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Widget for the email input field
   Widget _buildEmailField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: emailController,
       decoration: InputDecoration(
+        hintText: 'cse_id@lus.ac.bd',
         labelText: 'Email',
         labelStyle: TextStyle(
             fontWeight: FontWeight.bold,
@@ -129,7 +128,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Widget for the password input field with visibility toggle
   Widget _buildPasswordField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -163,7 +161,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Widget for the forget password button
   Widget _buildForgetPasswordButton(BuildContext context) {
     return TextButton(
       onPressed: () {

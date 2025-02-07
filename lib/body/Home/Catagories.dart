@@ -4,20 +4,76 @@ import 'myHomePage.dart';
 
 class CategoriesPage extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
-    {'icon': 'assets/icons/ecommerce.png', 'name': 'E-Commerce', 'color': Colors.blue[50]},
-    {'icon': 'assets/icons/elearning.png', 'name': 'Education/E-learning', 'color': Colors.green[50]},
-    {'icon': 'assets/icons/daily-tasks.png', 'name': 'Lifestyle', 'color': const Color(0xFFA4E3DA)},
-    {'icon': 'assets/icons/movie.png', 'name': 'Entertainment', 'color': Colors.pink[50]},
-    {'icon': 'assets/icons/ticket_booking.png', 'name': 'Ticket-Booking', 'color': Colors.green[80]},
-    {'icon': 'assets/icons/game-console.png', 'name': 'Game', 'color': Colors.blue[50]},
-    {'icon': 'assets/icons/healthcare.png', 'name': 'Health & Fitness', 'color': Colors.purple[50]},
-    {'icon': 'assets/icons/productivity.png', 'name': 'Productivity', 'color': Colors.teal[50]},
-    {'icon': 'assets/icons/travel.png', 'name': 'Travel', 'color': Colors.blueGrey[50]},
-    {'icon': 'assets/icons/medical-team.png', 'name': 'Medical', 'color': Colors.red[50]},
-    {'icon': 'assets/icons/online-news.png', 'name': 'News', 'color': Colors.yellow[50]},
-    {'icon': 'assets/icons/bullhorn.png', 'name': 'Social Media', 'color': Colors.orange[50]},
-    {'icon': 'assets/icons/shampoo.png', 'name': 'Self-Care', 'color': Colors.purple[50]},
-    {'icon': 'assets/icons/application.png', 'name': 'Others', 'color': Colors.grey[100]},
+    {
+      'icon': 'assets/icons/ecommerce.png',
+      'name': 'E-Commerce',
+      'color': Colors.blue[50]
+    },
+    {
+      'icon': 'assets/icons/elearning.png',
+      'name': 'Education/E-learning',
+      'color': Colors.green[50]
+    },
+    {
+      'icon': 'assets/icons/daily-tasks.png',
+      'name': 'Lifestyle',
+      'color': const Color(0xFFA4E3DA)
+    },
+    {
+      'icon': 'assets/icons/movie.png',
+      'name': 'Entertainment',
+      'color': Colors.pink[50]
+    },
+    {
+      'icon': 'assets/icons/ticket_booking.png',
+      'name': 'Ticket-Booking',
+      'color': Colors.green[80]
+    },
+    {
+      'icon': 'assets/icons/game-console.png',
+      'name': 'Game',
+      'color': Colors.blue[50]
+    },
+    {
+      'icon': 'assets/icons/healthcare.png',
+      'name': 'Health & Fitness',
+      'color': Colors.purple[50]
+    },
+    {
+      'icon': 'assets/icons/productivity.png',
+      'name': 'Productivity',
+      'color': Colors.teal[50]
+    },
+    {
+      'icon': 'assets/icons/travel.png',
+      'name': 'Travel',
+      'color': Colors.blueGrey[50]
+    },
+    {
+      'icon': 'assets/icons/medical-team.png',
+      'name': 'Medical',
+      'color': Colors.red[50]
+    },
+    {
+      'icon': 'assets/icons/online-news.png',
+      'name': 'News',
+      'color': Colors.yellow[50]
+    },
+    {
+      'icon': 'assets/icons/bullhorn.png',
+      'name': 'Social Media',
+      'color': Colors.orange[50]
+    },
+    {
+      'icon': 'assets/icons/shampoo.png',
+      'name': 'Self-Care',
+      'color': Colors.purple[50]
+    },
+    {
+      'icon': 'assets/icons/application.png',
+      'name': 'Others',
+      'color': Colors.grey[100]
+    },
   ];
 
   @override
@@ -47,7 +103,8 @@ class CategoriesPage extends StatelessWidget {
           itemCount: categories.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () => _navigateToCategoryProjects(context, categories[index]['name']),
+              onTap: () => _navigateToCategoryProjects(
+                  context, categories[index]['name']),
               child: CategoryCard(
                 iconPath: categories[index]['icon'],
                 name: categories[index]['name'],
@@ -67,7 +124,8 @@ class CategoriesPage extends StatelessWidget {
             );
           },
           backgroundColor: const Color.fromARGB(255, 10, 186, 180),
-          child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
+          child:
+              Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -129,4 +187,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-

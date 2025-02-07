@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:insight/intro_screens/intro_page_1.dart';
@@ -65,34 +67,34 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 onLastPage
                     ? GestureDetector(
-                  onTap: () {
-                    _checkAuthState(context);
-                  },
-                  child: const Text(
-                    'Done',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
+                        onTap: () {
+                          _checkAuthState(context);
+                        },
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
                     : GestureDetector(
-                  onTap: () {
-                    _controller.nextPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                        onTap: () {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        child: const Text(
+                          'Next',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
@@ -117,7 +119,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Future<bool> _isProfileSet(String uid) async {
     final userDoc =
-    await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return userDoc.exists;
   }
 }

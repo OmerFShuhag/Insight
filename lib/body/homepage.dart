@@ -37,23 +37,6 @@ class _HomepageState extends State<Homepage> {
     },
   ];
 
-  // void initState() {
-  //   super.initState();
-  //   _checkUserProfile();
-  // }
-
-  // Future<void> _checkUserProfile() async {
-  //   final userId = FirebaseAuth.instance.currentUser!.uid;
-  //   final userDoc =
-  //       await FirebaseFirestore.instance.collection('users').doc(userId).get();
-
-  //   if (!userDoc.exists) {
-  //     print('Profile not set up, from homepage');
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) => ProfileSetup()));
-  //   }
-  // }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -75,15 +58,6 @@ class _HomepageState extends State<Homepage> {
         ),
         centerTitle: true,
         backgroundColor: _selectedColor,
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.settings),
-        //     onPressed: () {
-        //       _openSettingsMenu(context);
-        //     },
-        //     color: Colors.white,
-        //   ),
-        // ],
         elevation: 5,
       ),
       body: _pages[_selectedIndex]['page'],
@@ -107,25 +81,4 @@ class _HomepageState extends State<Homepage> {
       onTap: _onItemTapped,
     );
   }
-
-  // void _openSettingsMenu(BuildContext context) {
-  //   showMenu(
-  //     context: context,
-  //     position: const RelativeRect.fromLTRB(100, 50, 0, 0),
-  //     items: [
-  //       PopupMenuItem<String>(
-  //         value: 'SignOut',
-  //         child: ListTile(
-  //           leading: const Icon(Icons.logout),
-  //           title: const Text('Sign Out'),
-  //           onTap: () {
-  //             Navigator.of(context).pop();
-  //             AuthService().signout();
-  //             Navigator.pushReplacementNamed(context, '/login');
-  //           },
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

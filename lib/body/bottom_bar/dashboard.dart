@@ -3,7 +3,6 @@ import 'package:insight/body/Home/AddProject.dart';
 import 'package:insight/body/Home/AllProjects.dart';
 import 'package:insight/body/Home/MyProjects.dart';
 import 'package:insight/body/Home/Catagories.dart';
-// import 'package:insight/body/Home/AddProject.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -14,46 +13,24 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text(
-              'Project Dashboard',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-              ),
-            ),
+          const Image(
+            image: AssetImage('assets/images/dashboard.png'),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              'Manage your projects, view favorites, and add new ones easily.',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
-                fontFamily: 'Poppins',
-              ),
-            ),
-          ),
-          Spacer(),
-          // Cards section
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                // First row of two cards
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: CustomCard(
                         title: 'All Projects',
-                        description:
-                            'View all your current and completed projects.',
+                        description: 'View all projects.',
                         icon: Icons.view_list,
                         onTap: () {
                           print("All Projects");
@@ -69,15 +46,14 @@ class _DashboardState extends State<Dashboard> {
                     Expanded(
                       child: CustomCard(
                         title: 'My Projects',
-                        description:
-                        'Manage and track the progress of your own projects.',
+                        description: 'Manage your projects.',
                         icon: Icons.assignment_turned_in,
                         onTap: () {
                           print("My Projects");
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyProjects(), // Removed userId
+                              builder: (context) => MyProjects(),
                             ),
                           );
                         },
@@ -85,16 +61,14 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                // Second row of two cards
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: CustomCard(
                         title: 'Category',
-                        description:
-                            'Browse through various categories of projects.',
+                        description: 'Browse By categories of projects.',
                         icon: Icons.category,
                         onTap: () {
                           // Handle tap
@@ -111,8 +85,7 @@ class _DashboardState extends State<Dashboard> {
                     Expanded(
                       child: CustomCard(
                         title: 'Add Project',
-                        description:
-                            'Add a new project and start working on it right away.',
+                        description: 'Add a new project Of your own',
                         icon: Icons.add,
                         onTap: () {
                           print("Add Project");
@@ -180,7 +153,6 @@ class CustomCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[600],
-                  fontFamily: 'Poppins',
                 ),
               ),
             ],

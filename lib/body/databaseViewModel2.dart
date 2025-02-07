@@ -1,9 +1,7 @@
-// lib/body/databaseViewModel2.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Home/MyProjectClass.dart';
-// import 'Home/EditProjectPage.dart';
 
 class MyProjectViewModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

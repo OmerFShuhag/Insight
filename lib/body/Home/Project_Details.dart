@@ -6,7 +6,7 @@ import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/databseViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'myHomePage.dart'; // Import your chatbot page
+import 'myHomePage.dart';
 
 class ProjectDetailsPage extends StatefulWidget {
   final Project project;
@@ -36,10 +36,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       isFavorite = favStat;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEEFCFC), // Set background color
+      backgroundColor: const Color(0xFFEEFCFC),
       appBar: _buildAppBar(context),
       body: Stack(
         children: [
@@ -48,90 +49,79 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Description Section
                 _buildSectionTitle('Description'),
                 _buildSectionContent(widget.project.description),
                 const SizedBox(height: 20),
-
-                // GitHub Link Section
                 _buildLinkSection(
                   context,
                   'GitHub Repository',
                   Icons.code,
                   widget.project.githubLink,
                   _showGitHubLink,
-                      () {
+                  () {
                     setState(() {
                       _showGitHubLink = !_showGitHubLink;
                     });
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Documentation Link Section
                 _buildLinkSection(
                   context,
                   'See Doc File',
                   Icons.description,
                   widget.project.DocLink,
                   _showDocLink,
-                      () {
+                  () {
                     setState(() {
                       _showDocLink = !_showDocLink;
                     });
                   },
                 ),
                 const SizedBox(height: 20),
-
-                // Supervisor Section
                 _buildSectionTitle('Supervisor'),
                 _buildsuperVisorCard(widget.project.supervisorName),
                 const SizedBox(height: 20),
-
-                // Team Members Section
                 _buildSectionTitle('Team Members'),
                 ...widget.project.teamMembers.map((member) {
                   return _buildTeamMemberCard(member['name']!, member['id']!);
                 }).toList(),
                 const SizedBox(height: 20),
-
-                // Category Section
                 _buildSectionTitle('Category'),
-                _buildInfoRow(Icons.category, 'Category', widget.project.category),
+                _buildInfoRow(
+                    Icons.category, 'Category', widget.project.category),
                 const SizedBox(height: 20),
-
-                // Tags Section
                 _buildSectionTitle('Tags'),
                 Wrap(
                   spacing: 8,
                   children: widget.project.tags
                       .map((tag) => Chip(
-                    label: Text(tag),
-                    backgroundColor:
-                    const Color(0xFF0ABAB5).withOpacity(0.2),
-                    labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
-                  ))
+                            label: Text(tag),
+                            backgroundColor:
+                                const Color(0xFF0ABAB5).withOpacity(0.2),
+                            labelStyle:
+                                const TextStyle(color: Color(0xFF0ABAB5)),
+                          ))
                       .toList(),
                 ),
               ],
             ),
           ),
-          // Chatbot Icon at the bottom right
           Positioned(
             bottom: 20,
             right: 20,
             child: FloatingActionButton(
               onPressed: () {
-                // Navigate to the chatbot page
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
-              child: Image.asset('assets/icons/chatbot2.png',
+              child: Image.asset(
+                'assets/icons/chatbot2.png',
                 width: 45,
-                height: 45,),
+                height: 45,
+              ),
             ),
           ),
         ],
@@ -206,7 +196,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Info Row with Icon
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
@@ -224,7 +213,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Link Section
   Widget _buildLinkSection(
     BuildContext context,
     String title,
@@ -269,8 +257,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             padding: const EdgeInsets.only(top: 8.0, left: 16.0),
             child: InkWell(
               onTap: () async {
-                if (await canLaunch(link)) {
-                  await launch(link);
+                final Uri url = Uri.parse(link);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Could not open link')),
+                  );
                 }
               },
               onLongPress: () {
@@ -293,7 +286,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Section Title
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -305,7 +297,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Section Content
   Widget _buildSectionContent(String content) {
     return Card(
       elevation: 4,
@@ -322,7 +313,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     );
   }
 
-  // Widget for Team Member Card
   Widget _buildTeamMemberCard(String name, String id) {
     return Card(
       elevation: 4,

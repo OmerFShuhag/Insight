@@ -21,7 +21,7 @@ class ProjectViewModel extends ChangeNotifier {
 
       _projects = snapshot.docs
           .map((doc) =>
-          Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+              Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
 
       print("Projects loaded: ${_projects.length}");
@@ -40,7 +40,7 @@ class ProjectViewModel extends ChangeNotifier {
 
       _projects = snapshot.docs
           .map((doc) =>
-          Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+              Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
       notifyListeners();
     } catch (e) {
@@ -59,9 +59,8 @@ class ProjectViewModel extends ChangeNotifier {
 
       print("Favorite Projects fetched successfully");
       List<String> favoriteProjectsId =
-      snapshot.docs.map((doc) => doc.id).toList();
+          snapshot.docs.map((doc) => doc.id).toList();
 
-      // Clear previous favorites
       _favoriteProjects.clear();
 
       if (favoriteProjectsId.isNotEmpty) {
@@ -72,12 +71,12 @@ class ProjectViewModel extends ChangeNotifier {
 
         _favoriteProjects = projectsSnapshot.docs
             .map((doc) =>
-            Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+                Project.fromMap(doc.id, doc.data() as Map<String, dynamic>))
             .toList();
       }
 
       print("Favorite Projects loaded: ${_favoriteProjects.length}");
-      notifyListeners(); // Always notify even if list is empty
+      notifyListeners();
     } catch (e) {
       print('Error fetching favorite projects: $e');
     }
@@ -148,7 +147,6 @@ class ProjectViewModel extends ChangeNotifier {
         );
       }
     } catch (e) {
-      // ignore: avoid_print
       print('Error removing favorite project: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -160,7 +158,6 @@ class ProjectViewModel extends ChangeNotifier {
 
   Future<void> addProject(
       Project project, String userId, BuildContext context) async {
-    // Check if the project name already exists
     QuerySnapshot existingProjects = await _firestore
         .collection('projects')
         .where('projectName', isEqualTo: project.projectName)
@@ -184,30 +181,6 @@ class ProjectViewModel extends ChangeNotifier {
       fetchUserCreatedProjects(userId);
     } catch (e) {
       print('Error adding project: $e');
-    }
-  }
-
-  // Future<void> editProject(Project project) async {
-  //   try {
-  //     await _firestore
-  //         .collection('projects')
-  //         .doc(project.id)
-  //         .update(project.toMap());
-  //     fetchUserCreatedProjects(project.id);
-  //   } catch (e) {
-  //     print('Error editing project: $e');
-  //   }
-  // }
-
-  Future<void> deleteProject(String projectId, String userId) async {
-    try {
-      await _firestore.collection('projects').doc(projectId).delete();
-      await _firestore.collection('users').doc(userId).update({
-        'projects': FieldValue.arrayRemove([projectId]),
-      });
-      fetchUserCreatedProjects(userId);
-    } catch (e) {
-      print('Error deleting project: $e');
     }
   }
 }

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'MyProjectClass.dart';
 import 'package:insight/body/databaseViewModel2.dart';
 import 'MyProjectDetail.dart';
-import 'myHomePage.dart'; // Import your MyHomePage for chatbot navigation
+import 'myHomePage.dart';
 
 class MyProjects extends StatelessWidget {
   @override
@@ -31,13 +31,13 @@ class MyProjects extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 30.0),
           child: FloatingActionButton(
             onPressed: () {
-              // Navigate to the chatbot page
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyHomePage()),
               );
             },
-            child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
+            child:
+                Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
             backgroundColor: Color.fromARGB(255, 10, 186, 180),
           ),
         ),

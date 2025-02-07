@@ -115,20 +115,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  // Widget _buildNameField() {
-  //   return TextFormField(
-  //     autovalidateMode: AutovalidateMode.onUserInteraction,
-  //     controller: nameController,
-  //     decoration: const InputDecoration(
-  //       labelText: 'Name',
-  //       border: OutlineInputBorder(),
-  //     ),
-  //     validator: (value) {
-  //       return Validators.validateName(value ?? '');
-  //     },
-  //   );
-  // }
-
   Widget _buildEmailField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -173,8 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           onPressed: () {
             setState(() {
-              _passwordVisible =
-                  !_passwordVisible; // Toggle password visibility
+              _passwordVisible = !_passwordVisible;
             });
           },
         ),
@@ -207,8 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           onPressed: () {
             setState(() {
-              _confirmPasswordVisible =
-                  !_confirmPasswordVisible; // Toggle confirm password visibility
+              _confirmPasswordVisible = !_confirmPasswordVisible;
             });
           },
         ),
@@ -219,8 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
           passwordController.text,
         );
       },
-      obscureText:
-          !_confirmPasswordVisible, // Hide/show confirm password based on _confirmPasswordVisible
+      obscureText: !_confirmPasswordVisible,
     );
   }
 

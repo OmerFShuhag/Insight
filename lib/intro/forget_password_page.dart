@@ -8,11 +8,9 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  // Controllers and keys
   final TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // Main build method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +31,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  // Widget to build the Forget Password Card
   Widget _buildForgetPasswordCard(BuildContext context) {
     return Card(
       elevation: 10,
@@ -62,7 +59,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  // Widget for the title
   Widget _buildTitle() {
     return const Text(
       'Forget Password',
@@ -73,7 +69,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  // Widget for the email input field
   Widget _buildEmailInputField() {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -97,7 +92,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  // Widget for the Send Reset Link button
   Widget _buildSendResetLinkButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
@@ -115,7 +109,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  // Widget for the Back to Login button
   Widget _buildBackToLoginButton(BuildContext context) {
     return TextButton(
       onPressed: () {

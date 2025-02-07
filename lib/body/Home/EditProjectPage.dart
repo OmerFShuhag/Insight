@@ -3,7 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:insight/body/Home/MyProjectDetail.dart';
 import 'package:insight/body/Home/MyProjects.dart';
 import 'package:insight/body/databaseViewModel2.dart';
 import 'package:insight/validators.dart';
@@ -104,7 +103,6 @@ class _EditProjectPageState extends State<EditProjectPage> {
     });
   }
 
-  // Save Project Function
   Future<void> _saveProject() async {
     if (_formKey.currentState!.validate() && _teamMembers.isNotEmpty) {
       final Uproject = MyProjectClass(
@@ -126,10 +124,8 @@ class _EditProjectPageState extends State<EditProjectPage> {
             .doc(widget.project.id)
             .update(Uproject.toMap());
 
-        // Fetch updated projects here
         await MyProjectViewModel().fetchUserCreatedProjects();
 
-        // Reset form and go back
         _formKey.currentState!.reset();
         setState(() {
           _teamMembers.clear();
@@ -141,7 +137,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Project updated successfully!')),
         );
-        //Navigator.pop(context, Uproject);
+
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MyProjects()));
       } catch (e) {
@@ -174,6 +170,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTextField(
+                hint: '',
                 controller: _projectNameController,
                 label: 'Project Name',
                 validator: (value) =>
@@ -181,9 +178,10 @@ class _EditProjectPageState extends State<EditProjectPage> {
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: '',
                 controller: _descriptionController,
                 label: 'Description',
-                maxLines: 3,
+                maxLines: 5,
                 validator: (value) =>
                     Validators.validateField(value, 'Description'),
               ),
@@ -193,6 +191,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
               _buildTeamMembersSection(),
               const SizedBox(height: 20.0),
               _buildTextField(
+                hint: '',
                 controller: _supervisorNameController,
                 label: 'Supervisor Name',
                 validator: (value) =>
@@ -200,17 +199,19 @@ class _EditProjectPageState extends State<EditProjectPage> {
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: 'https://github.com/user/repo',
                 controller: _githubLinkController,
                 label: 'GitHub Link',
-                // validator: (value) =>
-                //     Validators.validateField(value, 'GitHub Link'),
+                validator: (value) =>
+                    Validators.validateField(value, 'GitHub Link'),
               ),
               const SizedBox(height: 10),
               _buildTextField(
+                hint: '',
                 controller: _docLinkController,
                 label: 'Documentation Link',
-                // validator: (value) =>
-                //     Validators.validateField(value, 'Document Link'),
+                validator: (value) =>
+                    Validators.validateField(value, 'Document Link'),
               ),
               const SizedBox(height: 10),
               _buildTagsSection(),
@@ -236,6 +237,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
   }
 
   Widget _buildTextField({
+    required String hint,
     required TextEditingController controller,
     required String label,
     FormFieldValidator<String>? validator,
@@ -249,6 +251,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
         color: Colors.black,
       ),
       decoration: InputDecoration(
+        hintText: hint,
         labelText: label,
         labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
@@ -383,6 +386,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildTextField(
+                  hint: '',
                   controller: nameController,
                   label: 'Name',
                   validator: (value) =>
@@ -390,10 +394,11 @@ class _EditProjectPageState extends State<EditProjectPage> {
                 ),
                 const SizedBox(height: 8.0),
                 _buildTextField(
+                  hint: '',
                   controller: idController,
                   label: 'ID',
-                  // validator: (value) =>
-                  //     Validators.validateField(value, 'Team Member ID'),
+                  validator: (value) =>
+                      Validators.validateField(value, 'Team Member ID'),
                 ),
               ],
             ),

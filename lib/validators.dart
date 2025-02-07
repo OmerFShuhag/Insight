@@ -10,8 +10,7 @@ class Validators {
     if (value.isEmpty) {
       return 'Email is Required';
     }
-    final emailRegex =
-        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegex = RegExp(r'^cse_\d{16}@lus\.ac\.bd$');
     if (!emailRegex.hasMatch(value)) {
       return 'Enter a Valid Email';
     }
@@ -22,13 +21,15 @@ class Validators {
     if (value.isEmpty) {
       return 'Password is Required';
     }
-    // final passwordRegex = RegExp(
-    //     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+    final passwordRegex = RegExp(
+        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
-    final passwordRegex = RegExp(r'^.{8}$');
+    //final passwordRegex = RegExp(r'^.{8}$');
 
-    if (!passwordRegex.hasMatch(value)) {
-      return 'Enter a Valid Password';
+    if (value.length < 7) {
+      return 'Password length Must be greater then 7';
+    } else if (!passwordRegex.hasMatch(value)) {
+      return 'Enter a Valid Password That has atleast one small, one capital and one digit';
     }
     return null;
   }
@@ -47,9 +48,9 @@ class Validators {
     if (value.isEmpty) {
       return 'ID is Required';
     }
-    final idRegex = RegExp(r'^[0-9]{8}$');
+    final idRegex = RegExp(r'^[0-9]{16}$');
     if (!idRegex.hasMatch(value)) {
-      return 'Enter a Valid  8 digit ID';
+      return 'Enter a Valid 16 digit ID';
     }
     return null;
   }
@@ -89,19 +90,19 @@ class Validators {
     final githubLinkRegex =
         RegExp(r'^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/?$');
     if (!githubLinkRegex.hasMatch(value)) {
-      return 'Enter a Valid GitHub link';
+      return 'Enter a Valid GitHub Repo link';
     }
     return null;
   }
 
   static String? validateGoogleDocLink(String? value, String name) {
     if (value == null || value.trim().isEmpty) {
-      return 'Google Doc link is Required';
+      return 'Google Doc/PDF link is Required';
     }
     final googleDocLinkRegex = RegExp(
-        r'^(https?:\/\/)?(docs\.google\.com\/document\/d\/[a-zA-Z0-9_-]+)(\/[^\/\s]*)?(\?[^\s]*)?(#.*)?$');
+        r'^https?:\/\/drive\.google\.com\/(file\/d\/|uc\?id=)([a-zA-Z0-9_-]+)\/?(?:\?.*?)?(\.pdf|\.docx|\.doc)?$');
     if (!googleDocLinkRegex.hasMatch(value)) {
-      return 'Enter a Valid Google Doc link';
+      return 'Enter a Valid Google Doc or PDF link';
     }
     return null;
   }

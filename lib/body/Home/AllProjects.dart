@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insight/body/Project_list.dart';
 import 'package:provider/provider.dart';
 import 'package:insight/body/databseViewModel.dart';
-import 'myHomePage.dart'; // Import your MyHomePage
+import 'myHomePage.dart';
 
 class AllProjectsPage extends StatefulWidget {
   @override
@@ -56,7 +56,8 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: Colors.teal, width: 2)),
+                        borderSide:
+                            const BorderSide(color: Colors.teal, width: 2)),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                       borderSide: BorderSide(color: Colors.teal, width: 2),
@@ -74,7 +75,7 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
                     }
 
                     final filteredProjects =
-                    projectViewModel.projects.where((project) {
+                        projectViewModel.projects.where((project) {
                       return project.projectName
                           .toLowerCase()
                           .contains(_searchQuery.toLowerCase());
@@ -95,22 +96,22 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
               ),
             ],
           ),
-          // Chatbot Icon at the bottom right
           Positioned(
             bottom: 20,
             right: 20,
             child: FloatingActionButton(
               onPressed: () {
-                // Navigate to the chatbot page
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
-              child: Image.asset('assets/icons/chatbot2.png',
+              child: Image.asset(
+                'assets/icons/chatbot2.png',
                 width: 45,
-                height: 45,),
+                height: 45,
+              ),
             ),
           ),
         ],

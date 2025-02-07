@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, use_build_context_synchronously, prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,13 +73,12 @@ class _ProfileState extends State<Profile> {
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        const Color(0xFF0ABAB5)), // Button color
-                    foregroundColor:
-                        WidgetStateProperty.all(Colors.white), // Text color
+                    backgroundColor:
+                        WidgetStateProperty.all(const Color(0xFF0ABAB5)),
+                    foregroundColor: WidgetStateProperty.all(Colors.white),
                     textStyle: WidgetStateProperty.all(
                       const TextStyle(
-                        fontWeight: FontWeight.bold, // Bold text
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     padding: WidgetStateProperty.all(
@@ -88,8 +87,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(8), // Rounded corners
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                   ),
@@ -103,7 +101,7 @@ class _ProfileState extends State<Profile> {
                   child: const Text('Edit Profile'),
                 ),
               ),
-              const Spacer(), // Pushes content to the top and bottom
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: TextButton.icon(
@@ -150,7 +148,7 @@ class _ProfileState extends State<Profile> {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 8,
-            offset: const Offset(0, 3), // Shadow position
+            offset: const Offset(0, 3),
           ),
         ],
       ),
