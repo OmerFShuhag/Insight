@@ -63,34 +63,52 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+  bool isSignUpSelected = true;
 
+  @override
   Widget _buildHeaderButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Card(
-          elevation: 5.0,
-          color: const Color.fromARGB(255, 22, 197, 183),
-          child: TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            child: const Text(
-              'Log In',
-              style: TextStyle(color: Colors.white),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              isSignUpSelected = false;
+              Navigator.pushReplacementNamed(context, '/login');
+            });
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: isSignUpSelected ? Colors.white : Color(0xFF0ABAB5),
+          ),
+          child: Text(
+            'Sign In',
+            style: TextStyle(
+              color: isSignUpSelected ? Colors.grey[700] : Colors.white,
             ),
           ),
         ),
+        const SizedBox(width: 5),
         TextButton(
-          onPressed: () {},
-          child: const Text(
+          onPressed: () {
+            setState(() {
+              isSignUpSelected = true;
+              Navigator.pushReplacementNamed(context, '/signup');
+            });
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: isSignUpSelected ? Color(0xFF0ABAB5) : Colors.white,
+          ),
+          child: Text(
             'Sign Up',
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(
+              color: isSignUpSelected ? Colors.white : Colors.grey[700],
+            ),
           ),
         ),
       ],
     );
   }
+
 
   Widget _buildSignUpCard() {
     return Card(
