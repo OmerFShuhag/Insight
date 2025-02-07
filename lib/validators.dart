@@ -87,8 +87,8 @@ class Validators {
     if (value == null || value.trim().isEmpty) {
       return 'GitHub link is Required';
     }
-    final githubLinkRegex =
-        RegExp(r'^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/?$');
+    final githubLinkRegex = RegExp(
+        r'^https?:\/\/(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9._-]+(?:\.git)?\/?$');
     if (!githubLinkRegex.hasMatch(value)) {
       return 'Enter a Valid GitHub Repo link';
     }
@@ -100,7 +100,7 @@ class Validators {
       return 'Google Doc/PDF link is Required';
     }
     final googleDocLinkRegex = RegExp(
-        r'^https?:\/\/drive\.google\.com\/(file\/d\/|uc\?id=)([a-zA-Z0-9_-]+)\/?(?:\?.*?)?(\.pdf|\.docx|\.doc)?$');
+        r'^https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]+\/view\?usp=sharing$');
     if (!googleDocLinkRegex.hasMatch(value)) {
       return 'Enter a Valid Google Doc or PDF link';
     }
