@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insight/body/Project_class.dart';
@@ -76,8 +77,8 @@ class CategoryProjectsPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               },
-              child: const Icon(Icons.chat),
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+              child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
             );
           } else {
             return const SizedBox.shrink();

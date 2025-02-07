@@ -15,18 +15,18 @@ class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateM
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 500),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
+    _slideAnimation = Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       _controller.forward();
     });
   }
@@ -40,10 +40,15 @@ class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: AnimatedContainer(
+        duration: const Duration(seconds: 1),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.greenAccent, Colors.teal],
+            colors: [
+              const Color(0xFFC4EDE7),
+              const Color(0xFF065F5B),
+              const Color(0xFF0ABAB5),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -62,25 +67,27 @@ class _IntroPage1State extends State<IntroPage1> with SingleTickerProviderStateM
                     Icon(
                       Icons.lightbulb_outline,
                       size: 100,
-                      color: Colors.white,
+                      color: Colors.white.withOpacity(0.9),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       "Welcome to INSIGHT",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 28,
+                      style: const TextStyle(
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Text(
-                      "A smart way to get ideas about your projects efficiently. ",
+                      "A smart way to get ideas about your projects efficiently.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
+                        fontSize: 17,
+                        color: Colors.white.withOpacity(0.8),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],

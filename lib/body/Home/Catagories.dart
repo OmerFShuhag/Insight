@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'CategoryProjectPage.dart';
-import 'myHomePage.dart'; // Import your MyHomePage for the chatbot
+import 'myHomePage.dart';
 
 class CategoriesPage extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
@@ -66,8 +66,8 @@ class CategoriesPage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => MyHomePage()),
             );
           },
-          child: const Icon(Icons.chat), // Chat icon
           backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+          child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -129,3 +129,4 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
+

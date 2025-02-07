@@ -36,84 +36,105 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       isFavorite = favStat;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEFCFC), // Set background color
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Description Section
-            _buildSectionTitle('Description'),
-            _buildSectionContent(widget.project.description),
-            const SizedBox(height: 20),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Description Section
+                _buildSectionTitle('Description'),
+                _buildSectionContent(widget.project.description),
+                const SizedBox(height: 20),
 
-            // GitHub Link Section
-            _buildLinkSection(
-              context,
-              'GitHub Repository',
-              Icons.code,
-              widget.project.githubLink,
-              _showGitHubLink,
-              () {
-                setState(() {
-                  _showGitHubLink = !_showGitHubLink;
-                });
+                // GitHub Link Section
+                _buildLinkSection(
+                  context,
+                  'GitHub Repository',
+                  Icons.code,
+                  widget.project.githubLink,
+                  _showGitHubLink,
+                      () {
+                    setState(() {
+                      _showGitHubLink = !_showGitHubLink;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                // Documentation Link Section
+                _buildLinkSection(
+                  context,
+                  'See Doc File',
+                  Icons.description,
+                  widget.project.DocLink,
+                  _showDocLink,
+                      () {
+                    setState(() {
+                      _showDocLink = !_showDocLink;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // Supervisor Section
+                _buildSectionTitle('Supervisor'),
+                _buildsuperVisorCard(widget.project.supervisorName),
+                const SizedBox(height: 20),
+
+                // Team Members Section
+                _buildSectionTitle('Team Members'),
+                ...widget.project.teamMembers.map((member) {
+                  return _buildTeamMemberCard(member['name']!, member['id']!);
+                }).toList(),
+                const SizedBox(height: 20),
+
+                // Category Section
+                _buildSectionTitle('Category'),
+                _buildInfoRow(Icons.category, 'Category', widget.project.category),
+                const SizedBox(height: 20),
+
+                // Tags Section
+                _buildSectionTitle('Tags'),
+                Wrap(
+                  spacing: 8,
+                  children: widget.project.tags
+                      .map((tag) => Chip(
+                    label: Text(tag),
+                    backgroundColor:
+                    const Color(0xFF0ABAB5).withOpacity(0.2),
+                    labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
+                  ))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+          // Chatbot Icon at the bottom right
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                // Navigate to the chatbot page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
               },
+              backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+              child: Image.asset('assets/icons/chatbot2.png',
+                width: 45,
+                height: 45,),
             ),
-            const SizedBox(height: 16),
-
-            // Documentation Link Section
-            _buildLinkSection(
-              context,
-              'See Doc File',
-              Icons.description,
-              widget.project.DocLink,
-              _showDocLink,
-              () {
-                setState(() {
-                  _showDocLink = !_showDocLink;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-
-            // Supervisor Section
-            _buildSectionTitle('Supervisor'),
-            _buildsuperVisorCard(widget.project.supervisorName),
-            const SizedBox(height: 20),
-
-            // Team Members Section
-            _buildSectionTitle('Team Members'),
-            ...widget.project.teamMembers.map((member) {
-              return _buildTeamMemberCard(member['name']!, member['id']!);
-            }).toList(),
-            const SizedBox(height: 20),
-
-            // Category Section
-            _buildSectionTitle('Category'),
-            _buildInfoRow(Icons.category, 'Category', widget.project.category),
-            const SizedBox(height: 20),
-
-            // Tags Section
-            _buildSectionTitle('Tags'),
-            Wrap(
-              spacing: 8,
-              children: widget.project.tags
-                  .map((tag) => Chip(
-                        label: Text(tag),
-                        backgroundColor:
-                            const Color(0xFF0ABAB5).withOpacity(0.2),
-                        labelStyle: const TextStyle(color: Color(0xFF0ABAB5)),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -51,7 +51,11 @@ class _IntroPage3State extends State<IntroPage3> with SingleTickerProviderStateM
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.purpleAccent, Colors.blue],
+            colors: [
+              Color(0xFF048C87),
+              Color(0xFF00BBB4),
+              Color(0xFF004E64)
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

@@ -52,12 +52,12 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Description Section
+
             _buildSectionTitle('Description'),
             _buildSectionContent(widget.project.description),
             const SizedBox(height: 20),
 
-            // GitHub Link Section
+
             _buildLinkSection(
               context,
               'GitHub Repository',
@@ -72,7 +72,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             ),
             const SizedBox(height: 16),
 
-            // Documentation Link Section
+
             _buildLinkSection(
               context,
               'See Doc File',
@@ -87,24 +87,23 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             ),
             const SizedBox(height: 20),
 
-            // Supervisor Section
+
             _buildSectionTitle('Supervisor'),
             _buildsuperVisorCard(widget.project.supervisorName),
             const SizedBox(height: 20),
 
-            // Team Members Section
+
             _buildSectionTitle('Team Members'),
             ...widget.project.teamMembers.map((member) {
               return _buildTeamMemberCard(member['name']!, member['id']!);
             }).toList(),
             const SizedBox(height: 20),
 
-            // Category Section
+
             _buildSectionTitle('Category'),
             _buildInfoRow(Icons.category, 'Category', widget.project.category),
             const SizedBox(height: 20),
 
-            // Tags Section
             _buildSectionTitle('Tags'),
             Wrap(
               spacing: 8,
@@ -159,8 +158,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                     },
                     mini: true,
                     backgroundColor: const Color(0xFFBEFFFD),
-                    child: const ImageIcon(
-                        AssetImage('assets/icons/chatbot_2.jpg')),
+                    child: Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
                   ),
                   const SizedBox(height: 8),
                 ],
@@ -171,7 +169,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                     });
                   },
                   backgroundColor: const Color(0xFFBEFFFD),
-                  foregroundColor: Colors.white,
+                  foregroundColor: Color(0xFF133E36),
                   child: _isExpanded
                       ? Icon(Icons.close)
                       : Image.asset('assets/icons/spread.gif',
@@ -252,7 +250,6 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-  // Widget for Info Row with Icon
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
@@ -270,7 +267,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
     );
   }
 
-  // Widget for Link Section
+
   Widget _buildLinkSection(
     BuildContext context,
     String title,

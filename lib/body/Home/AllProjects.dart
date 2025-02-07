@@ -107,8 +107,10 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               },
-              child: Icon(Icons.chat), // Chat icon
-              backgroundColor: Color.fromARGB(255, 10, 186, 180), // Match your theme color
+              backgroundColor: const Color.fromARGB(255, 10, 186, 180),
+              child: Image.asset('assets/icons/chatbot2.png',
+                width: 45,
+                height: 45,),
             ),
           ),
         ],

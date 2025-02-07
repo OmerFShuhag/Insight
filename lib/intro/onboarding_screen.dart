@@ -3,8 +3,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:insight/intro_screens/intro_page_1.dart';
 import 'package:insight/intro_screens/intro_page_2.dart';
 import 'package:insight/intro_screens/intro_page_3.dart';
-// import 'package:insight/main.dart';
-// import 'package:insight/intro/profile_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -38,7 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ],
           ),
           Container(
-            alignment: Alignment(0, 0.75),
+            alignment: const Alignment(0, 0.75),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -46,25 +44,55 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onTap: () {
                     _controller.jumpToPage(2);
                   },
-                  child: Text('Skip'),
+                  child: const Text(
+                    'Skip',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-                SmoothPageIndicator(controller: _controller, count: 3),
+                SmoothPageIndicator(
+                  controller: _controller,
+                  count: 3,
+                  effect: WormEffect(
+                    dotColor: Colors.black,
+                    activeDotColor: Colors.white,
+                    dotHeight: 12,
+                    dotWidth: 12,
+                  ),
+                ),
                 onLastPage
                     ? GestureDetector(
-                        onTap: () {
-                          _checkAuthState(context); // Use _checkAuthState here
-                        },
-                        child: Text('Done'),
-                      )
+                  onTap: () {
+                    _checkAuthState(context);
+                  },
+                  child: const Text(
+                    'Done',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                )
                     : GestureDetector(
-                        onTap: () {
-                          _controller.nextPage(
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.easeIn,
-                          );
-                        },
-                        child: Text('Next'),
-                      ),
+                  onTap: () {
+                    _controller.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeIn,
+                    );
+                  },
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -89,7 +117,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Future<bool> _isProfileSet(String uid) async {
     final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return userDoc.exists;
   }
 }
