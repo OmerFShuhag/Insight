@@ -100,7 +100,7 @@ class Validators {
       return 'Google Doc/PDF link is Required';
     }
     final googleDocLinkRegex = RegExp(
-        r'^https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]+\/view\?usp=sharing$');
+        r'^https:\/\/(?:docs|drive)\.google\.com\/(?:document|file)\/d\/[A-Za-z0-9_-]+\/(?:edit|view)\?usp=sharing$');
     if (!googleDocLinkRegex.hasMatch(value)) {
       return 'Enter a Valid Google Doc or PDF link';
     }
