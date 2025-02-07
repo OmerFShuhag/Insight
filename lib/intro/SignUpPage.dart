@@ -120,6 +120,7 @@ class _SignUpPageState extends State<SignUpPage> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: emailController,
       decoration: InputDecoration(
+        hintText: 'cse_id@lus.ac.bd',
         labelText: 'Email',
         labelStyle:
             const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

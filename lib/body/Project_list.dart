@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:insight/body/Project_class.dart';
 import 'package:insight/body/Home/Project_Details.dart';
-import 'Home/myHomePage.dart'; // Import your chatbot widget
 
 class ProjectListView extends StatelessWidget {
   final List<Project> projects;
@@ -19,25 +18,6 @@ class ProjectListView extends StatelessWidget {
           return ProjectCard(project: project);
         },
       ),
-
-    );
-  }
-
-  void _openChatbot(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.75,
-            child: MyHomePage(), // Embedding your chatbot here
-          ),
-        );
-      },
     );
   }
 }
