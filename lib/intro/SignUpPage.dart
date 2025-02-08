@@ -237,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
           );
         }
       },
-      child: const Text('SIGN UP'),
+      child: const Text('SIGN UP', style: TextStyle(color: Colors.teal)),
     );
   }
 }

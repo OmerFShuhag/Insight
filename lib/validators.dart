@@ -29,7 +29,7 @@ class Validators {
     if (value.length < 7) {
       return 'Password length Must be greater then 7';
     } else if (!passwordRegex.hasMatch(value)) {
-      return 'Enter a Valid Password That has atleast one small, one capital and one digit';
+      return 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character';
     }
     return null;
   }

@@ -114,7 +114,8 @@ class _LoginState extends State<Login> {
               _buildForgetPasswordButton(context),
               const SizedBox(height: 10),
               _buildLoginButton(context),
-            ],
+            ]
+            //crossAxisAlignment: CrossAxisAlignment.start,
           ),
         ),
       ),
@@ -147,35 +148,44 @@ class _LoginState extends State<Login> {
   }
 
   Widget _buildPasswordField() {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: passwordController,
-      obscureText: !_isPasswordVisible,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: const BorderSide(
-              color: Color.fromARGB(255, 15, 105, 96), width: 2),
-        ),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        controller: passwordController,
+        obscureText: !_isPasswordVisible,
+        decoration: InputDecoration(
+          labelText: 'Password',
+          labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
           ),
-          onPressed: () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          },
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(
+                color: Color.fromARGB(255, 15, 105, 96), width: 2),
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: () {
+              setState(() {
+                _isPasswordVisible = !_isPasswordVisible;
+              });
+            },
+          ),
+          errorStyle: const TextStyle(
+              color: Colors.red,
+            fontSize: 12,
+            overflow: TextOverflow.clip,
+          ),
+          errorMaxLines: 2,
         ),
+        validator: (value) {
+          return Validators.validatePassword(value ?? '');
+        },
       ),
-      validator: (value) {
-        return Validators.validatePassword(value ?? '');
-      },
     );
   }
 
