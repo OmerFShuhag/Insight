@@ -124,8 +124,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    AuthService().signout();
-                    Navigator.pushReplacementNamed(context, '/login');
+                    AuthService().signout(context);
                   },
                 ),
               ),

@@ -63,9 +63,9 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
   bool isSignUpSelected = true;
 
-  @override
   Widget _buildHeaderButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -78,7 +78,8 @@ class _SignUpPageState extends State<SignUpPage> {
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? Colors.white : Color(0xFF0ABAB5),
+            backgroundColor:
+                isSignUpSelected ? Colors.white : Color(0xFF0ABAB5),
           ),
           child: Text(
             'Sign In',
@@ -96,7 +97,8 @@ class _SignUpPageState extends State<SignUpPage> {
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? Color(0xFF0ABAB5) : Colors.white,
+            backgroundColor:
+                isSignUpSelected ? Color(0xFF0ABAB5) : Colors.white,
           ),
           child: Text(
             'Sign Up',
@@ -108,7 +110,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ],
     );
   }
-
 
   Widget _buildSignUpCard() {
     return Card(

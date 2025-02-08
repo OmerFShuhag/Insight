@@ -1,10 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:insight/body/homepage.dart';
+import 'package:insight/intro/login.dart';
 import 'package:insight/intro/profile_setup.dart';
 
 class AuthService {
@@ -85,6 +89,7 @@ class AuthService {
 
       if (!userCredential.user!.emailVerified) {
         ScaffoldMessenger.of(context).showSnackBar(
+          // ignore: prefer_const_constructors
           SnackBar(
             content: Text('Please verify your email to log in.'),
             backgroundColor: Colors.red,
@@ -151,11 +156,24 @@ class AuthService {
     }
   }
 
-  Future<void> signout() async {
+  // bool isSigningOut = false;
+  // StreamSubscription<QuerySnapshot>? listener;
+
+  Future<void> signout(BuildContext context) async {
     try {
       print('Attempting to sign out...');
       await _auth.signOut();
+
       print('Sign out successful.');
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Login()),
+            (Route<dynamic> route) => false,
+          );
+        }
+      });
     } catch (e) {
       print('Error signing out: $e');
     }
