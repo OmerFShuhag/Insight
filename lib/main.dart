@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
+            } else if (snapshot.connectionState == ConnectionState.none) {
+              return Center(child: Text('No connection'));
             } else if (snapshot.connectionState == ConnectionState.active) {
               final user = snapshot.data;
               if (user != null) {
@@ -64,7 +68,8 @@ class MyApp extends StatelessWidget {
                         return Center(
                             child: Text('Error: ${profileSnapshot.error}'));
                       } else if (profileSnapshot.hasData &&
-                          profileSnapshot.data != null) {
+                          profileSnapshot.data != null &&
+                          profileSnapshot.data!.exists) {
                         return Homepage();
                       } else {
                         return ProfileSetup();

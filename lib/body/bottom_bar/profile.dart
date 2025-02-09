@@ -7,6 +7,7 @@ import 'package:insight/intro/auth_service.dart';
 import 'package:insight/intro/login.dart';
 import 'package:insight/intro/profile_setup.dart';
 import 'package:insight/user_class.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -32,6 +33,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -122,9 +124,8 @@ class _ProfileState extends State<Profile> {
                       side: BorderSide(color: Colors.red[100]!, width: 1),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    AuthService().signout(context);
+                  onPressed: () async {
+                    _auth.signOut();
                   },
                 ),
               ),

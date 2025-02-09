@@ -159,21 +159,17 @@ class AuthService {
   // bool isSigningOut = false;
   // StreamSubscription<QuerySnapshot>? listener;
 
-  Future<void> signout(BuildContext context) async {
+  Future<void> signout(context) async {
     try {
       print('Attempting to sign out...');
       await _auth.signOut();
 
       print('Sign out successful.');
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => Login()),
-            (Route<dynamic> route) => false,
-          );
-        }
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
     } catch (e) {
       print('Error signing out: $e');
     }
