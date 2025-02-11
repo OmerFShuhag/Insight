@@ -3,11 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insight/intro/auth_service.dart';
+//import 'package:insight/intro/auth_service.dart';
 import 'package:insight/intro/login.dart';
 import 'package:insight/intro/profile_setup.dart';
 import 'package:insight/user_class.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
