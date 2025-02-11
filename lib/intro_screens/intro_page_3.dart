@@ -32,7 +32,7 @@ class _IntroPage3State extends State<IntroPage3>
 
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
-        isDoneVisible = true; // Make "Done" button visible after 6 seconds
+        isDoneVisible = true;
       });
     });
 
