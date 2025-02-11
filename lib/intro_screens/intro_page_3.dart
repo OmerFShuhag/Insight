@@ -94,7 +94,7 @@ class _IntroPage3State extends State<IntroPage3>
                     ),
                   ),
                   SizedBox(height: 20),
-                  // Only show "Done" button if isDoneVisible is true
+
 
                 ],
               ),
