@@ -95,22 +95,7 @@ class _IntroPage3State extends State<IntroPage3>
                   ),
                   SizedBox(height: 20),
                   // Only show "Done" button if isDoneVisible is true
-                  Visibility(
-                    visible: isDoneVisible,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Your action for Done button
-                      },
-                      child: Text(
-                        'Done',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
             ),
