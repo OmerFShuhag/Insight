@@ -24,7 +24,7 @@ Insight is a user-friendly project archive application designed for students and
 - **Frontend**: Flutter, Dart
 - **Backend**: Firebase (Authentication, Firestore, Cloud Functions)
 - **Other Tools**: Firebase Hosting, Firebase Storage
-- **Programming Languages**: Dart, JavaScript (for optional integrations)
+- **Programming Languages**: Dart
 
 ---
 
