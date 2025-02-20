@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:insight/body/Project_class.dart';
@@ -8,6 +6,7 @@ import 'myHomePage.dart';
 
 class CategoryProjectsPage extends StatelessWidget {
   final String category;
+  
 
   const CategoryProjectsPage({Key? key, required this.category})
       : super(key: key);
@@ -79,7 +78,7 @@ class CategoryProjectsPage extends StatelessWidget {
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
               child: Image.asset('assets/icons/chatbot2.png',
-                  width: 45, height: 45),
+                  width: 45, height: 50),
             );
           } else {
             return const SizedBox.shrink();
