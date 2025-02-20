@@ -3,6 +3,8 @@ import 'package:insight/intro/auth_service.dart';
 import 'package:insight/validators.dart';
 
 class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
+
   @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
 }
@@ -76,7 +78,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),

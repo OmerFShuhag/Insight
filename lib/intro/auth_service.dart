@@ -90,7 +90,7 @@ class AuthService {
         ScaffoldMessenger.of(context).showSnackBar(
           // ignore: prefer_const_constructors
           SnackBar(
-            content: Text('Please verify your email to log in.'),
+            content: const Text('Please verify your email to log in.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -108,13 +108,13 @@ class AuthService {
         if (userDoc.exists) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => Homepage()),
+            MaterialPageRoute(builder: (context) => const Homepage()),
             (route) => false,
           );
         } else {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => ProfileSetup()),
+            MaterialPageRoute(builder: (context) => const ProfileSetup()),
             (route) => false,
           );
         }

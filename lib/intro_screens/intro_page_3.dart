@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IntroPage3 extends StatefulWidget {
+  const IntroPage3({super.key});
+
   @override
   _IntroPage3State createState() => _IntroPage3State();
 }
@@ -18,7 +20,7 @@ class _IntroPage3State extends State<IntroPage3>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -26,17 +28,17 @@ class _IntroPage3State extends State<IntroPage3>
     );
 
     _slideAnimation =
-        Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
+        Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         isDoneVisible = true;
       });
     });
 
-    Future.delayed(Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       _controller.forward();
     });
   }
@@ -51,7 +53,7 @@ class _IntroPage3State extends State<IntroPage3>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF048C87), Color(0xFF00BBB4), Color(0xFF004E64)],
             begin: Alignment.topLeft,
@@ -63,7 +65,7 @@ class _IntroPage3State extends State<IntroPage3>
             position: _slideAnimation,
             child: FadeTransition(
               opacity: _fadeAnimation,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -83,7 +85,7 @@ class _IntroPage3State extends State<IntroPage3>
                   ),
                   SizedBox(height: 15),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
                       "Easily access all previous work, save time, with INSIGHT!",
                       textAlign: TextAlign.center,

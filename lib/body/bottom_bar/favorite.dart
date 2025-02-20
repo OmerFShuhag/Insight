@@ -4,12 +4,14 @@ import 'package:insight/body/databseViewModel.dart';
 import 'package:provider/provider.dart';
 
 class Favorite extends StatefulWidget {
+  const Favorite({super.key});
+
   @override
   _FavoriteState createState() => _FavoriteState();
 }
 
 class _FavoriteState extends State<Favorite> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -48,13 +50,13 @@ class _FavoriteState extends State<Favorite> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search Projects',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(color: Colors.teal, width: 2)),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(color: Colors.teal, width: 2),
+                  borderSide: const BorderSide(color: Colors.teal, width: 2),
                 ),
                 filled: true,
                 fillColor: Colors.teal.shade50,

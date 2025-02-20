@@ -11,7 +11,7 @@ import 'myHomePage.dart';
 class ProjectDetailsPage extends StatefulWidget {
   final Project project;
 
-  ProjectDetailsPage({super.key, required this.project});
+  const ProjectDetailsPage({super.key, required this.project});
 
   @override
   _ProjectDetailsPageState createState() => _ProjectDetailsPageState();
@@ -84,7 +84,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 _buildSectionTitle('Team Members'),
                 ...widget.project.teamMembers.map((member) {
                   return _buildTeamMemberCard(member['name']!, member['id']!);
-                }).toList(),
+                }),
                 const SizedBox(height: 20),
                 _buildSectionTitle('Category'),
                 _buildInfoRow(
@@ -113,7 +113,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),
@@ -328,12 +328,12 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 size: 20, color: Color(0xFF0ABAB5)),
             const SizedBox(width: 8),
             Text(
-              '$name',
+              name,
               style: const TextStyle(fontSize: 16),
             ),
             const Spacer(),
             Text(
-              '$id',
+              id,
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
@@ -356,7 +356,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             const Icon(Icons.person, size: 20, color: Color(0xFF0ABAB5)),
             const SizedBox(width: 8),
             Text(
-              '$name',
+              name,
               style: const TextStyle(fontSize: 16),
             ),
           ],

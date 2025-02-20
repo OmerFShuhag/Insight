@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IntroPage2 extends StatefulWidget {
+  const IntroPage2({super.key});
+
   @override
   _IntroPage2State createState() => _IntroPage2State();
 }
@@ -24,14 +26,14 @@ class _IntroPage2State extends State<IntroPage2>
     return Scaffold(
       body: AnimatedContainer(
         duration: const Duration(seconds: 1),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.center,
             radius: 1.2,
             colors: [
-              const Color(0xFF004E64),
-              const Color(0xFF007D8C),
-              const Color(0xFF0ABAB5),
+              Color(0xFF004E64),
+              Color(0xFF007D8C),
+              Color(0xFF0ABAB5),
             ],
           ),
         ),

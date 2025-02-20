@@ -7,13 +7,15 @@ import 'MyProjectDetail.dart';
 import 'myHomePage.dart';
 
 class MyProjects extends StatelessWidget {
+  const MyProjects({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MyProjectViewModel()..fetchUserCreatedProjects(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('My Projects'),
+          title: const Text('My Projects'),
         ),
         body: Consumer<MyProjectViewModel>(
           builder: (context, viewModel, child) {
@@ -28,15 +30,15 @@ class MyProjects extends StatelessWidget {
           },
         ),
         floatingActionButton: Container(
-          margin: EdgeInsets.only(bottom: 30.0),
+          margin: const EdgeInsets.only(bottom: 30.0),
           child: FloatingActionButton(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
               );
             },
-            backgroundColor: Color.fromARGB(255, 10, 186, 180),
+            backgroundColor: const Color.fromARGB(255, 10, 186, 180),
             child:
                 Image.asset('assets/icons/chatbot2.png', width: 45, height: 45),
           ),
@@ -50,7 +52,7 @@ class MyProjects extends StatelessWidget {
 class ProjectCard extends StatefulWidget {
   final MyProjectClass project;
 
-  const ProjectCard({required this.project});
+  const ProjectCard({super.key, required this.project});
 
   @override
   _ProjectCardState createState() => _ProjectCardState();
@@ -93,20 +95,20 @@ class _ProjectCardState extends State<ProjectCard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text('This will permanently delete the project.'),
+          title: const Text('Are you sure?'),
+          content: const Text('This will permanently delete the project.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );
@@ -117,7 +119,7 @@ class _ProjectCardState extends State<ProjectCard> {
       await Provider.of<MyProjectViewModel>(context, listen: false)
           .deleteProject(widget.project.id);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Project deleted successfully!')),
+        const SnackBar(content: Text('Project deleted successfully!')),
       );
     }
   }
@@ -125,7 +127,7 @@ class _ProjectCardState extends State<ProjectCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       elevation: 4,
       color: _cardColor,
       child: InkWell(

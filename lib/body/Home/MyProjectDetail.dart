@@ -11,7 +11,7 @@ import 'myHomePage.dart';
 class MyProjectDetail extends StatefulWidget {
   final MyProjectClass project;
 
-  const MyProjectDetail({Key? key, required this.project}) : super(key: key);
+  const MyProjectDetail({super.key, required this.project});
 
   @override
   _MyProjectDetailState createState() => _MyProjectDetailState();
@@ -84,7 +84,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             _buildSectionTitle('Team Members'),
             ...widget.project.teamMembers.map((member) {
               return _buildTeamMemberCard(member['name']!, member['id']!);
-            }).toList(),
+            }),
             const SizedBox(height: 20),
             _buildSectionTitle('Category'),
             _buildInfoRow(Icons.category, 'Category', widget.project.category),
@@ -127,15 +127,15 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                     backgroundColor: const Color(0xFF0ABAB5),
                     foregroundColor: Colors.white,
                     mini: true,
-                    child: Icon(Icons.edit),
+                    child: const Icon(Icons.edit),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   FloatingActionButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyHomePage(),
+                          builder: (context) => const MyHomePage(),
                         ),
                       );
                     },
@@ -153,9 +153,9 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                     });
                   },
                   backgroundColor: const Color(0xFFBEFFFD),
-                  foregroundColor: Color(0xFF133E36),
+                  foregroundColor: const Color(0xFF133E36),
                   child: _isExpanded
-                      ? Icon(Icons.close)
+                      ? const Icon(Icons.close)
                       : Image.asset('assets/icons/spread.gif',
                           height: 40, width: 40, fit: BoxFit.cover),
                 ),
@@ -361,12 +361,12 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
                 size: 20, color: Color(0xFF0ABAB5)),
             const SizedBox(width: 8),
             Text(
-              '$name',
+              name,
               style: const TextStyle(fontSize: 16),
             ),
             const Spacer(),
             Text(
-              '$id',
+              id,
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
@@ -389,7 +389,7 @@ class _MyProjectDetailState extends State<MyProjectDetail> {
             const Icon(Icons.person, size: 20, color: Color(0xFF0ABAB5)),
             const SizedBox(width: 8),
             Text(
-              '$name',
+              name,
               style: const TextStyle(fontSize: 16),
             ),
           ],

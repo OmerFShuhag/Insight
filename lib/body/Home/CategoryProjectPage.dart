@@ -8,8 +8,7 @@ class CategoryProjectsPage extends StatelessWidget {
   final String category;
   
 
-  const CategoryProjectsPage({Key? key, required this.category})
-      : super(key: key);
+  const CategoryProjectsPage({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,7 @@ class CategoryProjectsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),

@@ -5,12 +5,14 @@ import 'package:insight/body/databseViewModel.dart';
 import 'myHomePage.dart';
 
 class AllProjectsPage extends StatefulWidget {
+  const AllProjectsPage({super.key});
+
   @override
   _AllProjectsPageState createState() => _AllProjectsPageState();
 }
 
 class _AllProjectsPageState extends State<AllProjectsPage> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -36,12 +38,12 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Projects',
+        title: const Text('All Projects',
             style: TextStyle(
               color: Colors.white,
             )),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 10, 186, 180),
+        backgroundColor: const Color.fromARGB(255, 10, 186, 180),
       ),
       body: Stack(
         children: [
@@ -53,14 +55,14 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
                   controller: _searchController,
                   decoration: InputDecoration(
                     hintText: 'Search Projects',
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide:
                             const BorderSide(color: Colors.teal, width: 2)),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
-                      borderSide: BorderSide(color: Colors.teal, width: 2),
+                      borderSide: const BorderSide(color: Colors.teal, width: 2),
                     ),
                     filled: true,
                     fillColor: Colors.teal.shade50,
@@ -71,7 +73,7 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
                 child: Consumer<ProjectViewModel>(
                   builder: (context, projectViewModel, child) {
                     if (projectViewModel.projects.isEmpty) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     final filteredProjects =
@@ -103,7 +105,7 @@ class _AllProjectsPageState extends State<AllProjectsPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
                 );
               },
               backgroundColor: const Color.fromARGB(255, 10, 186, 180),

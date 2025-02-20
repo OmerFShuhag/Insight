@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IntroPage1 extends StatefulWidget {
+  const IntroPage1({super.key});
+
   @override
   _IntroPage1State createState() => _IntroPage1State();
 }
@@ -44,12 +46,12 @@ class _IntroPage1State extends State<IntroPage1>
     return Scaffold(
       body: AnimatedContainer(
         duration: const Duration(seconds: 1),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFFC4EDE7),
-              const Color(0xFF065F5B),
-              const Color(0xFF0ABAB5),
+              Color(0xFFC4EDE7),
+              Color(0xFF065F5B),
+              Color(0xFF0ABAB5),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -72,10 +74,10 @@ class _IntroPage1State extends State<IntroPage1>
                       color: Colors.white.withOpacity(0.9),
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       "Welcome to INSIGHT",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,

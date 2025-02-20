@@ -76,6 +76,8 @@ class CategoriesPage extends StatelessWidget {
     },
   ];
 
+CategoriesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,7 +122,7 @@ class CategoriesPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
             );
           },
           backgroundColor: const Color.fromARGB(255, 10, 186, 180),
@@ -148,11 +150,11 @@ class CategoryCard extends StatelessWidget {
   final Color? backgroundColor;
 
   const CategoryCard({
-    Key? key,
+    super.key,
     required this.iconPath,
     required this.name,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

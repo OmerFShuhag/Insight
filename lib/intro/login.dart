@@ -3,6 +3,8 @@ import 'package:insight/intro/auth_service.dart';
 import 'package:insight/validators.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -63,7 +65,7 @@ class _LoginState extends State<Login> {
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? Colors.white : Color(0xFF0ABAB5),
+            backgroundColor: isSignUpSelected ? Colors.white : const Color(0xFF0ABAB5),
           ),
           child: Text(
             'Sign In',
@@ -81,7 +83,7 @@ class _LoginState extends State<Login> {
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? Color(0xFF0ABAB5) : Colors.white,
+            backgroundColor: isSignUpSelected ? const Color(0xFF0ABAB5) : Colors.white,
           ),
           child: Text(
             'Sign Up',
@@ -129,9 +131,9 @@ class _LoginState extends State<Login> {
       decoration: InputDecoration(
         hintText: 'cse_id@lus.ac.bd',
         labelText: 'Email',
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 255, 255, 255)),
+            color: Color.fromARGB(255, 255, 255, 255)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -156,7 +158,7 @@ class _LoginState extends State<Login> {
         obscureText: !_isPasswordVisible,
         decoration: InputDecoration(
           labelText: 'Password',
-          labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),

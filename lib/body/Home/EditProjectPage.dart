@@ -9,7 +9,7 @@ import 'MyProjectClass.dart';
 class EditProjectPage extends StatefulWidget {
   final MyProjectClass project;
 
-  const EditProjectPage({Key? key, required this.project}) : super(key: key);
+  const EditProjectPage({super.key, required this.project});
 
   @override
   _EditProjectPageState createState() => _EditProjectPageState();
@@ -154,7 +154,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
           'Edit Project',
           style: TextStyle(
             fontSize: 24,
-            color: const Color.fromARGB(255, 243, 243, 243),
+            color: Color.fromARGB(255, 243, 243, 243),
           ),
         ),
         centerTitle: true,
@@ -218,12 +218,12 @@ class _EditProjectPageState extends State<EditProjectPage> {
                 child: ElevatedButton(
                   onPressed: _isFormValid ? _saveProject : null,
                   style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 10, 186, 180),
+                      backgroundColor: const Color.fromARGB(255, 10, 186, 180),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   child: const Text(
                     'Update Project',
-                    style: const TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 17),
                   ),
                 ),
               ),
@@ -244,7 +244,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         color: Colors.black,
       ),
@@ -262,7 +262,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
             borderSide: const BorderSide(color: Colors.teal, width: 2)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
-          borderSide: BorderSide(color: Colors.teal, width: 2),
+          borderSide: const BorderSide(color: Colors.teal, width: 2),
         ),
       ),
       maxLines: maxLines,
@@ -415,7 +415,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 22, 190, 154),
+                backgroundColor: const Color.fromARGB(255, 22, 190, 154),
               ),
               child: const Text('Add'),
             ),
@@ -449,7 +449,7 @@ class _EditProjectPageState extends State<EditProjectPage> {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),

@@ -8,6 +8,8 @@ import 'package:insight/body/homepage.dart';
 import 'package:insight/validators.dart';
 
 class AddProjectPage extends StatefulWidget {
+  const AddProjectPage({super.key});
+
   @override
   _AddProjectPageState createState() => _AddProjectPageState();
 }
@@ -39,9 +41,9 @@ class _AddProjectPageState extends State<AddProjectPage> {
     'Others'
   ];
 
-  List<Map<String, String>> _teamMembers = [];
+  final List<Map<String, String>> _teamMembers = [];
   final int _maxTeamMembers = 3;
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
   final List<String> _availableTags = [
     'Android',
     'Web',

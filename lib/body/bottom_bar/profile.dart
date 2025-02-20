@@ -33,7 +33,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -125,7 +125,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   onPressed: () async {
-                    _auth.signOut();
+                    auth.signOut();
                   },
                 ),
               ),

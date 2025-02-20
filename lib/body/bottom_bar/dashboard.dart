@@ -5,6 +5,8 @@ import 'package:insight/body/Home/MyProjects.dart';
 import 'package:insight/body/Home/Catagories.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -115,7 +117,7 @@ class CustomCard extends StatelessWidget {
   final IconData icon;
   final Function() onTap;
 
-  CustomCard({
+  const CustomCard({super.key, 
     required this.title,
     required this.description,
     required this.icon,
@@ -133,20 +135,20 @@ class CustomCard extends StatelessWidget {
         ),
         child: Container(
           width: MediaQuery.of(context).size.width / 2 - 40,
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 50, color: Color.fromARGB(255, 10, 186, 180)),
-              SizedBox(height: 10),
+              Icon(icon, size: 50, color: const Color.fromARGB(255, 10, 186, 180)),
+              const SizedBox(height: 10),
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 description,
                 textAlign: TextAlign.center,

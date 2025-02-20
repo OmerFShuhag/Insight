@@ -95,7 +95,7 @@ class ProjectViewModel extends ChangeNotifier {
       if (favDoc.exists) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Project is already in favorites!')),
+            const SnackBar(content: Text('Project is already in favorites!')),
           );
         }
         return;
@@ -166,7 +166,7 @@ class ProjectViewModel extends ChangeNotifier {
     if (existingProjects.docs.isNotEmpty) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Project already exists!')),
+          const SnackBar(content: Text('Project already exists!')),
         );
       }
       return;
@@ -175,7 +175,7 @@ class ProjectViewModel extends ChangeNotifier {
       await _firestore.collection('projects').add(project.toMap());
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Project added successfully!')),
+        const SnackBar(content: Text('Project added successfully!')),
       );
 
       fetchUserCreatedProjects(userId);

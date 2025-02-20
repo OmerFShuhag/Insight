@@ -6,7 +6,7 @@ import 'package:insight/body/Home/Project_Details.dart';
 class ProjectListView extends StatelessWidget {
   final List<Project> projects;
 
-  const ProjectListView({Key? key, required this.projects}) : super(key: key);
+  const ProjectListView({super.key, required this.projects});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ProjectListView extends StatelessWidget {
 class ProjectCard extends StatefulWidget {
   final Project project;
 
-  const ProjectCard({Key? key, required this.project}) : super(key: key);
+  const ProjectCard({super.key, required this.project});
 
   @override
   _ProjectCardState createState() => _ProjectCardState();

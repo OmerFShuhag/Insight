@@ -3,6 +3,8 @@ import 'package:insight/validators.dart';
 import 'auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -79,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
           style: TextButton.styleFrom(
             backgroundColor:
-                isSignUpSelected ? Colors.white : Color(0xFF0ABAB5),
+                isSignUpSelected ? Colors.white : const Color(0xFF0ABAB5),
           ),
           child: Text(
             'Sign In',
@@ -98,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
           style: TextButton.styleFrom(
             backgroundColor:
-                isSignUpSelected ? Color(0xFF0ABAB5) : Colors.white,
+                isSignUpSelected ? const Color(0xFF0ABAB5) : Colors.white,
           ),
           child: Text(
             'Sign Up',
@@ -164,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: passwordController,
       decoration: InputDecoration(
         labelText: 'Password',
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -197,7 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: confirmPasswordController,
       decoration: InputDecoration(
         labelText: 'Confirm Password',
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
