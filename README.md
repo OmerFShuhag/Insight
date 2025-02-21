@@ -90,7 +90,7 @@ Insight is a user-friendly project archive application designed for students and
     </div>
   </li>
 </ul>
----
+
 
 ## 📸 Screenshots
 <table border="0" style="border-collapse: collapse; margin: 0; border-spacing: 0;">
