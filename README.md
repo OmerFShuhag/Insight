@@ -84,7 +84,7 @@ Insight is a user-friendly project archive application designed for students and
   
   <li>
     <div style="display: flex; align-items: center;">
-      <a href="#" target="_blank" style="text-decoration: none; font-weight: bold; color: #000; line-height: 24px;">
+      <a href="https://github.com/tafhima131" target="_blank" style="text-decoration: none; font-weight: bold; color: #000; line-height: 24px;">
         Tafhima Jannat
       </a>
     </div>
