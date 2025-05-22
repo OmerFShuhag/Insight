@@ -10,7 +10,7 @@ class Validators {
     if (value.isEmpty) {
       return 'Email is Required';
     }
-    final emailRegex = RegExp(r'^cse_\d{16}@lus\.ac\.bd$');
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._]+@lus\.ac\.bd$');
     if (!emailRegex.hasMatch(value)) {
       return 'Enter a Valid Email';
     }
@@ -22,7 +22,8 @@ class Validators {
       return 'Password is Required';
     }
     final passwordRegex = RegExp(
-        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+  r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$');
+
 
     //final passwordRegex = RegExp(r'^.{8}$');
 
@@ -48,9 +49,10 @@ class Validators {
     if (value.isEmpty) {
       return 'ID is Required';
     }
-    final idRegex = RegExp(r'^[0-9]{16}$');
+    final idRegex = RegExp(r'^\d{10,}$');
+
     if (!idRegex.hasMatch(value)) {
-      return 'Enter a Valid 16 digit ID';
+      return 'Enter a Valid Student ID';
     }
     return null;
   }

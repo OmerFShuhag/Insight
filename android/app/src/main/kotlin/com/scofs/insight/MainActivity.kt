@@ -1,4 +1,4 @@
-package com.example.insight
+package com.scofs.insight
 
 import io.flutter.embedding.android.FlutterActivity
 

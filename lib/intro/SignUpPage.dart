@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/intro/login.dart';
 import 'package:insight/validators.dart';
 import 'auth_service.dart';
 
@@ -76,7 +77,24 @@ class _SignUpPageState extends State<SignUpPage> {
           onPressed: () {
             setState(() {
               isSignUpSelected = false;
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 800),
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          Login(),
+                      transitionsBuilder:(context, animation, secondaryAnimation, child) {
+                        var curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                                  begin: const Offset(1.0, 0.0),
+                                  end: Offset.zero)
+                              .animate(curvedAnimation),
+                          child: child,
+                        );
+                      }
+                    )
+                  );
             });
           },
           style: TextButton.styleFrom(
@@ -166,7 +184,8 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: passwordController,
       decoration: InputDecoration(
         labelText: 'Password',
-        labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -185,7 +204,14 @@ class _SignUpPageState extends State<SignUpPage> {
             });
           },
         ),
+        errorStyle: const TextStyle(
+            color: Colors.red,
+            fontSize: 12,
+            overflow: TextOverflow.clip,
+          ),
+          errorMaxLines: 2,
       ),
+      
       validator: (value) {
         return Validators.validatePassword(value ?? '');
       },
@@ -199,7 +225,8 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: confirmPasswordController,
       decoration: InputDecoration(
         labelText: 'Confirm Password',
-        labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),

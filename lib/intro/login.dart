@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insight/intro/SignUpPage.dart';
 import 'package:insight/intro/auth_service.dart';
 import 'package:insight/validators.dart';
 
@@ -51,6 +52,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   bool isSignUpSelected = false;
 
   Widget _buildTopNavigation() {
@@ -65,7 +67,8 @@ class _LoginState extends State<Login> {
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? Colors.white : const Color(0xFF0ABAB5),
+            backgroundColor:
+                isSignUpSelected ? Colors.white : const Color(0xFF0ABAB5),
           ),
           child: Text(
             'Sign In',
@@ -79,11 +82,29 @@ class _LoginState extends State<Login> {
           onPressed: () {
             setState(() {
               isSignUpSelected = true;
-              Navigator.pushReplacementNamed(context, '/signup');
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  transitionDuration: const Duration(milliseconds: 800),
+                  pageBuilder: (context, animation, secondaryAnimation) => const SignUpPage(),
+                  transitionsBuilder:(context, animation, secondaryAnimation, child) {
+                    var curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                    return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(-1.0, 0.0), 
+                            end: Offset.zero
+                            )
+                            .animate(curvedAnimation),
+                      child: child,
+                      );
+                  },
+                ),
+              );
             });
           },
           style: TextButton.styleFrom(
-            backgroundColor: isSignUpSelected ? const Color(0xFF0ABAB5) : Colors.white,
+            backgroundColor:
+                isSignUpSelected ? const Color(0xFF0ABAB5) : Colors.white,
           ),
           child: Text(
             'Sign Up',
@@ -96,7 +117,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-
   Widget _buildLoginCard(BuildContext context) {
     return Card(
       elevation: 10,
@@ -108,17 +128,16 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              _buildEmailField(),
-              const SizedBox(height: 10),
-              _buildPasswordField(),
-              _buildForgetPasswordButton(context),
-              const SizedBox(height: 10),
-              _buildLoginButton(context),
-            ]
-            //crossAxisAlignment: CrossAxisAlignment.start,
-          ),
+          child: Column(children: [
+            _buildEmailField(),
+            const SizedBox(height: 10),
+            _buildPasswordField(),
+            _buildForgetPasswordButton(context),
+            const SizedBox(height: 10),
+            _buildLoginButton(context),
+          ]
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              ),
         ),
       ),
     );
@@ -158,7 +177,8 @@ class _LoginState extends State<Login> {
         obscureText: !_isPasswordVisible,
         decoration: InputDecoration(
           labelText: 'Password',
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          labelStyle:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
@@ -178,7 +198,8 @@ class _LoginState extends State<Login> {
             },
           ),
           errorStyle: const TextStyle(
-              color: Colors.red,
+            //error color: Color.fromARGB(255, 255, 0, 0),
+            color: Colors.red,
             fontSize: 12,
             overflow: TextOverflow.clip,
           ),
